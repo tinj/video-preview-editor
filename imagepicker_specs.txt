@@ -1,0 +1,24 @@
+User steps:
+
+
+Simplest scenario:
+
+1. Has a five minute film uploaded
+2. Wants to create a preview timeline
+3. Select n evenly spaced images
+4. Display selected images in frame; paginate w value of 3 frames per container - iscroll.
+5. Export urls
+
+More nuanced:
+
+1. Has a five minute film uploaded
+2. Wants to create a preview timeline
+3. Select n evenly spaced images
+4. Adjust selection to enable selection of different nearby image
+        a. display range of images (default to 6 images, later, allow people to select number shown)
+    b.
+5. clicking an image will bring up larger image and allow for selection of nearby images
+    - detailed image view (timestamp, image size, etc)
+    - click on nearby image to show options that will allow user to save url and replace default image (cancel, save buttons)
+    - pagination will find urls in x range and have ability to retrieve nearby images - arrow to go earlier or later in video to get next batch of images in array
+5. Export urls
