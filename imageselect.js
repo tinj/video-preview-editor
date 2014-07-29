@@ -45,6 +45,7 @@
 	}
 $(document).ready(function(){
 	$(".templist li").click(function(){
+
 		console.log('ping');
 		$("#urlstext").append("ping");
 	});
