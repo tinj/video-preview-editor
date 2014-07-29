@@ -40,21 +40,30 @@
 	function create_li(){
 		var urls = create_array_of_urls(base_url, url_extension, 1, 400, 20, 5);
 		for (var i = 0; i < urls.length; i++){
-			$("#scroller > ul").append("<li><img src="+urls[i]+"></img></li>");
+			$("#scroller > ul").append("<li id=sample_frame"+i+"><img src="+urls[i]+"></img></li>");
 		}
 	}
+	//does not currently work with dynamically generated li
 $(document).ready(function(){
-	$(".templist li img").click(function(){
-		var img1 = $(this).attr('src');
-		console.log(img1);
-		//$("#urlstext").append((this).attr("src"));
+	$("#sample_frame0 > img").click(function(){
+		var projIndex = $(this).attr('src');
+		console.log(projIndex);
+		// var img_url = $(this).attr('src');
+		// console.log(img_url);
+		// $("#urlstext").append(img_url);
 	});
 });
 
 	var myScroll;
 
 	function loaded () {
-		myScroll = new IScroll('#wrapper', { scrollX: true, scrollY: false, mouseWheel: true });
+		myScroll = new IScroll('#wrapper',
+			{
+				scrollX: true,
+				scrollY: false,
+				mouseWheel: true,
+				click: true
+			});
 	}
 
 	document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
@@ -62,4 +71,15 @@ $(document).ready(function(){
 
 	$(create_li);
 	$(loaded);
+
+$(document).ready(function(){
+	$("li > img").click(function(){
+		var img_url = $(this).attr('src');
+
+		console.log(img_url+"\n");
+		// var img_url = $(this).attr('src');
+		// console.log(img_url);
+		$("#urlstext").append(img_url+"\n");
+	});
+});
 
