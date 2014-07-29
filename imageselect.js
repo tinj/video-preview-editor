@@ -44,10 +44,10 @@
 		}
 	}
 $(document).ready(function(){
-	$(".templist li").click(function(){
-
-		console.log('ping');
-		$("#urlstext").append("ping");
+	$(".templist li img").click(function(){
+		var img1 = $(this).attr('src');
+		console.log(img1);
+		//$("#urlstext").append((this).attr("src"));
 	});
 });
 
