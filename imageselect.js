@@ -39,7 +39,13 @@ function create_li(){
 		$("#scroller > ul").append("<li id=sample_frame"+i+"><img src="+urls[i]+"></img></li>");
 	}
 }
-
+function click_image_get_url(){
+	$("li > img").click(function(){
+		var img_url = $(this).attr('src');
+		$("#urlstext").append(img_url+"\n");
+		console.log(img_url)
+	});
+}
 
 // you should probably make a new function for computing the right step value to generate an array of length number_of_frames between start and stop.
 // function total_num_of_frames(start, stop, number){
@@ -48,6 +54,7 @@ function create_li(){
 
 
 //returns number of frames from form value, w default of 20
+//calls functions that recreate page
 
 
 var myScroll;
@@ -64,7 +71,7 @@ function init_iscroll () {
 function init(){
 	create_li();
 	init_iscroll();
-	//click_image_get_url();
+	click_image_get_url();
 	//get_num_of_frames();
 }
 
@@ -72,25 +79,19 @@ function init(){
 
 $(init);
 
-// $(document).ready(function() {
-// //this is what changes
-// 	function click_image_get_url(){
-// 		$("li > img").click(function(){
-// 			var img_url = $(this).attr('src');
-// 			$("#urlstext").append(img_url+"\n");
-// 		});
-// 	}
+$(document).ready(function() {
+//this is what changes
+	$("#num_frames_butn").click(function(){
+	    	var num =$("#num_of_frames").val();
+	    	if (num){
+	    		num_of_frames = num;
+	    	}
+	    	else {
+	    		num_of_frames=20;
+	    	}
+	    console.log(num_of_frames);
+	    return num_of_frames;
+	    //call function to determine new number of frames
 
-// 	$("#num_frames_butn").click(function(){
-// 	    	var num =$("#num_of_frames").val();
-// 	    	if (num){
-// 	    		num_of_frames = num;
-// 	    	}
-// 	    	else {
-// 	    		num_of_frames=20;
-// 	    	}
-// 	    console.log(num_of_frames);
-// 	    return num_of_frames;
-
-// 	});
-// });
+	});
+});
