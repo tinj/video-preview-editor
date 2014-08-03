@@ -48,13 +48,14 @@ function click_image_get_url(){
 }
 
 // you should probably make a new function for computing the right step value to generate an array of length number_of_frames between start and stop.
-// function total_num_of_frames(start, stop, number){
-
-// }
+function total_num_of_frames(start, stop, number){
+	var step = Math.floor((stop-start)/number - 2);
+	return step;
+}
 
 
 //returns number of frames from form value, w default of 20
-//calls functions that recreate page
+//calls functions that recreate page with new values
 
 
 var myScroll;
@@ -80,18 +81,16 @@ function init(){
 $(init);
 
 $(document).ready(function() {
-//this is what changes
 	$("#num_frames_butn").click(function(){
 	    	var num =$("#num_of_frames").val();
-	    	if (num){
+	    	if (num >= 5){
 	    		num_of_frames = num;
 	    	}
 	    	else {
+	    		alert("Invalid number of frames.  You must have a minium of five frames. Setting to default of 20");
 	    		num_of_frames=20;
 	    	}
 	    console.log(num_of_frames);
 	    return num_of_frames;
-	    //call function to determine new number of frames
-
 	});
 });
