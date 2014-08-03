@@ -8,7 +8,7 @@ var url_frame_number_length = 5;
 // you should probably make a new function for computing the right step value to generate an array of length number_of_frames between start and stop.
 
 //get interval between frames
-function total_num_of_frames(start, stop, num_frames){
+function get_frame_step(start, stop, num_frames){
 	var step = Math.floor((stop-start)/(num_frames - 2));
 	return step;
 }
