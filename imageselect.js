@@ -5,6 +5,23 @@ var url_extension = ".png";
 var n = "00001";
 var frame_numbers = [];
 var url_frame_number_length = 5;
+// you should probably make a new function for computing the right step value to generate an array of length number_of_frames between start and stop.
+
+//get interval between frames
+function total_num_of_frames(start, stop, num_frames){
+	var step = Math.floor((stop-start)/(num_frames - 2));
+	return step;
+}
+//get length of array
+//there has *got* to be a prettier way to do this using underscore or slice.
+function get_length(start, stop, step){
+	var frame_number_array = [];
+	var length_of_frame_array = frame_number_array.length;
+	for (var i = start; i <= stop; i+step){
+		frame_number_array.push(i);
+	}
+	return length_of_frame_array;
+}
 
 
 function create_padded_range(start, stop, step, length){
@@ -43,20 +60,9 @@ function click_image_get_url(){
 	$("li > img").click(function(){
 		var img_url = $(this).attr('src');
 		$("#urlstext").append(img_url+"\n");
-		console.log(img_url)
+		console.log(img_url);
 	});
 }
-
-// you should probably make a new function for computing the right step value to generate an array of length number_of_frames between start and stop.
-function total_num_of_frames(start, stop, number){
-	var step = Math.floor((stop-start)/number - 2);
-	return step;
-}
-
-
-//returns number of frames from form value, w default of 20
-//calls functions that recreate page with new values
-
 
 var myScroll;
 
@@ -81,6 +87,7 @@ function init(){
 $(init);
 
 $(document).ready(function() {
+	//get total number of frames
 	$("#num_frames_butn").click(function(){
 	    	var num =$("#num_of_frames").val();
 	    	if (num >= 5){
@@ -91,6 +98,7 @@ $(document).ready(function() {
 	    		num_of_frames=20;
 	    	}
 	    console.log(num_of_frames);
+
 	    return num_of_frames;
 	});
 });
