@@ -13,20 +13,18 @@ function get_frame_step(start, stop, num_frames){
 	return step;
 }
 //get length of array
-//there has *got* to be a prettier way to do this using underscore or slice.
-function get_length(start, stop, step){
-	var frame_number_array = [];
-	var length_of_frame_array = frame_number_array.length;
-	for (var i = start; i <= stop; i+step){
-		frame_number_array.push(i);
+function create_frame_array(start, stop, step){
+	var frame_nums = _.range(start, stop, step);
+	return frame_nums
 	}
+function get_length(frame_array){
+	var length_of_frame_array = frame_array.length;
 	return length_of_frame_array;
 }
 
-
-function create_padded_range(start, stop, step, length){
-	var frame_nums = _.range(start, stop, step);
-	return _.map(frame_nums, function(frame_number){
+function create_padded_range(frame_array, length){
+	// var frame_nums = _.range(start, stop, step);
+	return _.map(frame_array, function(frame_number){
 		return create_string_with_zeros(frame_number, length);
 	});
 }
