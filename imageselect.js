@@ -15,7 +15,7 @@ function get_frame_step(start, stop, num_frames){
 //get length of array
 function create_frame_array(start, stop, step){
 	var frame_nums = _.range(start, stop, step);
-	return frame_nums
+	return frame_nums;
 	}
 function get_length(frame_array){
 	var length_of_frame_array = frame_array.length;
@@ -23,7 +23,6 @@ function get_length(frame_array){
 }
 
 function create_padded_range(frame_array, length){
-	// var frame_nums = _.range(start, stop, step);
 	return _.map(frame_array, function(frame_number){
 		return create_string_with_zeros(frame_number, length);
 	});
@@ -49,7 +48,7 @@ function create_string_with_zeros(frame_number, desired_length){
 
 function create_li(){
 	//put in new num_frames variable here
-	var urls = create_array_of_urls(base_url, url_extension, 1, 400, 20, 5);
+	var urls = create_array_of_urls(base_url, url_extension, 1, 400, get_frame_step(), get_length());
 	for (var i = 0; i < urls.length; i++){
 		$("#scroller > ul").append("<li id=sample_frame"+i+"><img src="+urls[i]+"></img></li>");
 	}
