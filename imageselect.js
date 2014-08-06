@@ -1,3 +1,5 @@
+/* global $, _, IScroll */
+
 var base_url= "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_";
 var url_extension = ".png";
 var n = "00001";
