@@ -28,21 +28,33 @@
 <form role="form" position:"top">
   <div class="form-group">
     <label for="baseurl">Base URL</label>
-    <input type="text" class="form-control" id="baseurl" value="https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00001.png"></input>
+    <input type="text" class="form-control" id="baseurl" value="https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_"></input>
 
-    <label for="exampleInputPassword1">Password</label>
-    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+     <label for="extension">Extension</label>
+    <input type="text" class="form-control" id="url_extension" value=".png"></input>
 
-    <label for="numberOfFrames">Number of frames for preview:</label>
-    <input type="text"class="form-control" id="num_of_frames" placeholder="20">
+    <label for="number_of_frames">Number of frames</label>
+    <input type="text"class="form-control" id="num_of_frames" value="20">
     </input>
+
+    <label for="start_frame">Start frame</label>
+    <input type="text"class="form-control" id="start_frame" value="1">
+    </input>
+
+    <label for="end_frame">End frame</label>
+    <input type="text"class="form-control" id="end_frame" value="100">
+    </input>
+
+    <label for="end_frame">Step</label>
+    <input type="text"class="form-control" id="step" value="20">
+    </input>
+
+    <label for="end_frame">Frame Label Length</label>
+    <input type="text"class="form-control" id="frame_label_length" value="5">
+    </input>
+
     </div>
- <button type="button" id="num_frames_butn" class="btn btn-default">Submit</button>
-
-
-
-  <br>
-  <br>
+ <imput type="submit" id="submit_butn" class="btn btn-default">Submit</button>
 </form>
 
 
