@@ -6,6 +6,12 @@ button{
 .form-group{
 	width: 200px;
 }
+.selected_frame{
+	opacity: .5;
+}
+.replacement_frame{
+	opacity: .70;
+}
 #container {
 	width: 500px;
 	height: 300px;
@@ -45,10 +51,18 @@ body {
 	overflow: hidden;
 }
 
-#scroller {
-	-webkit-tap-highlight-color: rgba(0,0,0,0);
+#scroller{
 	width: 5000px;
 	height: 200px;
+}
+#scroller2{
+	width: 2500px;
+	height: 200px;
+}
+
+.scroller {
+	-webkit-tap-highlight-color: rgba(0,0,0,0);
+
 	/*ßbackground-color: #a00;*/
 	-webkit-transform: translateZ(0);
 	-moz-transform: translateZ(0);
@@ -67,7 +81,7 @@ body {
 	text-size-adjust: none;
 }
 
-#scroller ul {
+.scroller ul {
 	list-style: none;
 	padding: 0;
 	margin: 0;
@@ -76,7 +90,7 @@ body {
 	text-align: center;
 }
 
-#scroller li {
+.scroller li {
 	display: block;
 	float: left;
 	width: 200px;

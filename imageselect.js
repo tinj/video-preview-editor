@@ -1,19 +1,5 @@
 /* global $, _, IScroll */
 
-//var base_url= "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_";
-//var url_extension = ".png";1
-// var n = "00001";
-// var url_frame_number_length = 5;
-// // var num_of_frames = 20;
-// base_url = $("#baseurl").val();
-// num_of_frames =$("#num_of_frames").val();
-// end_frame =$("#end_frame").val();
-// start_frame =$("#start_frame").val();
-// url_extension = $("#url_extension").val();
-//frame_numberlength = $("#frame_label_length").val();
-//get form values from js, not other way around.
-
-//1name_length is the old name for frame_numberlength
 
 var thumbnail_properties = {
 	base_url: "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_",
@@ -75,7 +61,6 @@ Thumbnails.prototype.create_array_of_urls = function(){
 	}, this);
 };
 
-//this one's a little tricky. not finished.
 Thumbnails.prototype.new_frameset_from_whole_set = function(){
 	this.all_frame_urls = this.create_array_of_urls();
 	this.group_size = this.all_frame_urls.length / this.num_of_frames;
@@ -94,7 +79,6 @@ function create_html_block_of_li(urls){
 }
 
 //adds list items to HTML
-//attach this to Thumbnail
 Thumbnails.prototype.create_initial_li = function(){
 	//store all_frame_urls and subset arrays as properties, instead of variables
 	this.all_frame_urls = this.create_array_of_urls();
@@ -104,12 +88,74 @@ Thumbnails.prototype.create_initial_li = function(){
 };
 
 //retrieves the url of the image
-function click_image_get_url(){
+function click_image_get_url(thumbnails){
 	$("li > img").click(function(){
-		var img_url = $(this).attr('src');
-		$("#urlstext").append(img_url+"\n");
+		thumbnails.img_url = $(this).attr('src');
+		$("#currenturl").append(thumbnails.img_url);
+		//make it exclusive
+		$(this).toggleClass("selected_frame");
+		thumbnails.get_neighboring_images(thumbnails.img_url);
 	});
 }
+
+//creates array of links neighboring selected image
+Thumbnails.prototype.get_neighboring_images = function(image_frame){
+	//find index of selected image in all frame
+	this.index = _.indexOf(this.all_frame_urls, this.img_url, this);
+	//set lower bound:
+	var lower_bound = Math.max(this.index-3, 0);
+	var upper_bound = Math.min(this.index+3, this.all_frame_urls.length-1);
+	this.array_of_images_to_select_from = this.all_frame_urls.slice(lower_bound, upper_bound);
+	this.init_image_picking_iscroll('#wrapper2');
+	this.create_second_li();
+	select_replacement_image(thumbnails);
+
+};
+
+
+Thumbnails.prototype.create_second_li = function(){
+	//store all_frame_urls and subset arrays as properties, instead of variables
+	console.log("called");
+	var html_block = create_html_block_of_li(this.array_of_images_to_select_from);
+	$("#scroller2 > ul").html(html_block);
+};
+
+Thumbnails.prototype.init_image_picking_iscroll = function(){
+	this.second_iScroll = new IScroll('#wrapper2',
+		{
+			scrollX: true,
+			scrollY: false,
+			mouseWheel: true,
+			click: true
+		});
+};
+//Becka, you're here.
+
+
+//click on selected image
+function select_replacement_image(thumbnails){
+	$("#scroller2 li > img").click(function(){
+		var $image = $(this);
+		var $li = $image.parent();
+		var currently_selected_frame_id = $li.attr('id');
+		console.log(currently_selected_frame_id);
+		$li.addClass('replacement_frame');
+		var img_url = $image.attr('src');
+		if (thumbnails.$last_selected_li){
+			//is there a last selected frame?
+			//if so,
+			thumbnails.$last_selected_li.removeClass('replacement_frame');
+		}
+		thumbnails.$last_selected_li = $li;
+		thumbnails.currently_selected_url = img_url;
+		console.log(thumbnails.currently_selected_url);
+	});
+}
+//change css to
+//set var to the value of img_src
+//replace subset[this.index] with
+
+//
 
 var myScroll;
 
@@ -128,14 +174,14 @@ function init(){
 	// thumbnails.get_form_values();
 	// create_initial_li();
 	init_iscroll();
-	// click_image_get_url();
 	$("#submit_butn").click(function(){
 		thumbnails.get_form_values();
 		thumbnails.create_initial_li();
-		$("#urlstext").append("blah");
-
+		click_image_get_url(thumbnails);
 	});
+
 	window.thumbnails = thumbnails;
+
 }
 
 document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
