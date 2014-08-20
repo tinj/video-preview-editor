@@ -104,20 +104,43 @@ function click_image_get_url(thumbnails){
 	});
 }
 
+
+///////////////////////
+// 		BOOKMARK  	 //
+//  work to become,  //
+//  not to acquire.  //
+///////////////////////
+
+//establish constant variable for number of images
+
 //creates array of links neighboring selected image
 Thumbnails.prototype.get_neighboring_images = function(image_frame){
 	//find index of selected image in all frame
 	this.index = _.indexOf(this.all_frame_urls, this.img_url_first, this);
 	//set lower bound:
-	console.log(this.index);
 	var lower_bound = Math.max(this.index-3, 0);
 	var upper_bound = Math.min(this.index+3, this.all_frame_urls.length-1);
+	if(lower_bound === 0){
+		upper_bound = 6;
+	}
+	if(upper_bound === this.all_frame_urls.length-1){
+		lower_bound = upper_bound-6;
+	}
+	console.log(lower_bound, upper_bound);
+	//above here
 	this.init_image_picking_iscroll('#wrapper2');
 	this.array_of_images_to_select_from = this.all_frame_urls.slice(lower_bound, upper_bound);
 	this.create_second_li();
 	console.log(this.array_of_images_to_select_from);
 	select_replacement_image(thumbnails);
 };
+
+
+
+//////////////////
+// END BOOKMARK //
+//////////////////
+
 
 Thumbnails.prototype.create_second_li = function(){
 	//store all_frame_urls and subset arrays as properties, instead of variables
