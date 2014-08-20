@@ -29,10 +29,6 @@ Thumbnails.prototype.create_initial_li = function(){
 };
 
 //create iscroll
-
-//not sure how to turn this into a prototype
-//creates url with specified length and adds correct # of zeros
-//undefined
 Thumbnails.prototype.create_string_with_zeros = function(frame_number){
 	var string_frame = ""+ frame_number;
 	var length_of_number = string_frame.length;
@@ -51,7 +47,6 @@ Thumbnails.prototype.create_padded_range = function(){
 		return this.create_string_with_zeros(frame_number);
 	}, this);
 };
-
 
 //maps new url strings to specified params.
 Thumbnails.prototype.create_array_of_urls = function(){
@@ -87,31 +82,42 @@ Thumbnails.prototype.create_initial_li = function(){
 	$("#scroller > ul").html(html_block);
 };
 
-//retrieves the url of the image
+//retrieves the url of the image in first iScroll
 function click_image_get_url(thumbnails){
-	$("li > img").click(function(){
-		thumbnails.img_url = $(this).attr('src');
-		$("#currenturl").append(thumbnails.img_url);
-		//make it exclusive
-		$(this).toggleClass("selected_frame");
-		thumbnails.get_neighboring_images(thumbnails.img_url);
+	$("#scroller li > img").click(function(){
+		var $image = $(this);
+		var $li = $image.parent();
+		var currently_selected_frame_id = $li.attr('id');
+		$li.addClass('selected_frame');
+		thumbnails.img_url_first = $image.attr('src');
+		if (thumbnails.$last_selected_li_first){
+			//is there a last selected frame?
+			//if so,
+			thumbnails.$last_selected_li_first.removeClass('selected_frame');
+		}
+		thumbnails.$last_selected_li_first = $li;
+		thumbnails.currently_selected_url_first = thumbnails.img_url_first;
+		console.log(thumbnails.currently_selected_url_first);
+		$("#currenturl").append(thumbnails.img_url_first);
+		thumbnails.get_neighboring_images(thumbnails.img_url_first);
+		//Becka = you're here.  Now you need to re-call this function when you select a different image.
 	});
 }
 
 //creates array of links neighboring selected image
 Thumbnails.prototype.get_neighboring_images = function(image_frame){
 	//find index of selected image in all frame
-	this.index = _.indexOf(this.all_frame_urls, this.img_url, this);
+	this.index = _.indexOf(this.all_frame_urls, this.img_url_first, this);
 	//set lower bound:
+	console.log(this.index);
 	var lower_bound = Math.max(this.index-3, 0);
 	var upper_bound = Math.min(this.index+3, this.all_frame_urls.length-1);
-	this.array_of_images_to_select_from = this.all_frame_urls.slice(lower_bound, upper_bound);
 	this.init_image_picking_iscroll('#wrapper2');
+	this.array_of_images_to_select_from = this.all_frame_urls.slice(lower_bound, upper_bound);
 	this.create_second_li();
+	console.log(this.array_of_images_to_select_from);
 	select_replacement_image(thumbnails);
-
 };
-
 
 Thumbnails.prototype.create_second_li = function(){
 	//store all_frame_urls and subset arrays as properties, instead of variables
@@ -125,32 +131,56 @@ Thumbnails.prototype.init_image_picking_iscroll = function(){
 		{
 			scrollX: true,
 			scrollY: false,
-			mouseWheel: true,
+			mouseWheel: false,
 			click: true
 		});
 };
 //Becka, you're here.
 
-
-//click on selected image
+//click on selected image in second iScroll
 function select_replacement_image(thumbnails){
 	$("#scroller2 li > img").click(function(){
-		var $image = $(this);
-		var $li = $image.parent();
-		var currently_selected_frame_id = $li.attr('id');
-		console.log(currently_selected_frame_id);
-		$li.addClass('replacement_frame');
-		var img_url = $image.attr('src');
+		var $image_second = $(this);
+		var $li_second = $image_second.parent();
+		var currently_selected_frame_id_second = $li_second.attr('id');
+		console.log(currently_selected_frame_id_second);
+		$li_second.addClass('replacement_frame');
+		var img_url_second = $image_second.attr('src');
 		if (thumbnails.$last_selected_li){
 			//is there a last selected frame?
 			//if so,
 			thumbnails.$last_selected_li.removeClass('replacement_frame');
 		}
-		thumbnails.$last_selected_li = $li;
-		thumbnails.currently_selected_url = img_url;
+		thumbnails.$last_selected_li = $li_second;
+		thumbnails.currently_selected_url = img_url_second;
 		console.log(thumbnails.currently_selected_url);
+		//call function to confirm value
+		create_confirm_button();
 	});
 }
+
+//dynamically create button to confirm selection
+function create_confirm_button(){
+	var button='<input type="button" id="selectbutton" value="Confirm selection">';
+	if($('#selectbutton').length ===0){
+		$("#selectbuttondiv").append(button);
+	}
+	replace_image_in_array_with_new_image(thumbnails)
+};
+
+
+function replace_image_in_array_with_new_image(thumbnails){
+	//find url in html block
+	$("#selectbutton").click(function(){
+		console.log("calling this");
+		thumbnails.$last_selected_li_first.find('img').attr('src', thumbnails.currently_selected_url);
+	});
+}
+
+
+
+
+
 //change css to
 //set var to the value of img_src
 //replace subset[this.index] with
@@ -174,11 +204,11 @@ function init(){
 	// thumbnails.get_form_values();
 	// create_initial_li();
 	init_iscroll();
-	$("#submit_butn").click(function(){
+	//$("#submit_butn").click(function(){
 		thumbnails.get_form_values();
 		thumbnails.create_initial_li();
 		click_image_get_url(thumbnails);
-	});
+	//});
 
 	window.thumbnails = thumbnails;
 
