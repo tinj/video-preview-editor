@@ -83,6 +83,14 @@ Thumbnails.prototype.create_initial_li = function(){
 };
 
 //retrieves the url of the image in first iScroll
+
+
+
+///////////////////////
+// 		BOOKMARK  	 //
+//  work to become,  //
+//  not to acquire.  //
+///////////////////////
 function click_image_get_url(thumbnails){
 	$("#scroller li > img").click(function(){
 		var $image = $(this);
@@ -91,8 +99,6 @@ function click_image_get_url(thumbnails){
 		$li.addClass('selected_frame');
 		thumbnails.img_url_first = $image.attr('src');
 		if (thumbnails.$last_selected_li_first){
-			//is there a last selected frame?
-			//if so,
 			thumbnails.$last_selected_li_first.removeClass('selected_frame');
 		}
 		thumbnails.$last_selected_li_first = $li;
@@ -100,16 +106,22 @@ function click_image_get_url(thumbnails){
 		console.log(thumbnails.currently_selected_url_first);
 		$("#currenturl").append(thumbnails.img_url_first);
 		thumbnails.get_neighboring_images(thumbnails.img_url_first);
-		//Becka = you're here.  Now you need to re-call this function when you select a different image.
+		//add buttons that allow you to page over
+		//add form item that allows you to set number of images shown
+		create_form_to_determine_array_length();
 	});
 }
 
+function create_form_to_determine_array_length(){
+	var array_length_form_item = '<form>Number of frames to show<input type="text" name="num_frames"></form>';
+	$("#array_length_button").append(array_length_form_item);
+	var array_length_button = '<imput type="submit" id="array_length_button" class="btn btn-default">Confirm array length</button>';
+	$("#selectbuttondiv").append(array_length_button);
+}
 
-///////////////////////
-// 		BOOKMARK  	 //
-//  work to become,  //
-//  not to acquire.  //
-///////////////////////
+//////////////////
+// END BOOKMARK //
+//////////////////
 
 //establish constant variable for number of images
 
@@ -135,13 +147,6 @@ Thumbnails.prototype.get_neighboring_images = function(image_frame){
 	select_replacement_image(thumbnails);
 };
 
-
-
-//////////////////
-// END BOOKMARK //
-//////////////////
-
-
 Thumbnails.prototype.create_second_li = function(){
 	//store all_frame_urls and subset arrays as properties, instead of variables
 	console.log("called");
@@ -158,8 +163,6 @@ Thumbnails.prototype.init_image_picking_iscroll = function(){
 			click: true
 		});
 };
-//Becka, you're here.
-
 //click on selected image in second iScroll
 function select_replacement_image(thumbnails){
 	$("#scroller2 li > img").click(function(){
@@ -188,7 +191,7 @@ function create_confirm_button(){
 	if($('#selectbutton').length ===0){
 		$("#selectbuttondiv").append(button);
 	}
-	replace_image_in_array_with_new_image(thumbnails)
+	replace_image_in_array_with_new_image(thumbnails);
 };
 
 
