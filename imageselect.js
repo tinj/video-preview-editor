@@ -85,12 +85,14 @@ Thumbnails.prototype.create_initial_li = function(){
 //retrieves the url of the image in first iScroll
 
 
-
 ///////////////////////
 // 		BOOKMARK  	 //
 //  work to become,  //
 //  not to acquire.  //
 ///////////////////////
+
+
+
 function click_image_get_url(thumbnails){
 	$("#scroller li > img").click(function(){
 		var $image = $(this);
@@ -103,53 +105,101 @@ function click_image_get_url(thumbnails){
 		}
 		thumbnails.$last_selected_li_first = $li;
 		thumbnails.currently_selected_url_first = thumbnails.img_url_first;
-		console.log(thumbnails.currently_selected_url_first);
-		$("#currenturl").append(thumbnails.img_url_first);
-		thumbnails.get_neighboring_images(thumbnails.img_url_first);
+		//$("#currenturl").append(thumbnails.img_url_first);
+		thumbnails.get_neighboring_images(thumbnails.img_url_first, 7);
 		//add buttons that allow you to page over
 		//add form item that allows you to set number of images shown
-		create_form_to_determine_array_length();
+		create_form_to_determine_array_length()
 	});
 }
 
+
+
 function create_form_to_determine_array_length(){
-	var array_length_form_item = '<form>Number of frames to show<input type="text" name="num_frames"></form>';
+	var array_length_form_item = '<form>Number of frames to show<input type="text" id="iscroll2_array_length" name="num_frames" value="7"></form>';
 	$("#array_length_button").append(array_length_form_item);
-	var array_length_button = '<imput type="submit" id="array_length_button" class="btn btn-default">Confirm array length</button>';
+	var array_length_button = '<imput type="submit" id="array_length_button" class="btn btn-default">Confirm array length. Odd numbers will be rounded up.</button>';
 	$("#selectbuttondiv").append(array_length_button);
+	set_array_length_from_user_input(thumbnails);
 }
+
+// forceNumeric() plug-in implementation
+ jQuery.fn.forceNumeric = function () {
+     return this.each(function () {
+         $(this).keydown(function (e) {
+             var key = e.which || e.keyCode;
+
+             if (!e.shiftKey && !e.altKey && !e.ctrlKey &&
+             // numbers
+                 key >= 48 && key <= 57 ||
+             // Numeric keypad
+                 key >= 96 && key <= 105 ||
+             // comma, period and minus, . on keypad
+                key == 190 || key == 188 || key == 109 || key == 110 ||
+             // Backspace and Tab and Enter
+                key == 8 || key == 9 || key == 13 ||
+             // Home and End
+                key == 35 || key == 36 ||
+             // left and right arrows
+                key == 37 || key == 39 ||
+             // Del and Ins
+                key == 46 || key == 45)
+                 return true;
+
+             return false;
+         });
+     });
+ };
+
+
+//click function also tests value
+function set_array_length_from_user_input(thumbnails){
+	$("#array_length_button").click(function(){
+		$("#array_length_button").forceNumeric();
+		var $second_iscroll_array_length_form = $("#iscroll2_array_length").val();
+		thumbnails.second_iscroll_array_length = $second_iscroll_array_length_form;
+		console.log(thumbnails.second_iscroll_array_length);
+		thumbnails.get_neighboring_images(thumbnails.img_url_first, thumbnails.second_iscroll_array_length);
+	});
+}
+
+
+///////////////////////
+// 		BOOKMARK  	 //
+//  work to become,  //
+//  not to acquire.  //
+///////////////////////
+
+//creates array of links neighboring selected image
+Thumbnails.prototype.get_neighboring_images = function(image_frame, array_length){
+	//find index of selected image in all frame
+	this.index = _.indexOf(this.all_frame_urls, this.img_url_first, this);
+	//undefined below
+	console.log(this.second_iscroll_array_length);
+	//set lower bound:
+	this.half_array_length = Math.ceil(array_length /2);
+	var lower_bound = Math.max(this.index- this.half_array_length, 0);
+	var upper_bound = Math.min(this.index+ this.half_array_length, this.all_frame_urls.length-1);
+	if(lower_bound === 0){
+		upper_bound = array_length;
+	}
+	if(upper_bound === this.all_frame_urls.length-1){
+		lower_bound = upper_bound-array_length;
+	}
+	this.init_image_picking_iscroll('#wrapper2');
+	this.array_of_images_to_select_from = this.all_frame_urls.slice(lower_bound, upper_bound);
+	this.create_second_li();
+	select_replacement_image(thumbnails);//where does this go?
+
+};
+
 
 //////////////////
 // END BOOKMARK //
 //////////////////
 
-//establish constant variable for number of images
-
-//creates array of links neighboring selected image
-Thumbnails.prototype.get_neighboring_images = function(image_frame){
-	//find index of selected image in all frame
-	this.index = _.indexOf(this.all_frame_urls, this.img_url_first, this);
-	//set lower bound:
-	var lower_bound = Math.max(this.index-3, 0);
-	var upper_bound = Math.min(this.index+3, this.all_frame_urls.length-1);
-	if(lower_bound === 0){
-		upper_bound = 6;
-	}
-	if(upper_bound === this.all_frame_urls.length-1){
-		lower_bound = upper_bound-6;
-	}
-	console.log(lower_bound, upper_bound);
-	//above here
-	this.init_image_picking_iscroll('#wrapper2');
-	this.array_of_images_to_select_from = this.all_frame_urls.slice(lower_bound, upper_bound);
-	this.create_second_li();
-	console.log(this.array_of_images_to_select_from);
-	select_replacement_image(thumbnails);
-};
-
 Thumbnails.prototype.create_second_li = function(){
 	//store all_frame_urls and subset arrays as properties, instead of variables
-	console.log("called");
 	var html_block = create_html_block_of_li(this.array_of_images_to_select_from);
 	$("#scroller2 > ul").html(html_block);
 };
@@ -202,10 +252,6 @@ function replace_image_in_array_with_new_image(thumbnails){
 		thumbnails.$last_selected_li_first.find('img').attr('src', thumbnails.currently_selected_url);
 	});
 }
-
-
-
-
 
 //change css to
 //set var to the value of img_src
