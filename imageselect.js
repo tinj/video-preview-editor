@@ -91,13 +91,11 @@ Thumbnails.prototype.create_initial_li = function(){
 //  not to acquire.  //
 ///////////////////////
 
-
-
-function click_image_get_url(thumbnails){
-	$("#scroller li > img").click(function(){
+function determine_which_iscroll_clicked(thumbnails){
+	$("img").click(function(){
 		var $image = $(this);
 		var $li = $image.parent();
-		var currently_selected_frame_id = $li.attr('id');
+		var clicked_iscroll_id = $li.parent().parent().attr('id');
 		$li.addClass('selected_frame');
 		thumbnails.img_url_first = $image.attr('src');
 		if (thumbnails.$last_selected_li_first){
@@ -105,15 +103,41 @@ function click_image_get_url(thumbnails){
 		}
 		thumbnails.$last_selected_li_first = $li;
 		thumbnails.currently_selected_url_first = thumbnails.img_url_first;
-		//$("#currenturl").append(thumbnails.img_url_first);
-		thumbnails.get_neighboring_images(thumbnails.img_url_first, 7);
-		//add buttons that allow you to page over
-		//add form item that allows you to set number of images shown
-		create_form_to_determine_array_length()
+		if(clicked_iscroll_id == "scroller"){
+			thumbnails.get_neighboring_images(thumbnails.img_url_first, 7);
+			create_form_to_determine_array_length();
+		}
+		else if(clicked_iscroll_id == "scroller2"){
+			create_confirm_button();
+		}
 	});
 }
 
 
+//function click_image_get_url(thumbnails, iscroll_id){
+	//$(iscroll_id +" li > img").click(function(){
+		// var $image = $(this);
+		// var $li = $image.parent();
+		// var currently_selected_frame_id = $li.attr('id');
+		// $li.addClass('selected_frame');
+		// thumbnails.img_url_first = $image.attr('src');
+		// if (thumbnails.$last_selected_li_first){
+		// 	thumbnails.$last_selected_li_first.removeClass('selected_frame');
+		// }
+		// thumbnails.$last_selected_li_first = $li;
+		// thumbnails.currently_selected_url_first = thumbnails.img_url_first;
+		//$("#currenturl").append(thumbnails.img_url_first);
+		// thumbnails.get_neighboring_images(thumbnails.img_url_first, 7);
+		//add buttons that allow you to page over
+		//add form item that allows you to set number of images shown
+		// create_form_to_determine_array_length();
+	//});
+//}
+
+
+//////////////////
+// END BOOKMARK //
+//////////////////
 
 function create_form_to_determine_array_length(){
 	var array_length_form_item = '<form>Number of frames to show<input type="text" id="iscroll2_array_length" name="num_frames" value="7"></form>';
@@ -163,12 +187,13 @@ function set_array_length_from_user_input(thumbnails){
 	});
 }
 
-
 ///////////////////////
 // 		BOOKMARK  	 //
 //  work to become,  //
 //  not to acquire.  //
 ///////////////////////
+
+
 
 //creates array of links neighboring selected image
 Thumbnails.prototype.get_neighboring_images = function(image_frame, array_length){
@@ -189,7 +214,7 @@ Thumbnails.prototype.get_neighboring_images = function(image_frame, array_length
 	this.init_image_picking_iscroll('#wrapper2');
 	this.array_of_images_to_select_from = this.all_frame_urls.slice(lower_bound, upper_bound);
 	this.create_second_li();
-	select_replacement_image(thumbnails);//where does this go?
+	determine_which_iscroll_clicked(thumbnails);//where does this go?
 
 };
 
@@ -197,6 +222,7 @@ Thumbnails.prototype.get_neighboring_images = function(image_frame, array_length
 //////////////////
 // END BOOKMARK //
 //////////////////
+
 
 Thumbnails.prototype.create_second_li = function(){
 	//store all_frame_urls and subset arrays as properties, instead of variables
@@ -213,27 +239,28 @@ Thumbnails.prototype.init_image_picking_iscroll = function(){
 			click: true
 		});
 };
+
 //click on selected image in second iScroll
-function select_replacement_image(thumbnails){
-	$("#scroller2 li > img").click(function(){
-		var $image_second = $(this);
-		var $li_second = $image_second.parent();
-		var currently_selected_frame_id_second = $li_second.attr('id');
-		console.log(currently_selected_frame_id_second);
-		$li_second.addClass('replacement_frame');
-		var img_url_second = $image_second.attr('src');
-		if (thumbnails.$last_selected_li){
-			//is there a last selected frame?
-			//if so,
-			thumbnails.$last_selected_li.removeClass('replacement_frame');
-		}
-		thumbnails.$last_selected_li = $li_second;
-		thumbnails.currently_selected_url = img_url_second;
-		console.log(thumbnails.currently_selected_url);
-		//call function to confirm value
-		create_confirm_button();
-	});
-}
+// function select_replacement_image(thumbnails){
+// 	$("#scroller2 li > img").click(function(){
+// 		var $image_second = $(this);
+// 		var $li_second = $image_second.parent();
+// 		var currently_selected_frame_id_second = $li_second.attr('id');
+// 		console.log(currently_selected_frame_id_second);
+// 		$li_second.addClass('replacement_frame');
+// 		var img_url_second = $image_second.attr('src');
+// 		if (thumbnails.$last_selected_li){
+// 			//is there a last selected frame?
+// 			//if so,
+// 			thumbnails.$last_selected_li.removeClass('replacement_frame');
+// 		}
+// 		thumbnails.$last_selected_li = $li_second;
+// 		thumbnails.currently_selected_url = img_url_second;
+// 		console.log(thumbnails.currently_selected_url);
+// 		//call function to confirm value
+// 		create_confirm_button();
+// 	});
+// }
 
 //dynamically create button to confirm selection
 function create_confirm_button(){
@@ -279,7 +306,8 @@ function init(){
 	//$("#submit_butn").click(function(){
 		thumbnails.get_form_values();
 		thumbnails.create_initial_li();
-		click_image_get_url(thumbnails);
+		//click_image_get_url(thumbnails);
+		determine_which_iscroll_clicked(thumbnails);
 	//});
 
 	window.thumbnails = thumbnails;
