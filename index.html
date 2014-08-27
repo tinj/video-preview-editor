@@ -11,20 +11,10 @@
 <script src="node_modules/underscore/underscore-min.js"></script>
 <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
 <script src="imageselect.js"></script>
-
     </head>
-
 <body>
-<!-- click button to open modal - button triggers javascript - load code - jquery button runs init / attaches modal div to end of page / everything else gets hidden / html would be in template  -->
-
-<div id="modal">
-<!-- give it dimension constraints and fit everything inside of that -->
-
-<!-- pull out bootstrap and css for modal  -->
-
-
-</div>
-
+<!-- this goes into second page of modal  -->
+<!--
 <div id="wrapper">
     <div id="scroller" class="scroller">
         <ul id="frames">
@@ -38,9 +28,9 @@
 
         </ul>
     </div>
-</div>
+</div> -->
 
-<div role="form" id="array_length_button" position="top">
+<!-- <div role="form" id="array_length_button" position="top">
 
     <div id="selectbuttondiv">
     </div>
@@ -52,42 +42,144 @@ Current url
 Array of urls shown
 <textarea id="urlstext" rows="4" cols="50">
 </textarea>
+ -->
 
 
-
-
-<form role="form" position:"top">
-  <div class="form_group">
-
-    <label for="baseurl">Base URL</label>
-    <input type="text" class="form-control" id="baseurl" value="https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_"></input>
-
-     <label for="extension">Extension</label>
-    <input type="text" class="form-control" id="url_extension" value="png"></input>
-
-    <label for="number_of_frames">Number of frames</label>
-    <input type="text"class="form-control" id="num_of_frames" value="20">
-    </input>
-
-    <label for="start_frame">Start frame</label>
-    <input type="text"class="form-control" id="start_frame" value="1">
-    </input>
-
-    <label for="end_frame">End frame</label>
-    <input type="text"class="form-control" id="end_frame" value="1000">
-    </input>
-
-    <label for="end_frame">Step</label>
-    <input type="text"class="form-control" id="step" value="20">
-    </input>
-
-    <label for="end_frame">Frame Label Length</label>
-    <input type="text"class="form-control" id="frame_label_length" value="5">
-    </input>
-
+    <div class ="modal fade container col-md-12" id="firstModal"  tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="false">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                </div>
+                <div class="modal-body">
+                    <form role="form" position:"top">
+                        <div class="form_group">
+                            <div class="row">
+                                <div class="col-md-10">
+                                    <label for="baseurl">Base URL</label>
+                                    <input type="text" class="form-control" id="baseurl" value="https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_"></input>
+                                </div>
+                                <div class="col-md-2">
+                                     <label for="extension">Extension</label>
+                                    <input type="text" class="form-control" id="url_extension" value="png"></input>
+                                </div>
+                            </div>
+                            <div class = "row">
+                                <div class="col-md-4">
+                                    <label for="start_frame">Start frame</label>
+                                    <input type="text"class="form-control" id="start_frame" value="1">
+                                    </input>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="end_frame">End frame</label>
+                                    <input type="text"class="form-control" id="end_frame" value="1000">
+                                    </input>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="end_frame">Step</label>
+                                    <input type="text"class="form-control" id="step" value="20">
+                                    </input>
+                                </div>
+                            </div>
+                            <div class = "row">
+                                <div class="col-md-4">
+                                    <label for="number_of_frames">Total</label>
+                                    <input type="text"class="form-control" id="num_of_frames" value="20">
+                                    </input>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="end_frame">Label</label>
+                                    <input type="text"class="form-control" id="frame_label_length" value="5">
+                                    </input>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                <div class="modal-footer">
+                    <div class="btn-group btn-group-justified">
+                            <div class="btn-group">
+                                <button type="button"  data-toggle="modal" data-target="#secondModal" id="submit_butn"class="btn btn-default">Submit</button>
+                            </div>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-default">FAQ</button>
+                            </div>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-default">Close</button>
+                            </div>
+                            <div class="btn-group">
+                                <button type="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" class="btn btn-default">Docs</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-group" id="accordion">
+                    <div id="collapseOne" class="panel-collapse collapse in">
+                      <div class="panel-body">
+                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                      </div>
+                    </div>
+                  </div>
+            </div>
+         </div>
     </div>
- <imput type="submit" id="submit_butn" class="btn btn-default">Submit</button>
-</form>
+
+
+<!-- second modal -->
+
+   <div class ="modal fade container col-md-12" id="secondModal"  tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="false">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                </div>
+                <div class="modal-body">
+                    <form role="form" position:"top">
+                        <div class="form_group">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    Current url
+                                        <textarea id="currenturl" class="md-col-4">
+                                        </textarea>
+                                    </div>
+                                <div class="col-md-6">
+                                    Array of urls shown
+                                        <textarea id="urlstext" class="md-col-4">
+                                        </textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                <div class="modal-footer">
+                    <div class="btn-group btn-group-justified">
+                            <div class="btn-group">
+                                <button type="button" id="submit_butn"class="btn btn-default">Confirm selection</button>
+                            </div>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-default">Reset</button>
+                            </div>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-default"></button>
+                            </div>
+                            <div class="btn-group">
+                                <button type="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" class="btn btn-default">Docs</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+         </div>
+    </div>
+
+
+
+    <div class = "container">
+        <a href="#" class="btn btn-lg btn-success"
+        data-toggle="modal"
+        data-target="#firstModal">Click to open Modal</a>
+    </div>
+
 
 
 
