@@ -22,15 +22,6 @@ Thumbnails.prototype.get_form_values = function(){
 	this.frame_label_length = parseInt($("#frame_label_length").val());
 };
 
-//create li from
-Thumbnails.prototype.create_initial_li = function(){
-	//store all_frame_urls and subset arrays as properties, instead of variables
-	this.all_frame_urls = create_array_of_urls(this.base_url, this.url_extension, this.start_frame, this.end_frame, this.step, this.frame_label_length);
-	this.subset = new_frameset_from_whole_set(this.all_frame_urls, this.num_of_frames);
-	this.html_block = create_html_block_of_li(this.subset);
-	$("#scroller > ul").html(html_block);
-};
-
 //create iscroll
 Thumbnails.prototype.create_string_with_zeros = function(frame_number){
 	var string_frame = ""+ frame_number;
@@ -71,20 +62,8 @@ Thumbnails.prototype.new_frameset_from_whole_set = function(){
 };
 
 //adds list items to HTML
-Thumbnails.prototype.create_initial_li = function(){
-
-	this.all_frame_urls = this.create_array_of_urls();
-	this.subset = this.new_frameset_from_whole_set();
-
-	var html_block = create_html_block_of_li(this.subset);
-	$("#scroller > ul").html(html_block);
-};
-
 
 //create html list that contains the image files inside the second scroller
-
-
-
 
 ///////////////////////
 // 		BOOKMARK  	 //
@@ -94,7 +73,29 @@ Thumbnails.prototype.create_initial_li = function(){
 
 
 
+//I can eliminate this function by placing it in the get_neighbo
+Thumbnails.prototype.create_second_li = function(){
+	this.html_block = create_html_block_of_li(this.array_of_images_to_select_from);
+	$("#scroller2 > ul").html(this.html_block);
+};
+
+//refactor
+function create_html_block_of_li(urls){
+	return _.map(urls, function(url, i){
+		return "<li id=sample_frame"+i+"><img src="+url+"></img></li>";
+	}).join("");
+}
+
+Thumbnails.prototype.create_initial_li = function(){
+	this.all_frame_urls = this.create_array_of_urls();
+	this.subset = this.new_frameset_from_whole_set();
+	var html_block = create_html_block_of_li(this.subset);
+	$("#scroller > ul").html(html_block);
+};
+
+//figures out which iscroll you click on
 function click_iscroll_to_get_image(thumbnails){
+	console.log("ping");
 	$("img").click(function(){
 		var $image = $(this);
 		var $li = $image.parent();
@@ -111,21 +112,19 @@ function click_iscroll_to_get_image(thumbnails){
 			create_form_to_determine_array_length();
 		}
 		else if(clicked_iscroll_id == "scroller2"){
-			create_confirm_button();
+			create_form_to_determine_array_length()
 		}
 	});
 }
 
 
-//////////////////
-// END BOOKMARK //
-//////////////////
 
 function create_form_to_determine_array_length(){
 	var array_length_form_item = '<form>Number of frames to show<input type="text" id="iscroll2_array_length" name="num_frames" value="7"></form>';
+		var array_length_button = '<imput type="submit" id="confirm_array_length" class="btn btn-default">Confirm array length</button>';
 	$("#array_length_button").append(array_length_form_item);
-	var array_length_button = '<imput type="submit" id="array_length_button" class="btn btn-default">Confirm array length. Odd numbers will be rounded up.</button>';
-	$("#selectbuttondiv").append(array_length_button);
+	$("#array_length_button").append(array_length_button);
+	//$("#selectbuttondiv").append(array_length_button);
 	set_array_length_from_user_input(thumbnails);
 }
 
@@ -160,7 +159,7 @@ function create_form_to_determine_array_length(){
 
 //click function also tests value
 function set_array_length_from_user_input(thumbnails){
-	$("#array_length_button").click(function(){
+	$("#confirm_array_length").click(function(){
 		$("#array_length_button").forceNumeric();
 		var $second_iscroll_array_length_form = $("#iscroll2_array_length").val();
 		thumbnails.second_iscroll_array_length = $second_iscroll_array_length_form;
@@ -169,17 +168,10 @@ function set_array_length_from_user_input(thumbnails){
 	});
 }
 
-///////////////////////
-// 		BOOKMARK  	 //
-//  work to become,  //
-//  not to acquire.  //
-///////////////////////
-
-
-
 //creates array of links shown in second iscroll neighboring selected image
 Thumbnails.prototype.get_neighboring_images = function(image_frame, array_length){
 	//find index of selected image in all frame
+	console.log("ping");
 	this.index = _.indexOf(this.all_frame_urls, this.img_url_first, this);
 	this.half_array_length = Math.ceil(array_length /2);
 	var lower_bound = Math.max(this.index- this.half_array_length, 0);
@@ -191,40 +183,20 @@ Thumbnails.prototype.get_neighboring_images = function(image_frame, array_length
 		lower_bound = upper_bound-array_length;
 	}
 	this.init_image_picking_iscroll('#wrapper2');
-
 	this.array_of_images_to_select_from = this.all_frame_urls.slice(lower_bound, upper_bound);
 	this.create_second_li();
-	determine_which_iscroll_clicked(thumbnails);
+	//determine_which_iscroll_clicked(thumbnails);
 };
-
-Thumbnails.prototype.create_second_li = function(){
-
-	var html_block = create_html_block_of_li(this.array_of_images_to_select_from);
-	$("#scroller2 > ul").html(html_block);
-};
-
-//refactor
-function create_html_block_of_li(urls){
-	return _.map(urls, function(url, i){
-		return "<li id=sample_frame"+i+"><img src="+url+"></img></li>";
-	}).join("");
-}
-
-
-
-
-//////////////////
-// END BOOKMARK //
-//////////////////
 
 //dynamically create button that confirms selection
-function create_confirm_button(){
-	var button='<input type="button" id="selectbutton" value="Confirm selection">';
-	if($('#selectbutton').length ===0){
-		$("#selectbuttondiv").append(button);
-	}
-	replace_image_in_array_with_new_image(thumbnails);
-}
+// function create_confirm_button(){
+
+// 	var button='<button type="button" class="btn btn-default">Select</button>';
+// 	if($('#selectbutton').length ===0){
+// 		$("#selectbuttondiv").append(button);
+// 	}
+// 	replace_image_in_array_with_new_image(thumbnails);
+// }
 
 //places selected image from second iscroll into first iscroll
 function replace_image_in_array_with_new_image(thumbnails){
@@ -239,6 +211,7 @@ var myScroll;
 
 //initialize second iscroll
 Thumbnails.prototype.init_image_picking_iscroll = function(){
+	//check to see which
 	this.second_iScroll = new IScroll('#wrapper2',
 		{
 			scrollX: true,
@@ -247,6 +220,7 @@ Thumbnails.prototype.init_image_picking_iscroll = function(){
 			click: true
 		});
 };
+
 
 //initialize first iscroll
 function init_iscroll () {
@@ -262,12 +236,11 @@ function init_iscroll () {
 function init(){
 	var thumbnails = new Thumbnails();
 	init_iscroll();
-	//$("#submit_butn").click(function(){
+	$("#submit_butn").click(function(){
 		thumbnails.get_form_values();
 		thumbnails.create_initial_li();
-		//click_image_get_url(thumbnails);
-		determine_which_iscroll_clicked(thumbnails);
-	//});
+		click_iscroll_to_get_image(thumbnails);
+	});
 
 	window.thumbnails = thumbnails;
 

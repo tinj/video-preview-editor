@@ -13,36 +13,6 @@
 <script src="imageselect.js"></script>
     </head>
 <body>
-<!-- this goes into second page of modal  -->
-<!--
-<div id="wrapper">
-    <div id="scroller" class="scroller">
-        <ul id="frames">
-
-        </ul>
-    </div>
-</div>
-<div id="wrapper2">
-    <div id="scroller2" class="scroller">
-        <ul id="frames2">
-
-        </ul>
-    </div>
-</div> -->
-
-<!-- <div role="form" id="array_length_button" position="top">
-
-    <div id="selectbuttondiv">
-    </div>
-</div>
-<br><br>
-Current url
-<textarea id="currenturl" rows="4" cols="50">
-</textarea>
-Array of urls shown
-<textarea id="urlstext" rows="4" cols="50">
-</textarea>
- -->
 
 
     <div class ="modal fade container col-md-12" id="firstModal"  tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="false">
@@ -135,6 +105,18 @@ Array of urls shown
                     <h4 class="modal-title" id="myModalLabel">Modal title</h4>
                 </div>
                 <div class="modal-body">
+                    <div id="wrapper">
+                        <div id="scroller" class="scroller">
+                            <ul id="frames">
+                            </ul>
+                        </div>
+                    </div>
+                    <div id="wrapper2">
+                        <div id="scroller2" class="scroller">
+                            <ul id="frames2">
+                            </ul>
+                        </div>
+                    </div>
                     <form role="form" position:"top">
                         <div class="form_group">
                             <div class="row">
@@ -148,22 +130,24 @@ Array of urls shown
                                         <textarea id="urlstext" class="md-col-4">
                                         </textarea>
                                 </div>
+                                 <div id="array_length_button">
+                                </div>
+
                             </div>
                         </div>
                     </form>
                 <div class="modal-footer">
                     <div class="btn-group btn-group-justified">
                             <div class="btn-group">
-                                <button type="button" id="submit_butn"class="btn btn-default">Confirm selection</button>
+                                <div id="selectbuttondiv">
+
+                                </div>
                             </div>
                             <div class="btn-group">
                                 <button type="button" class="btn btn-default">Reset</button>
                             </div>
                             <div class="btn-group">
                                 <button type="button" class="btn btn-default"></button>
-                            </div>
-                            <div class="btn-group">
-                                <button type="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" class="btn btn-default">Docs</button>
                             </div>
                         </div>
                     </div>
