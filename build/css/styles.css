@@ -15,6 +15,13 @@ button {
 .replacement_frame {
   opacity: .70;
 }
+.modal-dialog {
+  width: 900px;
+}
+#accordion{
+  height: 0px;
+}
+
 #container {
   width: 500px;
   height: 300px;
