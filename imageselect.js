@@ -9,6 +9,8 @@ var thumbnail_properties = {
 //set defaults of thumbnails
 function Thumbnails(settings){
 	_.defaults(this, settings, thumbnail_properties);
+	//run initializaiton function - creates a new
+	this.initialize();
 }
 
 //gets values from form
@@ -72,25 +74,25 @@ Thumbnails.prototype.new_frameset_from_whole_set = function(){
 ///////////////////////
 
 
-
-//I can eliminate this function by placing it in the get_neighbo
-Thumbnails.prototype.create_second_li = function(){
-	this.html_block = create_html_block_of_li(this.array_of_images_to_select_from);
-	$("#scroller2 > ul").html(this.html_block);
-};
-
-//refactor
 function create_html_block_of_li(urls){
 	return _.map(urls, function(url, i){
 		return "<li id=sample_frame"+i+"><img src="+url+"></img></li>";
 	}).join("");
 }
 
+function replace_list($el, array){
+	$el.find("ul").html(create_html_block_of_li(array));
+}
+
+//I can eliminate this function by placing it in the get_neighbo
+Thumbnails.prototype.create_second_li = function(){
+	replace_list($("#scroller2"), this.array_of_images_to_select_from);
+};
+
 Thumbnails.prototype.create_initial_li = function(){
 	this.all_frame_urls = this.create_array_of_urls();
 	this.subset = this.new_frameset_from_whole_set();
-	var html_block = create_html_block_of_li(this.subset);
-	$("#scroller > ul").html(html_block);
+	replace_list($("#scroller"), this.subset);
 };
 
 //figures out which iscroll you click on
@@ -112,7 +114,7 @@ function click_iscroll_to_get_image(thumbnails){
 			create_form_to_determine_array_length();
 		}
 		else if(clicked_iscroll_id == "scroller2"){
-			create_form_to_determine_array_length()
+			create_form_to_determine_array_length();
 		}
 	});
 }
@@ -156,8 +158,6 @@ function create_form_to_determine_array_length(){
      });
  };
 
-
-//click function also tests value
 function set_array_length_from_user_input(thumbnails){
 	$("#confirm_array_length").click(function(){
 		$("#array_length_button").forceNumeric();
@@ -188,15 +188,6 @@ Thumbnails.prototype.get_neighboring_images = function(image_frame, array_length
 	//determine_which_iscroll_clicked(thumbnails);
 };
 
-//dynamically create button that confirms selection
-// function create_confirm_button(){
-
-// 	var button='<button type="button" class="btn btn-default">Select</button>';
-// 	if($('#selectbutton').length ===0){
-// 		$("#selectbuttondiv").append(button);
-// 	}
-// 	replace_image_in_array_with_new_image(thumbnails);
-// }
 
 //places selected image from second iscroll into first iscroll
 function replace_image_in_array_with_new_image(thumbnails){
@@ -219,8 +210,8 @@ Thumbnails.prototype.init_image_picking_iscroll = function(){
 			mouseWheel: false,
 			click: true
 		});
-};
 
+};
 
 //initialize first iscroll
 function init_iscroll () {
@@ -233,15 +224,54 @@ function init_iscroll () {
 		});
 }
 
-function init(){
-	var thumbnails = new Thumbnails();
-	init_iscroll();
-	$("#submit_butn").click(function(){
-		thumbnails.get_form_values();
-		thumbnails.create_initial_li();
-		click_iscroll_to_get_image(thumbnails);
-	});
+Thumbnails.prototype.nav_to_first = function(){
+	$("#show_first_page").click(function(){
+		console.log("swap function");//not showing
+		$("#secondModal").modal("hide");
+		$("#firstModal").modal("show");
 
+		this.first_submit_button();
+	}.bind(this));
+};
+
+Thumbnails.prototype.first_submit_button = function(){
+	console.log("swap function");//not showing
+	$("#submit_butn").click(function(){
+		this.get_form_values();
+		this.create_initial_li();
+		click_iscroll_to_get_image(this);
+		$("#firstModal").modal("hide");
+		$("#secondModal").modal("show");
+	}.bind(this));
+};
+
+Thumbnails.prototype.initialize = function(){
+	$("#firstModal").modal("show");
+	console.log("init thumbnails");
+	init_iscroll();
+
+	this.first_submit_button();
+			this.nav_to_first();
+
+	// $("#submit_butn").click(function(){
+	// 	this.get_form_values();
+	// 	this.create_initial_li();
+	// 	click_iscroll_to_get_image(this);
+	// 	$("#firstModal").hide();
+	// 	$("#secondModal").show();
+	// 	nav_to_first();
+	// }.bind(this));
+};
+
+
+
+function init(){
+	// $("#starter_button").on("click", function(){
+	// 	console.log("launch thumbnails");
+	// 	var thumbnails = new Thumbnails();
+	// 	window.thumbnails = thumbnails;
+	// });
+	var thumbnails = new Thumbnails();
 	window.thumbnails = thumbnails;
 
 }
@@ -249,8 +279,3 @@ function init(){
 document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
 
 $(init);
-
-//this function doesn't get called now - useful in edge case when array isn't already avail.
-function get_frame_step(start, stop, num_of_frames){
-	return Math.floor((stop-start)/(num_of_frames - 2));
-}
