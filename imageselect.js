@@ -1,23 +1,52 @@
 /* global $, _, IScroll */
 
-//url data on thumbnails
+//default url data on thumbnails - is this necessary?
 var thumbnail_properties = {
 	base_url: "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_",
 	url_extension: "png"
 };
 
+// forceNumeric() plug-in implementation
+ jQuery.fn.forceNumeric = function () {
+     return this.each(function () {
+         $(this).keydown(function (e) {
+             var key = e.which || e.keyCode;
+
+             if (!e.shiftKey && !e.altKey && !e.ctrlKey &&
+             // numbers
+                 key >= 48 && key <= 57 ||
+             // Numeric keypad
+                 key >= 96 && key <= 105 ||
+             // comma, period and minus, . on keypad
+                key == 190 || key == 188 || key == 109 || key == 110 ||
+             // Backspace and Tab and Enter
+                key == 8 || key == 9 || key == 13 ||
+             // Home and End
+                key == 35 || key == 36 ||
+             // left and right arrows
+                key == 37 || key == 39 ||
+             // Del and Ins
+                key == 46 || key == 45)
+                 return true;
+
+             return false;
+         });
+     });
+ };
+
 //set defaults of thumbnails
 function Thumbnails(settings){
+	//applies thumbnail defaults to settings
 	_.defaults(this, settings, thumbnail_properties);
-	//run initializaiton function - creates a new
 	this.initialize();
 }
+
 
 //gets values from form
 Thumbnails.prototype.get_form_values = function(){
 	this.base_url = $("#baseurl").val();
-	this.url_extension = "."+$("#url_extension").val(); //added dot
-	this.num_of_frames =parseInt($("#num_of_frames").val());
+	this.url_extension = "."+$("#url_extension").val();
+	this.num_of_frames =parseInt($("#total").val());
 	this.end_frame =parseInt($("#end_frame").val());
 	this.start_frame = parseInt($("#start_frame").val());
 	this.step = parseInt($("#step").val());
@@ -63,17 +92,6 @@ Thumbnails.prototype.new_frameset_from_whole_set = function(){
 	});
 };
 
-//adds list items to HTML
-
-//create html list that contains the image files inside the second scroller
-
-///////////////////////
-// 		BOOKMARK  	 //
-//  work to become,  //
-//  not to acquire.  //
-///////////////////////
-
-
 function create_html_block_of_li(urls){
 	return _.map(urls, function(url, i){
 		return "<li id=sample_frame"+i+"><img src="+url+"></img></li>";
@@ -95,12 +113,18 @@ Thumbnails.prototype.create_initial_li = function(){
 	replace_list($("#scroller"), this.subset);
 };
 
+//refactor
+
+///////////////
+///bookmark///
+/////////////
 //figures out which iscroll you click on
-function click_iscroll_to_get_image(thumbnails){
+function click_first_iscroll_to_get_image(thumbnails){
 	console.log("ping");
-	$("img").click(function(){
+	$("#scroller img").click(function(){
 		var $image = $(this);
 		var $li = $image.parent();
+		console.log("$li");
 		var clicked_iscroll_id = $li.parent().parent().attr('id');
 		$li.addClass('selected_frame');
 		thumbnails.img_url_first = $image.attr('src');
@@ -109,17 +133,16 @@ function click_iscroll_to_get_image(thumbnails){
 		}
 		thumbnails.$last_selected_li_first = $li;
 		thumbnails.currently_selected_url_first = thumbnails.img_url_first;
-		if(clicked_iscroll_id == "scroller"){
-			thumbnails.get_neighboring_images(thumbnails.img_url_first, 7);
-			create_form_to_determine_array_length();
-		}
-		else if(clicked_iscroll_id == "scroller2"){
-			create_form_to_determine_array_length();
-		}
+		thumbnails.get_neighboring_images(thumbnails.img_url_first, 7);
+		create_form_to_determine_array_length();
 	});
 }
 
+function click_second_iscroll_to_get_array(thumbnails){
+	$("#scroller2 img").click(function(){
 
+	});
+}
 
 function create_form_to_determine_array_length(){
 	var array_length_form_item = '<form>Number of frames to show<input type="text" id="iscroll2_array_length" name="num_frames" value="7"></form>';
@@ -130,33 +153,6 @@ function create_form_to_determine_array_length(){
 	set_array_length_from_user_input(thumbnails);
 }
 
-// forceNumeric() plug-in implementation
- jQuery.fn.forceNumeric = function () {
-     return this.each(function () {
-         $(this).keydown(function (e) {
-             var key = e.which || e.keyCode;
-
-             if (!e.shiftKey && !e.altKey && !e.ctrlKey &&
-             // numbers
-                 key >= 48 && key <= 57 ||
-             // Numeric keypad
-                 key >= 96 && key <= 105 ||
-             // comma, period and minus, . on keypad
-                key == 190 || key == 188 || key == 109 || key == 110 ||
-             // Backspace and Tab and Enter
-                key == 8 || key == 9 || key == 13 ||
-             // Home and End
-                key == 35 || key == 36 ||
-             // left and right arrows
-                key == 37 || key == 39 ||
-             // Del and Ins
-                key == 46 || key == 45)
-                 return true;
-
-             return false;
-         });
-     });
- };
 
 function set_array_length_from_user_input(thumbnails){
 	$("#confirm_array_length").click(function(){
@@ -202,7 +198,8 @@ var myScroll;
 
 //initialize second iscroll
 Thumbnails.prototype.init_image_picking_iscroll = function(){
-	//check to see which
+	console.log("init iscroll prototype1");
+	//check parent.
 	this.second_iScroll = new IScroll('#wrapper2',
 		{
 			scrollX: true,
@@ -226,20 +223,17 @@ function init_iscroll () {
 
 Thumbnails.prototype.nav_to_first = function(){
 	$("#show_first_page").click(function(){
-		console.log("swap function");//not showing
 		$("#secondModal").modal("hide");
 		$("#firstModal").modal("show");
-
 		this.first_submit_button();
 	}.bind(this));
 };
 
 Thumbnails.prototype.first_submit_button = function(){
-	console.log("swap function");//not showing
 	$("#submit_butn").click(function(){
 		this.get_form_values();
 		this.create_initial_li();
-		click_iscroll_to_get_image(this);
+		click_first_iscroll_to_get_image(this);
 		$("#firstModal").modal("hide");
 		$("#secondModal").modal("show");
 	}.bind(this));
@@ -247,35 +241,15 @@ Thumbnails.prototype.first_submit_button = function(){
 
 Thumbnails.prototype.initialize = function(){
 	$("#firstModal").modal("show");
-	console.log("init thumbnails");
 	init_iscroll();
-
 	this.first_submit_button();
-			this.nav_to_first();
-
-	// $("#submit_butn").click(function(){
-	// 	this.get_form_values();
-	// 	this.create_initial_li();
-	// 	click_iscroll_to_get_image(this);
-	// 	$("#firstModal").hide();
-	// 	$("#secondModal").show();
-	// 	nav_to_first();
-	// }.bind(this));
+	this.nav_to_first();
 };
 
-
-
 function init(){
-	// $("#starter_button").on("click", function(){
-	// 	console.log("launch thumbnails");
-	// 	var thumbnails = new Thumbnails();
-	// 	window.thumbnails = thumbnails;
-	// });
 	var thumbnails = new Thumbnails();
 	window.thumbnails = thumbnails;
-
 }
 
-document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
 
 $(init);
