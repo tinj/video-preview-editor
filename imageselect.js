@@ -113,7 +113,7 @@ Thumbnails.prototype.create_initial_li = function(){
 	replace_list($("#scroller"), this.subset);
 };
 
-
+//FIXME: refactor functions
 //handle click event for first array to generate second array
 function click_first_iscroll_to_get_image(thumbnails){
 	$("#scroller img").click(function(){
@@ -126,7 +126,6 @@ function click_first_iscroll_to_get_image(thumbnails){
 			thumbnails.$initial_li.removeClass('selected_frame');
 			if(thumbnails.$initial_img_url  === initial_img_url){
 			//close iscroll
-			//update_original()
 			}
 		}
 		thumbnails.$initial_li = $initial_li;
@@ -151,12 +150,14 @@ Thumbnails.prototype.get_neighboring_images = function(image_frame, array_length
 	if(upper_bound === this.all_frame_urls.length-1){
 		lower_bound = upper_bound-array_length;
 	}
-	this.init_image_picking_iscroll('#wrapper2'); // FIXME init this once, somewhere else - preemptively
 	this.array_of_images_to_select_from = this.all_frame_urls.slice(lower_bound, upper_bound);
 	this.create_second_li();
 	select_replacement_image(thumbnails);
 };
 
+
+
+//FIXME: refactor both functions
 //call different elements original and replacement
 //click on selected image
 function select_replacement_image(thumbnails){
@@ -190,7 +191,6 @@ Thumbnails.prototype.update_original = function(){
 };
 
 Thumbnails.prototype.close_image_selector = function(id) {
-	// body...
 	$(id).hide();
 };
 
@@ -198,29 +198,43 @@ var myScroll;
 
 //BECKA to do : refactor into single function
 
-//initialize second iscroll
-Thumbnails.prototype.init_image_picking_iscroll = function(){
-	//check parent.
-	this.second_iScroll = new IScroll('#wrapper2',
-		{
-			scrollX: true,
-			scrollY: false,
-			mouseWheel: false,
-			click: true
-		});
-
+Thumbnails.prototype.initialize_image_arrays = function(){   // (id) {
+    var settings = {
+        scrollX: true,
+            scrollY: false,
+            mouseWheel: true,
+            click: true
+    };
+   	this.myScroll1 = new IScroll('#wrapper',
+        settings);
+   settings.mouseWheel = false;
+   this.myScroll2 = new IScroll('#wrapper2',
+        settings);
 };
 
-//initialize first iscroll
-function init_iscroll () {
-	myScroll = new IScroll('#wrapper',
-		{
-			scrollX: true,
-			scrollY: false,
-			mouseWheel: true,
-			click: true
-		});
-}
+// //initialize second iscroll
+// Thumbnails.prototype.init_image_picking_iscroll = function(){
+// 	//check parent.
+// 	this.second_iScroll = new IScroll('#wrapper2',
+// 		{
+// 			scrollX: true,
+// 			scrollY: false,
+// 			mouseWheel: false,
+// 			click: true
+// 		});
+
+// };
+
+// //initialize first iscroll
+// function init_iscroll () {
+// 	myScroll = new IScroll('#wrapper',
+// 		{
+// 			scrollX: true,
+// 			scrollY: false,
+// 			mouseWheel: true,
+// 			click: true
+// 		});
+// }
 
 Thumbnails.prototype.nav_to_first = function(){
 	$("#show_first_page").click(function(){
@@ -241,8 +255,8 @@ Thumbnails.prototype.first_submit_button = function(){
 };
 
 Thumbnails.prototype.initialize = function(){
+	this.initialize_image_arrays();
 	$("#firstModal").modal("show");
-	init_iscroll();
 	this.first_submit_button();
 	this.nav_to_first();
 };
