@@ -42,6 +42,7 @@ function Thumbnails(settings){
 }
 
 //gets values from form
+//FIXME: refactor to allow for editing from settings
 Thumbnails.prototype.get_form_values = function(){
 	this.base_url = $("#baseurl").val();
 	this.url_extension = "."+$("#url_extension").val();
@@ -134,11 +135,6 @@ function click_first_iscroll_to_get_image(thumbnails){
 	});
 }
 
-
-//FIXME - first click or second click behavior - second click makes it hide. have a dedicated hide function
-//if it's a double click, trigger the close. otherwise, trigger an update and show.
-
-//creates array of links shown in second iscroll neighboring selected image
 Thumbnails.prototype.get_neighboring_images = function(image_frame, array_length){
 	this.index = _.indexOf(this.all_frame_urls, this.img_url_first, this);
 	this.half_array_length = Math.ceil(array_length /2);
@@ -173,6 +169,8 @@ function select_replacement_image(thumbnails){
 			//check to see if the second click is on the same image as the first click
 			if(thumbnails.replacement_img_url === replacement_img_url){
 				//close up second iscroll
+				$("#currenturl").append(thumbnails.replacement_img_url);
+				//$("#arrayofurls").append(thumbnails.)
 				return thumbnails.update_original();
 			}
 		}
@@ -183,7 +181,6 @@ function select_replacement_image(thumbnails){
 
 Thumbnails.prototype.update_original = function(){
 	this.$initial_li.find('img').attr('src', this.replacement_img_url);
-
 	this.$last_selected_li_first = undefined;
 	this.replacement_image_url = undefined;
 	this.replacement_li = undefined;
@@ -194,47 +191,20 @@ Thumbnails.prototype.close_image_selector = function(id) {
 	$(id).hide();
 };
 
-var myScroll;
-
-//BECKA to do : refactor into single function
-
 Thumbnails.prototype.initialize_image_arrays = function(){   // (id) {
     var settings = {
         scrollX: true,
-            scrollY: false,
-            mouseWheel: true,
-            click: true
+        scrollY: false,
+        mouseWheel: true,
+        click: true
     };
-   	this.myScroll1 = new IScroll('#wrapper',
+   this.myScroll1 = new IScroll('#wrapper',
         settings);
    settings.mouseWheel = false;
    this.myScroll2 = new IScroll('#wrapper2',
         settings);
 };
 
-// //initialize second iscroll
-// Thumbnails.prototype.init_image_picking_iscroll = function(){
-// 	//check parent.
-// 	this.second_iScroll = new IScroll('#wrapper2',
-// 		{
-// 			scrollX: true,
-// 			scrollY: false,
-// 			mouseWheel: false,
-// 			click: true
-// 		});
-
-// };
-
-// //initialize first iscroll
-// function init_iscroll () {
-// 	myScroll = new IScroll('#wrapper',
-// 		{
-// 			scrollX: true,
-// 			scrollY: false,
-// 			mouseWheel: true,
-// 			click: true
-// 		});
-// }
 
 Thumbnails.prototype.nav_to_first = function(){
 	$("#show_first_page").click(function(){
