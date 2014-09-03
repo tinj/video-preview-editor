@@ -41,7 +41,6 @@ function Thumbnails(settings){
 	this.initialize();
 }
 
-
 //gets values from form
 Thumbnails.prototype.get_form_values = function(){
 	this.base_url = $("#baseurl").val();
@@ -118,19 +117,25 @@ Thumbnails.prototype.create_initial_li = function(){
 //handle click event for first array to generate second array
 function click_first_iscroll_to_get_image(thumbnails){
 	$("#scroller img").click(function(){
-		var $image = $(this);
-		var $li = $image.parent();
-		var clicked_iscroll_id = $li.parent().parent().attr('id');
-		$li.addClass('selected_frame');
-		thumbnails.img_url_first = $image.attr('src');
-		if (thumbnails.$last_selected_li_first){
-			thumbnails.$last_selected_li_first.removeClass('selected_frame');
+		var $initial_image = $(this);
+		var $initial_li = $initial_image.parent();
+		var initial_iscroll_id = $initial_li.parent().parent().attr('id');
+		$initial_li.addClass('selected_frame');
+		var initial_img_url = $initial_image.attr('src');
+		if (thumbnails.$initial_li){
+			thumbnails.$initial_li.removeClass('selected_frame');
+			if(thumbnails.$initial_img_url  === initial_img_url){
+			//close iscroll
+			//update_original()
+			}
 		}
-		thumbnails.$last_selected_li_first = $li;
-		thumbnails.currently_selected_url_first = thumbnails.img_url_first;
+		thumbnails.$initial_li = $initial_li;
+		thumbnails.initial_img_url = initial_img_url;
 		thumbnails.get_neighboring_images(thumbnails.img_url_first, 7);
 	});
 }
+
+
 //FIXME - first click or second click behavior - second click makes it hide. have a dedicated hide function
 //if it's a double click, trigger the close. otherwise, trigger an update and show.
 
@@ -176,18 +181,17 @@ function select_replacement_image(thumbnails){
 }
 
 Thumbnails.prototype.update_original = function(){
-	this.$last_selected_li_first.find('img').attr('src', this.replacement_img_url);
+	this.$initial_li.find('img').attr('src', this.replacement_img_url);
+
 	this.$last_selected_li_first = undefined;
 	this.replacement_image_url = undefined;
 	this.replacement_li = undefined;
-	this.close_image_selector();
-	// hide iscroll
-	//reset variables - get rid of replacement_li and replacement_img_url - do when you open or when you close it
+	this.close_image_selector("#scroller2");
 };
 
-Thumbnails.prototype.close_image_selector = function() {
+Thumbnails.prototype.close_image_selector = function(id) {
 	// body...
-	$("#scroller2").hide();
+	$(id).hide();
 };
 
 var myScroll;
@@ -247,6 +251,5 @@ function init(){
 	var thumbnails = new Thumbnails();
 	window.thumbnails = thumbnails;
 }
-
 
 $(init);
