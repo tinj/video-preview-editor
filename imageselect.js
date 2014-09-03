@@ -102,29 +102,24 @@ function replace_list($el, array){
 	$el.find("ul").html(create_html_block_of_li(array));
 }
 
-//I can eliminate this function by placing it in the get_neighbo
+//FIXME - rename to "update_list"
 Thumbnails.prototype.create_second_li = function(){
 	replace_list($("#scroller2"), this.array_of_images_to_select_from);
 };
 
+//FIXME - rename to update list
 Thumbnails.prototype.create_initial_li = function(){
 	this.all_frame_urls = this.create_array_of_urls();
 	this.subset = this.new_frameset_from_whole_set();
 	replace_list($("#scroller"), this.subset);
 };
 
-//refactor
 
-///////////////
-///bookmark///
-/////////////
-//figures out which iscroll you click on
+//handle click event for first array to generate second array
 function click_first_iscroll_to_get_image(thumbnails){
-	console.log("ping");
 	$("#scroller img").click(function(){
 		var $image = $(this);
 		var $li = $image.parent();
-		console.log("$li");
 		var clicked_iscroll_id = $li.parent().parent().attr('id');
 		$li.addClass('selected_frame');
 		thumbnails.img_url_first = $image.attr('src');
@@ -134,40 +129,13 @@ function click_first_iscroll_to_get_image(thumbnails){
 		thumbnails.$last_selected_li_first = $li;
 		thumbnails.currently_selected_url_first = thumbnails.img_url_first;
 		thumbnails.get_neighboring_images(thumbnails.img_url_first, 7);
-		create_form_to_determine_array_length();
 	});
 }
-
-function click_second_iscroll_to_get_array(thumbnails){
-	$("#scroller2 img").click(function(){
-
-	});
-}
-
-function create_form_to_determine_array_length(){
-	var array_length_form_item = '<form>Number of frames to show<input type="text" id="iscroll2_array_length" name="num_frames" value="7"></form>';
-		var array_length_button = '<imput type="submit" id="confirm_array_length" class="btn btn-default">Confirm array length</button>';
-	$("#array_length_button").append(array_length_form_item);
-	$("#array_length_button").append(array_length_button);
-	//$("#selectbuttondiv").append(array_length_button);
-	set_array_length_from_user_input(thumbnails);
-}
-
-
-function set_array_length_from_user_input(thumbnails){
-	$("#confirm_array_length").click(function(){
-		$("#array_length_button").forceNumeric();
-		var $second_iscroll_array_length_form = $("#iscroll2_array_length").val();
-		thumbnails.second_iscroll_array_length = $second_iscroll_array_length_form;
-		console.log(thumbnails.second_iscroll_array_length);
-		thumbnails.get_neighboring_images(thumbnails.img_url_first, thumbnails.second_iscroll_array_length);
-	});
-}
+//FIXME - first click or second click behavior - second click makes it hide. have a dedicated hide function
+//if it's a double click, trigger the close. otherwise, trigger an update and show.
 
 //creates array of links shown in second iscroll neighboring selected image
 Thumbnails.prototype.get_neighboring_images = function(image_frame, array_length){
-	//find index of selected image in all frame
-	console.log("ping");
 	this.index = _.indexOf(this.all_frame_urls, this.img_url_first, this);
 	this.half_array_length = Math.ceil(array_length /2);
 	var lower_bound = Math.max(this.index- this.half_array_length, 0);
@@ -178,19 +146,49 @@ Thumbnails.prototype.get_neighboring_images = function(image_frame, array_length
 	if(upper_bound === this.all_frame_urls.length-1){
 		lower_bound = upper_bound-array_length;
 	}
-	this.init_image_picking_iscroll('#wrapper2');
+	this.init_image_picking_iscroll('#wrapper2'); // FIXME init this once, somewhere else - preemptively
 	this.array_of_images_to_select_from = this.all_frame_urls.slice(lower_bound, upper_bound);
 	this.create_second_li();
-	//determine_which_iscroll_clicked(thumbnails);
+	select_replacement_image(thumbnails);
 };
 
-
-//places selected image from second iscroll into first iscroll
-function replace_image_in_array_with_new_image(thumbnails){
-	$("#selectbutton").click(function(){
-		thumbnails.$last_selected_li_first.find('img').attr('src', thumbnails.currently_selected_url);
+//call different elements original and replacement
+//click on selected image
+function select_replacement_image(thumbnails){
+	$("#scroller2 li > img").click(function(){
+		var $replacement_image = $(this);
+		var $replacement_li = $replacement_image.parent();
+		var replacement_selected_frame_id = $replacement_li.attr('id');
+		$replacement_li.addClass('replacement_frame');
+		var replacement_img_url = $replacement_image.attr('src');
+		if (thumbnails.$replacement_li){
+			//if there is a last selected frame
+			thumbnails.$replacement_li.removeClass('replacement_frame');
+			//check to see if the second click is on the same image as the first click
+			if(thumbnails.replacement_img_url === replacement_img_url){
+				//close up second iscroll
+				return thumbnails.update_original();
+			}
+		}
+		thumbnails.$replacement_li = $replacement_li;
+		thumbnails.replacement_img_url = replacement_img_url;
 	});
 }
+
+Thumbnails.prototype.update_original = function(){
+	this.$last_selected_li_first.find('img').attr('src', this.replacement_img_url);
+	this.$last_selected_li_first = undefined;
+	this.replacement_image_url = undefined;
+	this.replacement_li = undefined;
+	this.close_image_selector();
+	// hide iscroll
+	//reset variables - get rid of replacement_li and replacement_img_url - do when you open or when you close it
+};
+
+Thumbnails.prototype.close_image_selector = function() {
+	// body...
+	$("#scroller2").hide();
+};
 
 var myScroll;
 
@@ -198,7 +196,6 @@ var myScroll;
 
 //initialize second iscroll
 Thumbnails.prototype.init_image_picking_iscroll = function(){
-	console.log("init iscroll prototype1");
 	//check parent.
 	this.second_iScroll = new IScroll('#wrapper2',
 		{
