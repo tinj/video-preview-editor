@@ -1,0 +1,29 @@
+<!DOCTYPE html><html><head><meta name="viewport" content="width=device-width, maximum-scale=1, user-scalable=no"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><link rel="stylesheet" type="text/css" href="/css/main.css"><link href="http://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" type="text/css"><style>#carousel-installation{ 
+  height: 400px;
+  clear: both;
+  margin-bottom: 100px;
+}
+.carousel-card { 
+  background-color: #ffffff;
+  width: 600px;
+  height: 400px;
+  padding: 50px;
+}
+.vertical-center { 
+  position: relative;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+}
+.famous-carousel-dot { 
+  border-radius: 100%;
+  border: 1px solid #404040;
+}
+.famous-carousel-dot-selected { 
+  background-color: #404040;
+}
+</style><body><header class="col1 pad-b35"><a href="/" class="col1-4"><img src="/images/logo_symbol_white.svg" height="50" class="left mar-l-20 mar-t0"></a><h4 class="left pad-lr-50 pad-tb-20"><a href="/install">Install</a></h4><h4 class="left pad-lr-50 pad-tb-20"><a href="/docs/Carousel.html">Docs</a></h4><h4 class="left pad-lr-50 pad-tb-20"><a href="/examples">Examples</a></h4><h4 class="left pad-lr-50 pad-tb-20"><a href="/download">Download</a></h4></header><div class="col1 pad-l-g1 pad-tb-20"><a href="/" class="inline">Home</a><div class="inline"> / </div><div href="#" class="inline">Install</div></div><div class="col1 pad-l-g1 pad-b2 pad-tb-50"><h1>Famo.us Carousel</h1><h2>Installation</h2><p>Follow these steps to install the Famo.us Carousel, explained using the Carousel: </p><div id="carousel-installation"><div class="carousel-card"><div class="vertical-center grey"><h4>Step 1:</h4><p>Inside of your HTML, add the FamousSlider.js.</p></div></div><div class="carousel-card"><div class="vertical-center grey"><h4>Step 2:</h4><p>Add the following line to your HTML file </p><pre><code><span class="hljs-tag">&lt;<span class="hljs-title">script</span> <span class="hljs-attribute">type</span>=<span class="hljs-value">"text/javascript"</span> <span class="hljs-attribute">src</span>=<span class="hljs-value">"/js/famousCarousel.js"</span>&gt;</span><span class="javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span> </code></pre></div></div><div class="carousel-card grey"><h4>Step 3: </h4><p>In your javascript code, instantiate the Carousel:</p><pre><code>FamousCarousel(<span class="hljs-string">'#someDiv'</span>);
+</code></pre></div><div class="carousel-card grey"><h4>Customizing: </h4><p>To customize the carousel, pass in options as the second argument:</p><pre><code>FamousCarousel(<span class="hljs-string">'#someDiv'</span>, { 
+  loop: <span class="hljs-literal">true</span> 
+});
+
+</code></pre></div></div></div></body><script type="text/javascript" src="/js/build/FamousCarousel.standalone.js"></script><script type="text/javascript" src="/js/install.js"></script></head></html>

@@ -1,0 +1,1 @@
+FamousContainer('#carousel-installation', FamousCarousel);
