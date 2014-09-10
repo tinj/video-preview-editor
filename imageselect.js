@@ -123,7 +123,6 @@ function Thumbnails(settings){
 
 //
 Thumbnails.prototype.new_frameset_from_whole_set = function(){
-    console.log(this.all_frame_urls.length / this.num_of_frames);//this is called twice.
     this.group_size = this.all_frame_urls.length / this.num_of_frames; //5
     this.subarray = _.groupBy(this.all_frame_urls,function(num, index){
         return Math.floor(index / this.group_size);
@@ -210,7 +209,8 @@ function select_replacement_image(thumbnails){
             if(thumbnails.replacement_img_url === replacement_img_url){
                 //close up second iscroll
                 $("#currenturl").append(thumbnails.replacement_img_url);
-                //$("#arrayofurls").append(thumbnails.)
+                generate_new_array_of_images_from_modified_scroller();
+                console.log(generate_new_array_of_images_from_modified_scroller());
                 return thumbnails.update_original();
             }
         }
@@ -218,6 +218,14 @@ function select_replacement_image(thumbnails){
         thumbnails.replacement_img_url = replacement_img_url;
     });
 }
+function generate_new_array_of_images_from_modified_scroller(){
+    // return $obj;
+    var arr = [];
+    $('#scroller ul li img').each(function(){arr.push($(this).attr('src'))});
+    console.log(arr);
+}
+
+generate_new_array_of_images_from_modified_scroller();
 
 Thumbnails.prototype.update_original = function(){
     this.$initial_li.find('img').attr('src', this.replacement_img_url);
@@ -244,13 +252,13 @@ Thumbnails.prototype.initialize_image_arrays = function(){   // (id) {
         settings);
 };
 
-// Thumbnails.prototype.nav_to_first = function(){
-//     $("#show_first_page").click(function(){
-//         $("#secondModal").modal("hide");
-//         $("#firstModal").modal("show");
-//         this.first_submit_button();
-//     }.bind(this));
-// };
+Thumbnails.prototype.nav_to_first = function(){
+    $("#show_first_page").click(function(){
+        $("#secondModal").modal("hide");
+        $("#firstModal").modal("show");
+        this.first_submit_button();
+    }.bind(this));
+};
 
 Thumbnails.prototype.first_submit_button = function(){
     $("#submit_butn").click(function(){
@@ -260,6 +268,7 @@ Thumbnails.prototype.first_submit_button = function(){
 };
 
 Thumbnails.prototype.launch_second_modal_screen = function(){
+    //needs to detect what fields are lacking, add some customizable features
      $("#secondModal").modal("show");
 
 
@@ -277,8 +286,7 @@ Thumbnails.prototype.determine_which_screen_to_start = function(){
         }
         else if(this.num_of_frames){
             //generate subset
-            //this.subset = this.new_frameset_from_whole_set();
-            //reexamine when this happens - or what lauch_second_modal_screen_does
+            this.subset = this.new_frameset_from_whole_set();
             this.launch_second_modal_screen();
         }
     }
