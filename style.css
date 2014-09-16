@@ -44,9 +44,9 @@ body {
 	overflow: hidden;
 }
 
-#wrapper2{
-		z-index: 1;
-	overflow: :hidden;
+#wrapper2 {
+	z-index: 1;
+	overflow: hidden;
 }
 
 #scroller{
@@ -118,7 +118,7 @@ body {
 
 .scroller2 li{
 
-		display: block;
+	display: block;
 	float: left;
 	width: 200px;
 	height: 100px;
