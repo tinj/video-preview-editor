@@ -1,245 +1,30 @@
 /* global $, _, IScroll */
 
+/////////////////////////////////////////////
+//////    initializations              //////
+/////////////////////////////////////////////
 
- //FIXME this now becomes part of var constantine_settings
-var default_settings = {
-    all_frame_urls: ["https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00001.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00021.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00041.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00061.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00081.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00101.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00121.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00141.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00161.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00181.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00201.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00221.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00241.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00261.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00281.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00301.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00321.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00341.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00361.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00381.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00401.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00421.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00441.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00461.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00481.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00501.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00521.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00541.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00561.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00581.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00601.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00621.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00641.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00661.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00681.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00701.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00721.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00741.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00761.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00781.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00801.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00821.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00841.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00861.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00881.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00901.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00921.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00941.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00961.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00981.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00001.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00021.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00041.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00061.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00081.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00101.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00121.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00141.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00161.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00181.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00201.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00221.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00241.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00261.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00281.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00301.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00321.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00341.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00361.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00381.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00401.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00421.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00441.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00461.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00481.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00501.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00521.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00541.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00561.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00581.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00601.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00621.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00641.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00661.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00681.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00701.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00721.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00741.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00761.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00781.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00801.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00821.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00841.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00861.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00881.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00901.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00921.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00941.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00961.png", "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00981.png"
-    ],
-    num_of_frames: 20
-};
-
-
-var constantine_settings = {
-    all_frame_urls: [
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00001.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00021.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00041.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00061.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00081.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00101.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00121.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00141.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00161.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00181.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00201.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00221.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00241.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00261.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00281.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00301.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00321.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00341.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00361.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00381.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00401.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00421.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00441.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00461.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00481.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00501.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00521.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00541.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00561.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00581.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00601.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00621.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00641.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00661.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00681.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00701.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00721.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00741.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00761.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00781.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00801.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00821.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00841.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00861.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00881.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00901.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00921.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00941.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00961.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00981.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00001.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00021.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00041.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00061.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00081.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00101.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00121.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00141.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00161.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00181.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00201.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00221.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00241.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00261.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00281.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00301.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00321.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00341.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00361.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00381.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00401.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00421.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00441.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00461.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00481.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00501.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00521.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00541.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00561.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00581.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00601.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00621.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00641.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00661.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00681.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00701.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00721.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00741.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00761.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00781.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00801.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00821.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00841.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00861.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00881.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00901.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00921.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00941.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00961.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00981.png"
-    ],
-    num_of_frames: 15
+var defaultSettings = {
+    numberOfFrames: 20
 };
 
 //set defaults of thumbnails overriding if user input
 function Thumbnails(settings){
-    _.defaults(this, settings, default_settings);
+    _.defaults(this, settings, defaultSettings);
     this.initialize();
 }
 
-//
-Thumbnails.prototype.new_frameset_from_whole_set = function(){
-    this.group_size = this.all_frame_urls.length / this.num_of_frames; //5
-    this.subarray = _.groupBy(this.all_frame_urls,function(num, index){
-        return Math.floor(index / this.group_size);
-    }, this);
-   return  _.map(this.subarray, function(array){
-        return _.first(array);
-
-    });
+//calls functions to generate arrays of images and enables selections
+Thumbnails.prototype.initialize = function(){
+    this.defineCachedJqueryVars();
+    this.initializeImageArrays();
+    this.updateHtmlListInFirstScroller();
+    clickFirstImageArrayToGetImage(this);
+    this.determineWhichScreenToStart();
 };
 
-function create_html_block_of_li(urls){
-    return _.map(urls, function(url, i){
-        return "<li id=sample_frame"+i+"><img src="+url+"></img></li>";
-    }).join("");
-}
-
-function replace_list($el, array){
-    $el.find("ul").html(create_html_block_of_li(array));
-}
-
-Thumbnails.prototype.update_html_list_in_first_scroller = function(){
-    // this.all_frame_urls = default_settings.full_array;
-    this.subset = this.new_frameset_from_whole_set();
-    replace_list($("#scroller"), this.subset);
-};
-
-
-Thumbnails.prototype.update_html_list_in_second_scroller = function(){
-    //FIXME --- why won't this work?
-    replace_list($("#scroller2"), this.array_of_images_to_select_from);
-};
-
-//handle click event for first array to generate second array
-function click_first_iscroll_to_get_image(thumbnails){
-    $("#scroller img").click(function(){
-        var $initial_image = $(this);
-        var $initial_li = $initial_image.parent();
-        var initial_iscroll_id = $initial_li.parent().parent().attr('id');
-        $initial_li.addClass('selected_frame');
-        var initial_img_url = $initial_image.attr('src');
-        if (thumbnails.$initial_li){
-            thumbnails.$initial_li.removeClass('selected_frame');
-            if(thumbnails.$initial_img_url  === initial_img_url){
-            //close iscroll
-            }
-        }
-        thumbnails.$initial_li = $initial_li;
-        thumbnails.initial_img_url = initial_img_url;
-        thumbnails.get_neighboring_images(thumbnails.img_url_first, 7);
-    });
-}
-
-
-Thumbnails.prototype.get_neighboring_images = function(image_frame, array_length){
-    this.index = _.indexOf(this.all_frame_urls, this.img_url_first, this);
-    this.half_array_length = Math.ceil(array_length /2);
-    var lower_bound = Math.max(this.index- this.half_array_length, 0);
-    var upper_bound = Math.min(this.index+ this.half_array_length, this.all_frame_urls.length-1);
-    if(lower_bound === 0){
-        upper_bound = array_length;
-    }
-    if(upper_bound === this.all_frame_urls.length-1){
-        lower_bound = upper_bound-array_length;
-    }
-
-    this.array_of_images_to_select_from = this.all_frame_urls.slice(lower_bound, upper_bound);
-    this.update_html_list_in_second_scroller();
-    select_replacement_image(thumbnails);
-};
-
-//call different elements original and replacement
-//click on selected image
-function select_replacement_image(thumbnails){
-    $("#scroller2 li > img").click(function(){
-        var $replacement_image = $(this);
-        var $replacement_li = $replacement_image.parent();
-        var replacement_selected_frame_id = $replacement_li.attr('id');
-        $replacement_li.addClass('replacement_frame');
-        var replacement_img_url = $replacement_image.attr('src');
-        if (thumbnails.$replacement_li){
-            //if there is a last selected frame
-            thumbnails.$replacement_li.removeClass('replacement_frame');
-            //check to see if the second click is on the same image as the first click
-            if(thumbnails.replacement_img_url === replacement_img_url){
-                //close up second iscroll
-                $("#currenturl").append(thumbnails.replacement_img_url);
-                generate_new_array_of_images_from_modified_scroller();
-                console.log(generate_new_array_of_images_from_modified_scroller());
-                return thumbnails.update_original();
-            }
-        }
-        thumbnails.$replacement_li = $replacement_li;
-        thumbnails.replacement_img_url = replacement_img_url;
-    });
-}
-function generate_new_array_of_images_from_modified_scroller(){
-    // return $obj;
-    var arr = [];
-    $('#scroller ul li img').each(function(){arr.push($(this).attr('src'))});
-    console.log(arr);
-}
-
-generate_new_array_of_images_from_modified_scroller();
-
-Thumbnails.prototype.update_original = function(){
-    this.$initial_li.find('img').attr('src', this.replacement_img_url);
-    this.$last_selected_li_first = undefined;
-    this.replacement_image_url = undefined;
-    this.replacement_li = undefined;
-    this.close_image_selector("#scroller2");
-};
-
-Thumbnails.prototype.close_image_selector = function(id) {
-    $(id).hide();
-};
-
-Thumbnails.prototype.initialize_image_arrays = function(){   // (id) {
+//iscroll. fameo.us later?
+Thumbnails.prototype.initializeImageArrays = function(){
     var settings = {
         scrollX: true,
         scrollY: false,
@@ -252,61 +37,215 @@ Thumbnails.prototype.initialize_image_arrays = function(){   // (id) {
         settings);
 };
 
-Thumbnails.prototype.nav_to_first = function(){
-    $("#show_first_page").click(function(){
-        $("#secondModal").modal("hide");
-        $("#firstModal").modal("show");
-        this.first_submit_button();
-    }.bind(this));
-};
-
-Thumbnails.prototype.first_submit_button = function(){
-    $("#submit_butn").click(function(){
-        $("#firstModal").modal("hide");
-        $("#secondModal").modal("show");
-    }.bind(this));
-};
-
-Thumbnails.prototype.launch_second_modal_screen = function(){
-    //needs to detect what fields are lacking, add some customizable features
-     $("#secondModal").modal("show");
-
-
-};
-
-Thumbnails.prototype.launch_first_modal_screen = function(){
-    $("#firstModal").modal("show");
-    first_submit_button();
-};
-
-Thumbnails.prototype.determine_which_screen_to_start = function(){
-    if(this.all_frame_urls && this.all_frame_urls.length){
-        if (this.subset && this.subset.length){
-            this.launch_second_modal_screen();
+//tests to see if additional information is needed to launch iscrolls
+Thumbnails.prototype.determineWhichScreenToStart = function(){
+    if(this.initialLargeArrayOfImages && this.initialLargeArrayOfImages.length){
+        if (this.newArrayForSelection && this.newArrayForSelection.length){
+            this.launchSecondModalScreen();
         }
-        else if(this.num_of_frames){
-            //generate subset
-            this.subset = this.new_frameset_from_whole_set();
-            this.launch_second_modal_screen();
+        else if(this.numberOfFrames){
+            //generate newArrayForSelection
+            this.newArrayForSelection = this.newFramesetFromWholeSet();
+            this.launchSecondModalScreen();
         }
     }
     else{
-       this.launch_first_modal_screen();
+       this.launchFirstModalScreen();
     }
 };
 
-Thumbnails.prototype.initialize = function(){
-    //initializes iscroll
-    this.initialize_image_arrays();
-    this.update_html_list_in_first_scroller();
-    click_first_iscroll_to_get_image(this);
-    this.determine_which_screen_to_start();
+/////////////////////////////////////////////
+//////   add html objects             //////
+/////////////////////////////////////////////
 
+
+//add new smaller array to first iscroll
+Thumbnails.prototype.updateHtmlListInFirstScroller = function(){
+    if(this.newArrayForSelection === undefined){
+        this.newArrayForSelection = this.newFramesetFromWholeSet();
+    }
+    // FIXME - does not want variable
+    replaceList($("#scroller"), this.newArrayForSelection);
 };
 
-function init(){
-    var thumbnails = new Thumbnails(constantine_settings);
-    window.thumbnails = thumbnails;
+Thumbnails.prototype.updateHtmlListInSecondScroller = function(){
+    replaceList($("#scroller2"), this.arrayOfImagesToSelectFrom);
+};
+
+//maps images to html
+function createHtmlBlockOfLi(urls){
+    return _.map(urls, function(url, i){
+        return "<li id=sample_frame"+i+"><img src="+url+"></img></li>";
+    }).join("");
 }
 
-$(init);
+function replaceList($el, array){
+    $el.find("ul").html(createHtmlBlockOfLi(array));
+}
+
+//generate the smaller subarray that will be shown in first iscroll
+Thumbnails.prototype.newFramesetFromWholeSet = function(){
+    if (this.sizeOfNewArrayForSelection === undefined){
+    this.sizeOfNewArrayForSelection = this.initialLargeArrayOfImages.length / this.numberOfFrames; //5
+    }
+    if (this.newArrayForSelection===undefined){
+    this.newArrayForSelection = _.groupBy(this.initialLargeArrayOfImages,function(num, index){
+        return Math.floor(index / this.sizeOfNewArrayForSelection);
+    }, this);
+   return  _.map(this.newArrayForSelection, function(array){
+        return _.first(array);
+    });
+    }
+};
+
+
+/////////////////////////////////////////////
+//////    image array events           //////
+/////////////////////////////////////////////
+
+//handle click event for first array to generate second array
+
+// make prototype
+//FIXME - refactor to cached jquery
+function clickFirstImageArrayToGetImage(thumbnails){
+    console.log("clickFirstImageArrayToGetImage function");
+    $("#scroller img").click(function(){
+        thumbnails.$scroller2.show();
+        var $initialImage = $(this);
+        var $initialLi = $initialImage.parent();
+        var initialIscrollId = $initialLi.parent().parent().attr('id');
+        $initialLi.addClass('selected_frame');
+        var initialImgUrl = $initialImage.attr('src');
+        if (thumbnails.$initialLi){
+            thumbnails.$initialLi.removeClass('selected_frame');
+            if(thumbnails.$initialImgUrl  === initialImgUrl){
+            }
+        }
+        thumbnails.$initialLi = $initialLi;
+        thumbnails.initialImgUrl = initialImgUrl;
+        thumbnails.getNeighboringImages(thumbnails.imgUrlFirst, 7);
+    });
+}
+
+//for second iscroll
+Thumbnails.prototype.getNeighboringImages = function(imageFrame, arrayLength){
+    console.log("getNeighboringImages function");
+    this.openImageSelector("#scroller2");
+    this.index = _.indexOf(this.initialLargeArrayOfImages, this.imgUrlFirst, this);
+    this.half_array_length = Math.ceil(arrayLength /2);
+    var lowerBound = Math.max(this.index- this.half_array_length, 0);
+    var upperBound = Math.min(this.index+ this.half_array_length, this.initialLargeArrayOfImages.length-1);
+    if(lowerBound === 0){
+        upperBound = arrayLength;
+    }
+    if(upperBound === this.initialLargeArrayOfImages.length-1){
+        lowerBound = upperBound-arrayLength;
+    }
+    this.arrayOfImagesToSelectFrom = this.initialLargeArrayOfImages.slice(lowerBound, upperBound);
+    this.updateHtmlListInSecondScroller();
+    this.selectReplacementImage();
+};
+
+//FIXME not working
+Thumbnails.prototype.selectReplacementImage = function(){
+    console.log("selectReplacementImage function");
+    //FIXME: does not work if $("#scroller2 li > img") is replaced with this.$imagesInScroller
+    $("#scroller2 li > img").click(function(){
+        console.log("selectReplacementImage");//not called
+        this.replacementImage = $(this);
+        this.$replacementLi = this.replacementImage.parent();
+        this.replacementSelectedFrameId = this.$replacementLi.attr('id');
+        this.$replacementLi.addClass('replacement_frame');
+        this.replacementImgUrl = this.replacementImage.attr('src');
+        if (this.$replacementLi){
+            //if there is a last selected frame
+            this.$replacementLi.removeClass('replacement_frame');
+            //check to see if the second click is on the same image as the first click
+            if(this.replacementImgUrl === this.replacementImgUrl){
+                //close up second iscroll
+                $("#currentUrl").append(this.replacementImgUrl);
+                return this.updateOriginal();
+            }
+        }
+        this.$replacementLi = $replacementLi;
+        this.replacementImgUrl = replacementImgUrl;
+    }.bind(this));
+};
+
+/////////////////////////////////////////////
+// data management after array alteration  //
+/////////////////////////////////////////////
+
+//modified subarray
+Thumbnails.prototype.generateNewArrayOfImagesFromModifiedScroller = function(){
+    var arr = [];
+    $('#scroller ul li img').each(function(){
+        arr.push($(this).attr('src'));
+    });
+    this.newArrayForSelection = arr;
+    return this.newArrayForSelection;
+};
+
+//replace frame and close second iscroll
+Thumbnails.prototype.updateOriginal = function(){
+    this.$initialLi.find('img').attr('src', this.replacementImgUrl);
+    this.$replacementImgUrl = undefined;
+    thisreplacementImage_url = undefined;
+    this.replacementLi = undefined;
+    thumbnails.closeImageSelector("#scroller2");
+    return this.generateNewArrayOfImagesFromModifiedScroller();
+};
+
+/////////////////////////////////////////////
+//////    jquery click events           //////
+/////////////////////////////////////////////
+Thumbnails.prototype.defineCachedJqueryVars =function(){
+    console.log("vars");
+    this.$secondModal = $("#secondModal");
+    this.$firstModal =  $("#firstModal");
+    this.$secondModal = $("#secondModal");
+    this.$submitButton =  $("#submitButton");
+    this.$showFirstPage = $("#showFirstPage");
+    this.$scroller = $("#scroller");
+    this.$scroller2 = $("#scroller2");
+    this.$currentUrl = $("#currentUrl");
+    this.$imagesInScroller = $("#scroller2 li > img");
+    // this.$scroller2Img = $("#scroller2 li > img");
+};
+
+//toggle to form
+Thumbnails.prototype.navToFirst = function(){
+    this.showFirstPage.click(function(){
+        this.$secondModal.modal("hide");
+       this.$firstModal.modal("show");
+    this.firstSubmitButton();
+    }.bind(this));
+};
+
+//first screen form
+Thumbnails.prototype.firstSubmitButton = function(){
+    this.submitButton.click(function(){
+        this.$firstModal.modal("hide");
+        this.$secondModal.modal("show");
+    }.bind(this));
+};
+
+//requires initial array and number of frames at minimum
+Thumbnails.prototype.launchSecondModalScreen = function(){
+     this.$secondModal.modal("show");
+};
+
+//only necessary if more data is required
+Thumbnails.prototype.launchFirstModalScreen = function(){
+    this.$firstModal.modal("show");
+    firstSubmitButton();
+};
+
+Thumbnails.prototype.closeImageSelector = function(id) {
+    $(id).hide();
+};
+
+Thumbnails.prototype.openImageSelector = function(id){
+    $(id).show();
+};
+document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
