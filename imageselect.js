@@ -4,24 +4,45 @@
 /**
  * config
  */
-
 var defaultSettings = {
-    numberOfFrames: 20
+    // numberOfFrames: 20
 };
 
 //set defaults of thumbnails overriding if user input
 function Thumbnails(settings){
     _.defaults(this, settings, defaultSettings);
-    this.initialize();
+       this.initialize();
 }
 
+//tests to see if additional information is needed to launch iscrolls
+Thumbnails.prototype.determineWhichScreenToStart = function(){
+    // check to see if there's already an array of images
+    if(this.initialLargeArrayOfImages && this.initialLargeArrayOfImages.length){
+        if (this.newArrayForSelection && this.newArrayForSelection.length){
+            this.$secondModal.modal("show");
+            this.updateHtmlListInFirstScroller();//this requires the LI
+
+        }
+        else if(this.numberOfFrames){
+            //generate newArrayForSelection
+            this.$secondModal.modal("show");
+            this.newArrayForSelection = this.newFramesetFromWholeSet();
+            this.updateHtmlListInFirstScroller();//this requires the LI
+
+        }
+
+    }
+    else{
+        this.$firstModal.modal("show");
+        this.firstSubmitButton();
+    }
+};
 //calls functions to generate arrays of images and enables selections
 Thumbnails.prototype.initialize = function(){
+    this.initializeImageArrays();//what's being initialized here? is there a list to init?
     this.defineCachedJqueryVars();
-    this.initializeImageArrays();
-    this.updateHtmlListInFirstScroller();
-    this.clickFirstImageArrayToGetImage();
     this.determineWhichScreenToStart();
+
 };
 
 Thumbnails.prototype.defineCachedJqueryVars =function(){
@@ -33,7 +54,6 @@ Thumbnails.prototype.defineCachedJqueryVars =function(){
     this.$showFirstPage = $("#showFirstPage");
     this.$scroller = $("#scroller");
     this.$scroller2 = $("#scroller2");
-    this.$currentUrl = $("#currentUrl");
     this.$imagesInScroller = $("#scroller2 li > img");
 };
 
@@ -50,32 +70,13 @@ Thumbnails.prototype.initializeImageArrays = function(){
         settings);
 };
 
-//tests to see if additional information is needed to launch iscrolls
-Thumbnails.prototype.determineWhichScreenToStart = function(){
-    // check to see if there's already an array of images
-    if(this.initialLargeArrayOfImages && this.initialLargeArrayOfImages.length){
-        if (this.newArrayForSelection && this.newArrayForSelection.length){
-            this.$secondModal.modal("show");
-        }
-        else if(this.numberOfFrames){
-            //generate newArrayForSelection
-            this.newArrayForSelection = this.newFramesetFromWholeSet();
-            this.$secondModal.modal("show");
-        }
-    }
-    else{
-        this.$firstModal.modal("show");
-        firstSubmitButton();
-    }
-};
-
-
 /**
  * add html objects
  */
 
 //add new smaller array to first iscroll
 Thumbnails.prototype.updateHtmlListInFirstScroller = function(){
+        console.log("called");
     if(this.newArrayForSelection === undefined){
         this.newArrayForSelection = this.newFramesetFromWholeSet();
     }
@@ -120,10 +121,13 @@ Thumbnails.prototype.newFramesetFromWholeSet = function(){
  * image array events
  */
 
+///////////////////////////
+/////BOOKMARK//////////////
+///////////////////////////
 //handle click event for first array to generate second array
 Thumbnails.prototype.clickFirstImageArrayToGetImage = function(){
     console.log("clickFirstImageArrayToGetImage function");
-    this.$scroller.find("img").click(clickToGetFirstImage.bind(this));
+    this.$scroller.find("img").click(clickToGetFirstImage.bind(this));//undefined
 };
 
 function clickToGetFirstImage (evt) {
@@ -180,9 +184,6 @@ function clickToSelectImage(evt){
     if (this.$replacementLi){
        this.$replacementLi.removeClass('replacement_frame');
         if(this.$replacementImgUrl === $replacementImgUrl){
-console.log(this.currentUrl);//undefined
-            //close up second iscroll
-            this.$currentUrl.append(this.$replacementImgUrl); //undefined
             this.updateOriginal();
         }
     }
@@ -206,11 +207,10 @@ Thumbnails.prototype.generateNewArrayOfImagesFromModifiedScroller = function(){
 
 //replace frame and close second iscroll
 Thumbnails.prototype.updateOriginal = function(){
-    // this.$secondModal.modal("hide");
     this.$initialLi.find('img').attr('src', this.$replacementImgUrl);//this is the problem
     this.replacementImgUrl = undefined;
     this.$replacementLi = undefined;
-    //this.$scroller2.hide();
+    this.$scroller2.hide();
     this.generateNewArrayOfImagesFromModifiedScroller();
 };
 
@@ -233,13 +233,74 @@ Thumbnails.prototype.navToFirst = function(){
     }.bind(this));
 };
 
+
+/**
+ * first page form processing 1
+ */
+
+
+
+//create iscroll array
+
+
+//maps new url strings to specified params.
+Thumbnails.prototype.createArrayOfUrls = function(){
+    console.log("Create Array of Urls");
+    this.paddedFrameNumbers = this.createPaddedRangeOfNumbers();
+    this.newArrayForSelection =  _.map(this.paddedFrameNumbers, function(frameNumber){
+        return this.baseUrl+ frameNumber +this.urlExtention;
+    }, this);
+    console.log(this.newArrayForSelection);
+    this.updateHtmlListInFirstScroller();//this requires the LI
+    this.clickFirstImageArrayToGetImage();
+};
+
 //first screen form
+
+
+Thumbnails.prototype.createStringWithZeros = function(frameNumber ){
+    var stringOfFrameNumber = ""+ frameNumber ;
+    var lengthOfNumber = stringOfFrameNumber.length;
+    var required_string_length = parseInt(this.frameLabelLength)-lengthOfNumber;
+    for(var i=0; i< required_string_length; i++){
+        stringOfFrameNumber="0"+stringOfFrameNumber;
+    }
+    return stringOfFrameNumber;
+};
+
+//maps create_string function to range of frames
+Thumbnails.prototype.createPaddedRangeOfNumbers = function(){
+    this.frameNumbers = _.range(this.startFrame, this.endFrame, this.step);
+    return _.map(this.frameNumbers, function(frameNumber){
+        //undefined
+        return this.createStringWithZeros(frameNumber);
+    }, this);
+};
+
 Thumbnails.prototype.firstSubmitButton = function(){
-    this.$submitButton.click(function(){
+    console.log("click submit");
+    this.$submitButton.click(clickToSubmit.bind(this));
+};
+function clickToSubmit(evt){
+     var $el= $(evt.target);
+        console.log("submit");
         this.getFormValues();
-        this.create_initial_li();
-        this.clickFirstImageArrayToGetImage();
+        this.createArrayOfUrls();
         this.$firstModal.modal("hide");
         this.$secondModal.modal("show");
-    }.bind(this));
+}
+
+
+ //has defaults
+Thumbnails.prototype.getFormValues = function(){
+    console.log("Form values");
+    this.baseUrl = $("#baseUrl").val();
+    this.urlExtention = "."+$("#urlExtention").val();
+    this.numberOfFrames =parseInt($("#total").val());
+    this.endFrame =parseInt($("#endFrame").val());
+    this.startFrame = parseInt($("#startFrame").val());
+    this.step = parseInt($("#step").val());
+    this.frameLabelLength = parseInt($("#frameLabelLength").val());
 };
+
+
