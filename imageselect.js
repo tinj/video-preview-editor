@@ -1,5 +1,9 @@
 /* global $, _, IScroll */
-
+//call refresh when content is changed
+//when number of elements changes
+// if you have event handlers - if detecting a click on a specific element
+// if you replace on image with a new image, new image won't detect clicks necessarily
+//call refresh when dimensions change
 
 /**
  * config
@@ -14,6 +18,8 @@ function Thumbnails(settings){
        this.initialize();
 }
 
+//TESTME: is this called?
+//TESTME: if user supplies array, does the function yield correct page?
 //tests to see if additional information is needed to launch iscrolls
 Thumbnails.prototype.determineWhichScreenToStart = function(){
     // check to see if there's already an array of images
@@ -21,7 +27,6 @@ Thumbnails.prototype.determineWhichScreenToStart = function(){
         if (this.newArrayForSelection && this.newArrayForSelection.length){
             this.$secondModal.modal("show");
             this.updateHtmlListInFirstScroller();//this requires the LI
-
         }
         else if(this.numberOfFrames){
             //generate newArrayForSelection
@@ -30,13 +35,13 @@ Thumbnails.prototype.determineWhichScreenToStart = function(){
             this.updateHtmlListInFirstScroller();//this requires the LI
 
         }
-
     }
     else{
         this.$firstModal.modal("show");
         this.firstSubmitButton();
     }
 };
+//do not test
 //calls functions to generate arrays of images and enables selections
 Thumbnails.prototype.initialize = function(){
     this.initializeImageArrays();//what's being initialized here? is there a list to init?
@@ -45,23 +50,28 @@ Thumbnails.prototype.initialize = function(){
 
 };
 
+//no need to test
 Thumbnails.prototype.defineCachedJqueryVars =function(){
     console.log("vars");
     this.$secondModal = $("#secondModal");
     this.$firstModal =  $("#firstModal");
     this.$secondModal = $("#secondModal");
     this.$submitButton =  $("#submitButton");
+    this.$randomButton = $("#random");
     this.$showFirstPage = $("#showFirstPage");
     this.$scroller = $("#scroller");
     this.$scroller2 = $("#scroller2");
     this.$imagesInScroller = $("#scroller2 li > img");
+    this.$showFirstPage = $("#showFirstPage");
 };
 
+//no need to test
 Thumbnails.prototype.initializeImageArrays = function(){
     var settings = {
         scrollX: true,
         scrollY: false,
         mouseWheel: true,
+        interactiveScrollbars: true,
         click: true
     };
    this.myScroll1 = new IScroll('#wrapper',
@@ -74,13 +84,15 @@ Thumbnails.prototype.initializeImageArrays = function(){
  * add html objects
  */
 
+//TESTME :
 //add new smaller array to first iscroll
 Thumbnails.prototype.updateHtmlListInFirstScroller = function(){
-        console.log("called");
+    console.log("called");
     if(this.newArrayForSelection === undefined){
         this.newArrayForSelection = this.newFramesetFromWholeSet();
     }
     replaceList(this.$scroller, this.newArrayForSelection);
+    this.getWidth();
 };
 
 Thumbnails.prototype.updateHtmlListInSecondScroller = function(){
@@ -101,20 +113,24 @@ function replaceList($el, array){
 //FIXME - this needs to connect to createArrayOfUrls() in imageselectform.js
 //generate the smaller subarray that will be shown in first iscroll
 Thumbnails.prototype.newFramesetFromWholeSet = function(){
-    //check if there's already a subarray
-    //
-    if (this.sizeOfNewArrayForSelection === undefined){
-    this.sizeOfNewArrayForSelection = this.initialLargeArrayOfImages.length / this.numberOfFrames; //5
-    }
-    //if there isn't one create it from the initial larger array
     if (this.newArrayForSelection===undefined){
-    this.newArrayForSelection = _.groupBy(this.initialLargeArrayOfImages,function(num, index){
-        return Math.floor(index / this.sizeOfNewArrayForSelection);
-    }, this);
-   return  _.map(this.newArrayForSelection, function(array){
-        return _.first(array);
-    });
+        var sizeOfNewArrayForSelection = this.initialLargeArrayOfImages.length / this.numberOfFrames; //5
+        this.newArrayForSelection = _.groupBy(this.initialLargeArrayOfImages,function(num, index){
+            return Math.floor(index / sizeOfNewArrayForSelection);
+        }, this);
+        return  _.map(this.newArrayForSelection, function(array){
+            return _.first(array);
+        });
     }
+};
+
+Thumbnails.prototype.getWidth = function(){
+    console.log("Get width");
+    var lengthOfArray = this.newArrayForSelection.length;
+    console.log(lengthOfArray);
+    var scrollerWidth = (lengthOfArray * 200) + "px";
+    console.log(scrollerWidth);
+    $("#scroller").css({"width": scrollerWidth});
 };
 
 /**
@@ -173,7 +189,6 @@ Thumbnails.prototype.selectReplacementImage = function(){
     this.$scroller2.find("li > img").click(clickToSelectImage.bind(this));
     };
 
-//new bug???
 function clickToSelectImage(evt){
     var $el= $(evt.target);
     var $replacementLi = $el.parent();
@@ -207,7 +222,7 @@ Thumbnails.prototype.generateNewArrayOfImagesFromModifiedScroller = function(){
 
 //replace frame and close second iscroll
 Thumbnails.prototype.updateOriginal = function(){
-    this.$initialLi.find('img').attr('src', this.$replacementImgUrl);//this is the problem
+    this.$initialLi.find('img').attr('src', this.$replacementImgUrl);//this is the problem-
     this.replacementImgUrl = undefined;
     this.$replacementLi = undefined;
     this.$scroller2.hide();
@@ -224,83 +239,66 @@ Thumbnails.prototype.serialize = function () {
  * jquery click events
  */
 
-//toggle to form
-Thumbnails.prototype.navToFirst = function(){
-    this.showFirstPage.click(function(){
-        this.$secondModal.modal("hide");
-        this.$firstModal.modal("show");
-        this.firstSubmitButton();
-    }.bind(this));
-};
 
 
-/**
- * first page form processing 1
- */
+Thumbnails.prototype.selectReplacementImage = function(){
+    console.log("selectReplacementImage function");
+    this.$scroller2.find("li > img").click(clickToSelectImage.bind(this));
+    };
 
-
-
-//create iscroll array
-
-
-//maps new url strings to specified params.
-Thumbnails.prototype.createArrayOfUrls = function(){
-    console.log("Create Array of Urls");
-    this.paddedFrameNumbers = this.createPaddedRangeOfNumbers();
-    this.newArrayForSelection =  _.map(this.paddedFrameNumbers, function(frameNumber){
-        return this.baseUrl+ frameNumber +this.urlExtention;
-    }, this);
-    console.log(this.newArrayForSelection);
-    this.updateHtmlListInFirstScroller();//this requires the LI
-    this.clickFirstImageArrayToGetImage();
-};
-
-//first screen form
-
-
-Thumbnails.prototype.createStringWithZeros = function(frameNumber ){
-    var stringOfFrameNumber = ""+ frameNumber ;
-    var lengthOfNumber = stringOfFrameNumber.length;
-    var required_string_length = parseInt(this.frameLabelLength)-lengthOfNumber;
-    for(var i=0; i< required_string_length; i++){
-        stringOfFrameNumber="0"+stringOfFrameNumber;
+//new bug???
+function clickToSelectImage(evt){
+    var $el= $(evt.target);
+    var $replacementLi = $el.parent();
+    console.log($replacementLi);
+    this.replacementSelectedFrameId = $replacementLi.attr('id');
+    $replacementLi.addClass('replacement_frame');
+    var $replacementImgUrl = $el.attr('src');
+    if (this.$replacementLi){
+       this.$replacementLi.removeClass('replacement_frame');
+        if(this.$replacementImgUrl === $replacementImgUrl){
+            this.updateOriginal();
+        }
     }
-    return stringOfFrameNumber;
-};
-
-//maps create_string function to range of frames
-Thumbnails.prototype.createPaddedRangeOfNumbers = function(){
-    this.frameNumbers = _.range(this.startFrame, this.endFrame, this.step);
-    return _.map(this.frameNumbers, function(frameNumber){
-        //undefined
-        return this.createStringWithZeros(frameNumber);
-    }, this);
-};
-
-Thumbnails.prototype.firstSubmitButton = function(){
-    console.log("click submit");
-    this.$submitButton.click(clickToSubmit.bind(this));
-};
-function clickToSubmit(evt){
-     var $el= $(evt.target);
-        console.log("submit");
-        this.getFormValues();
-        this.createArrayOfUrls();
-        this.$firstModal.modal("hide");
-        this.$secondModal.modal("show");
+    this.$replacementLi = $replacementLi;
+    this.$replacementImgUrl = $replacementImgUrl;
 }
 
 
- //has defaults
-Thumbnails.prototype.getFormValues = function(){
-    console.log("Form values");
-    this.baseUrl = $("#baseUrl").val();
-    this.urlExtention = "."+$("#urlExtention").val();
-    this.numberOfFrames =parseInt($("#total").val());
-    this.endFrame =parseInt($("#endFrame").val());
-    this.startFrame = parseInt($("#startFrame").val());
-    this.step = parseInt($("#step").val());
-    this.frameLabelLength = parseInt($("#frameLabelLength").val());
+
+//toggle to form
+Thumbnails.prototype.navToFirst = function(){
+    this.showFirstPage.click(clickToNavToFirst.bind(this));
 };
 
+function clickToNavToFirst(evt){
+    var $el= $(evt.target);
+        this.$secondModal.modal("hide");
+        this.$firstModal.modal("show");
+        this.firstSubmitButton();
+}
 
+//testing more systematically without form button - creating arrays, then clearing.
+// how to automate this?
+function createArraysOfTestNumbers (){
+    var startFrameNumber = 00001;
+    var endFrameNumber = 05361;
+    var length = 20;
+    var distanceToNextStart = length *20;
+    var beginningOfSet;
+    var newArray= [];
+    var jump = distanceToNextStart+startFrameNumber;
+    console.log(jump);
+   // while (startFrameNumber <= (endFrameNumber- distanceToNextStart)){
+        for (var n=startFrameNumber; n<jump; n+=20){
+            console.log("yup");
+            newArray.push(n);
+            startFrameNumber=(startFrameNumber+distanceToNextStart);
+        }
+    //}
+    console.log(newArray);
+};
+//testing only
+function add(x, y){
+    return x+y;
+}
