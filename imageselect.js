@@ -21,6 +21,7 @@ function Thumbnails(settings){
 //TESTME: is this called?
 //TESTME: if user supplies array, does the function yield correct page?
 //tests to see if additional information is needed to launch iscrolls
+
 Thumbnails.prototype.determineWhichScreenToStart = function(){
     // check to see if there's already an array of images
     if(this.initialLargeArrayOfImages && this.initialLargeArrayOfImages.length){
@@ -31,6 +32,7 @@ Thumbnails.prototype.determineWhichScreenToStart = function(){
         else if(this.numberOfFrames){
             //generate newArrayForSelection
             this.$secondModal.modal("show");
+
             this.newArrayForSelection = this.newFramesetFromWholeSet();
             this.updateHtmlListInFirstScroller();//this requires the LI
 
@@ -113,6 +115,7 @@ function replaceList($el, array){
 //FIXME - this needs to connect to createArrayOfUrls() in imageselectform.js
 //generate the smaller subarray that will be shown in first iscroll
 Thumbnails.prototype.newFramesetFromWholeSet = function(){
+    console.log("new frameset");
     if (this.newArrayForSelection===undefined){
         var sizeOfNewArrayForSelection = this.initialLargeArrayOfImages.length / this.numberOfFrames; //5
         this.newArrayForSelection = _.groupBy(this.initialLargeArrayOfImages,function(num, index){
@@ -168,20 +171,21 @@ function clickToGetFirstImage (evt) {
 Thumbnails.prototype.getNeighboringImages = function(arrayLength){
     console.log("getNeighboringImages function");
     this.$scroller2.show();
-    var index = _.indexOf(this.initialLargeArrayOfImages, this.initialImgUrl, this);
+    var index = _.indexOf(this.newArrayForSelection, this.initialImgUrl, this);
     console.log(index);
     var half_array_length = Math.ceil(arrayLength /2);
     var lowerBound = Math.max(index- half_array_length, 0);
-    var upperBound = Math.min(index+ half_array_length, this.initialLargeArrayOfImages.length-1);
+    var upperBound = Math.min(index+ half_array_length, this.newArrayForSelection.length-1);
     if(lowerBound === 0){
         upperBound = arrayLength;
     }
-    if(upperBound === this.initialLargeArrayOfImages.length-1){
+    if(upperBound === this.newArrayForSelection.length-1){
         lowerBound = upperBound-arrayLength;
     }
-    this.arrayOfImagesToSelectFrom = this.initialLargeArrayOfImages.slice(lowerBound, upperBound);
+    this.arrayOfImagesToSelectFrom = this.newArrayForSelection.slice(lowerBound, upperBound);
     this.updateHtmlListInSecondScroller();
     this.selectReplacementImage();
+    //refresh
 };
 
 Thumbnails.prototype.selectReplacementImage = function(){
@@ -241,10 +245,10 @@ Thumbnails.prototype.serialize = function () {
 
 
 
-Thumbnails.prototype.selectReplacementImage = function(){
-    console.log("selectReplacementImage function");
-    this.$scroller2.find("li > img").click(clickToSelectImage.bind(this));
-    };
+// Thumbnails.prototype.selectReplacementImage = function(){
+//     console.log("selectReplacementImage function");
+//     this.$scroller2.find("li > img").click(clickToSelectImage.bind(this));
+//     };
 
 //new bug???
 function clickToSelectImage(evt){
