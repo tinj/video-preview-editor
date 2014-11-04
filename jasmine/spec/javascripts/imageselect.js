@@ -8,6 +8,11 @@
 /**
  * config
  */
+
+function add(a, b){
+    return a+b;
+}
+
 var defaultSettings = {
     numberOfFrames: 20
 };
@@ -15,7 +20,7 @@ var defaultSettings = {
 //set defaults of thumbnails overriding if user input
 function Thumbnails(settings){
     console.log(settings);
-    // console.log(this.initialLargeArrayOfImages);
+    console.log(this.initialLargeArrayOfImages);
     _.defaults(this, settings, defaultSettings);
     console.log(this.initialLargeArrayOfImages);
     this.initialize();

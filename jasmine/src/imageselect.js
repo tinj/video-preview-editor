@@ -8,6 +8,11 @@
 /**
  * config
  */
+
+function add(a, b){
+    return a+b;
+}
+
 var defaultSettings = {
     numberOfFrames: 20
 };
@@ -15,7 +20,7 @@ var defaultSettings = {
 //set defaults of thumbnails overriding if user input
 function Thumbnails(settings){
     console.log(settings);
-    // console.log(this.initialLargeArrayOfImages);
+    console.log(this.initialLargeArrayOfImages);
     _.defaults(this, settings, defaultSettings);
     console.log(this.initialLargeArrayOfImages);
     this.initialize();
@@ -124,12 +129,14 @@ Thumbnails.prototype.updateHtmlListInSecondScroller = function(){
 };
 
 //maps images to html
+//tested successfully
 function createHtmlBlockOfLi(urls){
     return _.map(urls, function(url, i){
         return "<li id=sample_frame"+i+"><img src="+url+"></img></li>";
     }).join("");
 }
 
+//
 function replaceList($el, array){
     $el.find("ul").html(createHtmlBlockOfLi(array));
 }
@@ -163,9 +170,6 @@ Thumbnails.prototype.getWidth = function(){
  * image array events
  */
 
-///////////////////////////
-/////BOOKMARK//////////////
-///////////////////////////
 //handle click event for first array to generate second array
 Thumbnails.prototype.clickFirstImageArrayToGetImage = function(){
     console.log("clickFirstImageArrayToGetImage function");
@@ -283,7 +287,7 @@ Thumbnails.prototype.serialize = function () {
 //     this.$scroller2.find("li > img").click(clickToSelectImage.bind(this));
 //     };
 
-//new bug???
+//too hard to test
 function clickToSelectImage(evt){
     var $el= $(evt.target);
     var $replacementLi = $el.parent();

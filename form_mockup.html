@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="build/css/styles.css">
+
+<script src="node_modules/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript" src="node_modules/iscroll/build/iscroll.js"></script>
+<script src="node_modules/underscore/underscore-min.js"></script>
+<script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="imageselect.js"></script>
+    </head>
+<body>
+<form role="form" position:"top">
+                        <div class="form_group">
+                            <div class="row">
+                                    <div class="col-md-10">
+                                            <label for="baseurl">Base URL</label>
+                                            <input type="text" class="form-control" id="baseurl" value="https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_"></input>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                         <label for="extension">Extension</label>
+                                        <input type="text" class="form-control" id="url_extension" value="png"></input>
+                                    </div>
+                                </div>
+                                <div class = "row">
+                                    <div class="col-md-4">
+                                        <label for="start_frame">Start frame</label>
+                                        <input type="text"class="form-control" id="start_frame" value="1">
+                                        </input>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="end_frame">End frame</label>
+                                        <input type="text"class="form-control" id="end_frame" value="1000">
+                                        </input>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="end_frame">Step</label>
+                                        <input type="text"class="form-control" id="step" value="20">
+                                        </input>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class = "row">
+                                <div class="col-md-4">
+                                    <label for="number_of_frames">Total</label>
+                                    <input type="text"class="form-control" id="num_of_frames" value="20">
+                                    </input>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="end_frame">Label</label>
+                                    <input type="text"class="form-control" id="frame_label_length" value="5">
+                                    </input>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="btn-group btn-group-justified">
+                            <div class="btn-group">
+                                <button type="button"  id="submit_butn"class="btn btn-default togg.e_screens">Submit</button>
+                            </div>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-default">FAQ</button>
+                            </div>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-default">Close</button>
+                            </div>
+                                <!-- <div class="accordion" > -->
+                            <div class="btn-group panel accordion" id="myAccordion">
+                                    <button type="button" data-toggle="collapse" data-target="#collapseOne" data-parent="#accordion" href="#collapseTwo" class="btn btn-default" data-parent="#myAccordion">Docs</button>
+                                        <div id="collapseOne" class="collapse">
+                                            <p>Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                                            </p>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>

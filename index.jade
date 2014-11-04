@@ -1,0 +1,198 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='utf-8')
+    link(rel='stylesheet', href='node_modules/bootstrap/dist/css/bootstrap.min.css')
+    link(rel='stylesheet', type='text/css', href='build/css/styles.css')
+    script(src='node_modules/jquery/dist/jquery.min.js')
+    script(src='node_modules/underscore/underscore-min.js')
+    script(src='node_modules/bootstrap/dist/js/bootstrap.min.js')
+    script(type='text/javascript', src='node_modules/iscroll/build/iscroll.js')
+    script(type='text/javascript').
+      var constantine_settings = {
+      initialLargeArrayOfImages: [
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00001.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00021.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00041.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00061.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00081.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00101.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00121.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00141.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00161.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00181.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00201.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00221.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00241.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00261.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00281.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00301.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00321.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00341.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00361.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00381.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00401.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00421.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00441.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00461.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00481.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00501.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00521.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00541.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00561.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00581.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00601.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00621.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00641.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00661.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00681.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00701.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00721.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00741.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00761.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00781.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00801.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00821.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00841.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00861.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00881.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00901.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00921.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00941.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00961.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00981.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00001.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00021.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00041.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00061.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00081.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00101.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00121.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00141.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00161.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00181.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00201.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00221.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00241.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00261.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00281.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00301.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00321.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00341.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00361.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00381.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00401.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00421.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00441.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00461.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00481.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00501.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00521.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00541.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00561.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00581.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00601.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00621.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00641.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00661.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00681.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00701.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00721.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00741.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00761.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00781.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00801.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00821.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00841.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00861.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00881.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00901.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00921.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00941.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00961.png",
+      //     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00981.png"
+      ],
+      // //num_of_frames: 15
+      };
+      $(function (){
+      var thumbnails = new Thumbnails(constantine_settings);
+      window.thumbnails = thumbnails;
+      });
+    script(src='imageselect.js')
+    script(src='imageselectform.js')
+  body
+    #firstModal.modal.fade.container.col-md-12(tabindex='-1', role='dialog', aria-labelledby='basicModal', aria-hidden='false')
+      .modal-dialog
+        .modal-content
+          .modal-header
+            button.close(type='button', data-dismiss='modal', aria-hidden='true')
+            h4#myModalLabel.modal-title Image Selector
+          .modal-body
+            // form starts here
+            form.form-horizontal(role='form')
+              .form-group
+                // <div class="col-md-10">
+                label(for='baseUrl') Base URL
+                input#baseUrl.form-control(type='text', value='https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_')
+                // </div>
+              .form-group
+                // <div class="col-md-10">
+                label(for='extension') Extension
+                input#urlExtention.form-control(type='text', value='png')
+                // </div>
+              .form-group
+                label(for='startFrame') Start frame
+                input#startFrame.form-control(type='text', value='1')
+              .form-group
+                label(for='end_frame') End frame
+                input#endFrame.form-control(type='text', value='1000')
+          .form-group
+            label(for='step') Step
+            input#step.form-control(type='text', value='20')
+          .form-group
+            label(for='number_of_frames') Total
+            input#total.form-control(type='text', value='20')
+          .form-group
+            label(for='end_frame') Label
+            input#frameLabelLength.form-control(type='text', value='5')
+          .modal-footer
+            .btn-group.btn-group-justified
+              .btn-group
+                button#submitButton.btn.btn-default(type='button') Submit
+              // this for testing with random arrays
+              .btn-group
+                button#random.btn.btn-default(type='button') Random array sample
+              .btn-group
+                button.btn.btn-default(type='button') Close
+              // <div class="accordion" >
+              #myAccordion.btn-group.panel.accordion
+                button.btn.btn-default(type='button', data-toggle='collapse', data-target='#collapseOne', data-parent='#accordion', href='#collapseTwo') Docs
+                #collapseOne.collapse
+                  p
+                    | Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven&apos;t heard of them accusamus labore sustainable VHS.
+    // second modal
+    #secondModal.modal.fade.container.col-md-12(tabindex='-1', role='dialog', aria-labelledby='basicModal', aria-hidden='false')
+      .modal-dialog
+        .modal-content
+          .modal-header
+            button.close(type='button', data-dismiss='modal', aria-hidden='true')
+            h4#myModalLabel.modal-title Modal title
+          .modal-body
+            #wrapper
+              #scroller.scroller
+                ul#frames
+            #wrapper2
+              #scroller2.scroller
+                ul#frames2
+            form(role='form')
+              .form_group
+                .row
+                  #arrayLengthButton
+            .modal-footer
+              .btn-group.btn-group-justified
+                .btn-group
+                  #selectbuttondiv
+                .btn-group
+                  button.btn.btn-default(type='button') Reset
+                .btn-group
+                  button#showFirstPage.btn.btn-default.toggle_screens(type='button') Go Back

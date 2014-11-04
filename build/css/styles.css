@@ -60,6 +60,11 @@ body {
   width: 100%;
   overflow: hidden;
 }
+#wrapper2 {
+  z-index: 1;
+  width: 100%;
+  overflow: hidden;
+}
 #scroller {
   width: 5000px;
   height: 200px;
