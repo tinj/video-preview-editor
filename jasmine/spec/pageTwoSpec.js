@@ -1,10 +1,25 @@
 
 
 // impossible to test.
+// describe("Second Page of Module Tests", function() {
+//         var settings = {
+//             initialLargeArrayOfImages: [
+//                 "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00001.png",
+//                 "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00021.png",
+//                 "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00041.png",
+//                 "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00061.png",
+//                 "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00081.png",
+//                 "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00101.png",
+//                 "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00121.png"
+//             ]
+//         };
+//         var thumbnails = new Thumbnails(settings);
+//     it("thumbnails.determineWhichScreenToStart() should run the second page if this.initialLargeArrayOfImages is provided",function(){
+//         //since array is present, this should be called.
+//             expect(thumbnails.determineWhichScreenToStart()).toHaveBeenCalled();
+//     });
+// });
 describe("Second Page of Module Tests", function() {
-        // var Thumbnails = function(){};
-        // beforeEach(function(){
-
         var settings = {
             initialLargeArrayOfImages: [
                 "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00001.png",
@@ -16,10 +31,10 @@ describe("Second Page of Module Tests", function() {
                 "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00121.png"
             ]
         };
-        var thumbnails = new Thumbnails(settings);
-    it("thumbnails.determineWhichScreenToStart() should run the second page if this.initialLargeArrayOfImages is provided",function(){
+    it("hasLargeArray()) should check to see if array of images is provided",function(){
         //since array is present, this should be called.
-            expect(thumbnails.determineWhichScreenToStart()).toHaveBeenCalled();
+            expect(hasLargeArray()).toBeFalsy();
+            expect(hasLargeArray.call(settings)).toBeTruthy();
     });
 });
 describe("createHtmlBlockOfLi Test", function(){

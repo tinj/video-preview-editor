@@ -20,39 +20,54 @@ var defaultSettings = {
 //set defaults of thumbnails overriding if user input
 function Thumbnails(settings){
     console.log(settings);
-    console.log(this.initialLargeArrayOfImages);
     _.defaults(this, settings, defaultSettings);
     console.log(this.initialLargeArrayOfImages);
     this.initialize();
 }
 
+
+//do not test
+//calls functions to generate arrays of images and enables selections
+Thumbnails.prototype.initialize = function(){
+    //we need to inject a template here with modal html
+    this.initializeScrollers();//what's being initialized here? is there a list to init?
+    this._defineCachedJqueryVars();
+    // this.determineWhichScreenToStart();
+    if (hasLargeArray.call(this))
+        this.showSecondModal();
+    else
+        this.showFirstModal();
+};
+
+
 //TESTME: is this called?
 //TESTME: if user supplies array, does the function yield correct page?
 //tests to see if additional information is needed to launch iscrolls
 
-Thumbnails.prototype.determineWhichScreenToStart = function(){
+function hasLargeArray (){
     // check to see if there's already an array of images
-    console.log("determineWhichScreenToStart");
-    if(this.initialLargeArrayOfImages && this.initialLargeArrayOfImages.length){
-        if (this.newArrayForSelection && this.newArrayForSelection.length){
-            this.$secondModal.modal("show");
-            this.updateHtmlListInFirstScroller();//this requires the LI
-        }
-        else if(this.numberOfFrames){
-            //generate newArrayForSelection
-            console.log("Has all, picking subset");
-            this.$secondModal.modal("show");
+    return this.initialLargeArrayOfImages && this.initialLargeArrayOfImages.length;
+}
 
-            this.newArrayForSelection = this.newFramesetFromWholeSet();
-            this.updateHtmlListInFirstScroller();//this requires the LI
-        }
-    }
-    else{
-        this.$firstModal.modal("show");
-        this.firstSubmitButton();
-    }
+Thumbnails.prototype.showFirstModal = function (){
+    this.$firstModal.modal("show");
+    this.firstSubmitButton();
 };
 
+Thumbnails.prototype.showSecondModal = function (){
+    if (this.newArrayForSelection && this.newArrayForSelection.length){
+        this.$secondModal.modal("show");
+        this.updateHtmlListInFirstScroller();//this requires the LI
+    }
+    else if(this.numberOfFrames){
+        //generate newArrayForSelection
+        console.log("Has all, picking subset");
+        this.$secondModal.modal("show");
+
+        this.newArrayForSelection = this.newFramesetFromWholeSet();
+        this.updateHtmlListInFirstScroller();//this requires the LI
+    }
+};
 
 Thumbnails.prototype.setImages = function(params){
     if (params && params.initialLargeArrayOfImages) {
@@ -63,14 +78,6 @@ Thumbnails.prototype.setImages = function(params){
     }
 };
 
-
-//do not test
-//calls functions to generate arrays of images and enables selections
-Thumbnails.prototype.initialize = function(){
-    this.initializeImageArrays();//what's being initialized here? is there a list to init?
-    this._defineCachedJqueryVars();
-    this.determineWhichScreenToStart();
-};
 
 //no need to test
 Thumbnails.prototype._defineCachedJqueryVars =function(){
@@ -89,7 +96,7 @@ Thumbnails.prototype._defineCachedJqueryVars =function(){
 
 //no need to test
 //
-Thumbnails.prototype.initializeImageArrays = function(){
+Thumbnails.prototype.initializeScrollers = function(){
     var settings = {
         scrollX: true,
         scrollY: false,
@@ -105,8 +112,7 @@ Thumbnails.prototype.initializeImageArrays = function(){
         interactiveScrollbars: false,
         click: true
     });
-   this.myScroll2 = new IScroll('#wrapper2',
-        settings);
+   this.myScroll2 = new IScroll('#wrapper2', settings);
 };
 
 /**
