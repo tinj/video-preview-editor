@@ -163,6 +163,7 @@ Thumbnails.prototype.getWidth = function(){
  * image array events
  */
 
+//unbind?
 //handle click event for first array to generate second array
 Thumbnails.prototype.clickFirstImageArrayToGetImage = function(){
     console.log("clickFirstImageArrayToGetImage function");
@@ -185,29 +186,30 @@ function clickToGetFirstImage (evt) {
     this.getNeighboringImages(7);
 }
 
-//TEST ME
-//for second iscroll
-//decouple / refactor
+
+
 Thumbnails.prototype.getNeighboringImages = function(arrayLength){
     console.log("getNeighboringImages function");
-    this.$scroller2.show();
     var index = _.indexOf(this.newArrayForSelection, this.initialImgUrl, this);
-    console.log(index);
     var half_array_length = Math.ceil(arrayLength /2);
-    var lowerBound = Math.max(index- half_array_length, 0);
-    var upperBound = Math.min(index+ half_array_length, this.newArrayForSelection.length-1);
-    if(lowerBound === 0){
-        upperBound = arrayLength;
+    this.lowerBound = Math.max(index- half_array_length, 0);
+    this.upperBound = Math.min(index+ half_array_length, this.newArrayForSelection.length-1);
+    if(this.lowerBound === 0){
+        this.upperBound = arrayLength;
     }
-    if(upperBound === this.newArrayForSelection.length-1){
-        lowerBound = upperBound-arrayLength;
+    if(this.upperBound === this.newArrayForSelection.length-1){
+        this.lowerBound = this.upperBound-arrayLength;
     }
     this.arrayOfImagesToSelectFrom = this.newArrayForSelection.slice(lowerBound, upperBound);
-    this.updateHtmlListInSecondScroller();
-    this.selectReplacementImage();
-    //refresh
+    this.generateArrayFromNeighbors();
 };
 
+//test: is second scroller showing
+Thumbnails.prototype.generateArrayFromNeighbors = function(){
+    this.$scroller2.show();
+    this.updateHtmlListInSecondScroller();
+    this.selectReplacementImage();
+};
 //unbind for click to make this testable.
 
 

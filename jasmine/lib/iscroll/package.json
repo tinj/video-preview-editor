@@ -1,0 +1,53 @@
+{
+  "name": "iscroll",
+  "description": "Smooth scrolling for the web",
+  "version": "5.1.2",
+  "homepage": "http://cubiq.org/iscroll-4",
+  "author": {
+    "name": "Matteo Spinelli",
+    "email": "matteo@cubiq.org",
+    "url": "http://cubiq.org"
+  },
+  "keywords": [
+    "scrolling",
+    "carousel",
+    "zoom",
+    "iphone",
+    "android",
+    "mobile",
+    "desktop"
+  ],
+  "main": "build/iscroll.js",
+  "devDependencies": {
+    "jshint": "~2.5.1",
+    "uglify-js": "~2.4.13"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cubiq/iscroll.git"
+  },
+  "bugs": {
+    "url": "https://github.com/cubiq/iscroll/issues"
+  },
+  "license": "MIT",
+  "_id": "iscroll@5.1.2",
+  "_shasum": "6a5666d71dae476526bcb7ac7f776d6580514d4c",
+  "_from": "iscroll@",
+  "_npmVersion": "1.4.10",
+  "_npmUser": {
+    "name": "cubiq",
+    "email": "matteo@cubiq.org"
+  },
+  "maintainers": [
+    {
+      "name": "cubiq",
+      "email": "matteo@cubiq.org"
+    }
+  ],
+  "dist": {
+    "shasum": "6a5666d71dae476526bcb7ac7f776d6580514d4c",
+    "tarball": "http://registry.npmjs.org/iscroll/-/iscroll-5.1.2.tgz"
+  },
+  "directories": {},
+  "_resolved": "https://registry.npmjs.org/iscroll/-/iscroll-5.1.2.tgz"
+}

@@ -24,6 +24,7 @@
     "gulp-util": "^2.2.19",
     "gulp-watch": "^0.6.9",
     "jade-loader": "^0.6.1",
+    "jasmine-expect": "^1.22.2",
     "karma": "^0.12.24",
     "karma-chrome-launcher": "^0.1.5",
     "karma-firefox-launcher": "^0.1.3",

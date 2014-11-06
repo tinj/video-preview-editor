@@ -9,8 +9,21 @@ describe("instantiate thumbnails that doesn't auto-initialize", function() {
     // });
 
     it("create thumbnails object independent of initialize function with various",function(){
-        //spyOn(Thumbnails.prototype, 'initialize');
+        spyOn(Thumbnails.prototype, 'initialize');
+        // expect("#wrapper").not.toBeInDom();
         expect(thumbnails.initialize).not.toHaveBeenCalled();
+        // expect(true).toBe(true);
+    });
+});
+
+describe("get neighboring images", function(){
+    var thumbnails;
+    thumbnails=new Thumbnails();
+    beforeEach()(function(){
+    var Iscroll;
+    });
+    it("should generate a new array of images from the initial large array, by calculating the upper and lower indeces", function(){
+        expect(thumbnails.arrayOfImagesToSelectFrom()).toBeArrayOfStrings();
     });
 });
 
