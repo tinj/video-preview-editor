@@ -57,7 +57,7 @@ function hasNewArrayForSelection(){
 Thumbnails.prototype.showSecondModal = function(){
     this.$secondModal.modal("show");
     this.updateHtmlListInFirstScroller();//this requires the LI
-}
+};
 
 //test similarly to hasLargeArray
 Thumbnails.prototype.launchFunctionsforSeconddModal = function (){
@@ -66,7 +66,6 @@ Thumbnails.prototype.launchFunctionsforSeconddModal = function (){
     }
     this.showSecondModal();
 };
-
 
 Thumbnails.prototype.setImages = function(params){
     if (params && params.initialLargeArrayOfImages) {
@@ -78,7 +77,6 @@ Thumbnails.prototype.setImages = function(params){
 };
 
 
-//no need to test
 Thumbnails.prototype._defineCachedJqueryVars =function(){
     console.log("vars");
     this.$secondModal = $("#secondModal");
@@ -93,8 +91,6 @@ Thumbnails.prototype._defineCachedJqueryVars =function(){
     this.$showFirstPage = $("#showFirstPage");
 };
 
-//no need to test
-//
 Thumbnails.prototype.initializeScrollers = function(){
     var settings = {
         scrollX: true,
@@ -118,11 +114,9 @@ Thumbnails.prototype.initializeScrollers = function(){
  * add html objects
  */
 
-//TESTME :
-//add new smaller array to first iscroll
 Thumbnails.prototype.updateHtmlListInFirstScroller = function(){
     console.log("called");
-    if(this.newArrayForSelection === undefined){
+    if(!this.newArrayForSelection){
         this.newFramesetFromWholeSet();
     }
     replaceList(this.$scroller, this.newArrayForSelection);
@@ -141,36 +135,26 @@ function createHtmlBlockOfLi(urls){
     }).join("");
 }
 
-//
 function replaceList($el, array){
     $el.find("ul").html(createHtmlBlockOfLi(array));
 }
 
-//FIXME - this needs to connect to createArrayOfUrls() in imageselectform.js
-//generate the smaller subarray that will be shown in first iscroll
+Thumbnails.prototype.determineSizeOfNewArrayForSelection = function(){
+    return this.initialLargeArrayOfImages.length / this.numberOfFrames;
+};
+
 Thumbnails.prototype.newFramesetFromWholeSet = function(){
     console.log("new frameset");
-    if (this.newArrayForSelection===undefined){
-        var sizeOfNewArrayForSelection = this.initialLargeArrayOfImages.length / this.numberOfFrames; //5
+        var sizeOfNewArrayForSelection = this.determineSizeOfNewArrayForSelection();
         this.newArrayForSelection = _.map(_.groupBy(this.initialLargeArrayOfImages,function(num, index){
             return Math.floor(index / sizeOfNewArrayForSelection);
         }), _.first);
-        // this.newArrayForSelection = _.chain(this.initialLargeArrayOfImage)
-        //     .groupBy(function(num, index){
-        //         return Math.floor(index / sizeOfNewArrayForSelection);
-        //     })
-        //     .map(_.first)
-        //     .value();
-        console.log(this.newArrayForSelection);
-    }
 };
 
 Thumbnails.prototype.getWidth = function(){
     console.log("Get width");
     var lengthOfArray = this.newArrayForSelection.length;
-    console.log(lengthOfArray);
     var scrollerWidth = (lengthOfArray * 200) + "px";
-    console.log(scrollerWidth);
     $("#scroller").css({"width": scrollerWidth});
     this.clickFirstImageArrayToGetImage();
 };
@@ -187,7 +171,6 @@ Thumbnails.prototype.clickFirstImageArrayToGetImage = function(){
 
 function clickToGetFirstImage (evt) {
     var $el = $(evt.target);
-    // console.log($el);
     this.$scroller2.show();
     var $clickedLi = $el.parent();
     // this.initialIscrollId = $clickedLi.parent().parent().attr('id');
