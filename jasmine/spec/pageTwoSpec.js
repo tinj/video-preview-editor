@@ -16,14 +16,25 @@ describe("instantiate thumbnails that doesn't auto-initialize", function() {
     });
 });
 
-describe("get neighboring images", function(){
+describe("DOM testing for elements", function(){
     var thumbnails;
-    thumbnails=new Thumbnails();
-    beforeEach()(function(){
-    var Iscroll;
+    thumbnails = new Thumbnails();
+    // loadFixtures('fixtures.html');
+    it("should fail if it does not have a wrapper", function(){
+        expect($("#wrapper")).not.toBeInDOM();
+        expect(thumbnails.initialize).toThrow();
+        expect(thumbnails.initializeScrollers).toThrow();
     });
+});
+
+
+
+
+describe("get neighboring images", function(){
+    var thumbnails =new Thumbnails();
     it("should generate a new array of images from the initial large array, by calculating the upper and lower indeces", function(){
-        expect(thumbnails.arrayOfImagesToSelectFrom()).toBeArrayOfStrings();
+        expect(thumbnails.getNeighboringImages())
+        expect(thumbnails.arrayOfImagesToSelectFrom).toBeArrayOfStrings();
     });
 });
 
@@ -63,5 +74,11 @@ describe("createHtmlBlockOfLi Test", function(){
     });
 });
 
+describe("serialize() should return a JSON object", function(){
+    it("should return the original images if there were no changes", function(){
 
+    });
+    it("should return a different array if images were changed", function(){
 
+    });
+});

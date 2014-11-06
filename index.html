@@ -9,13 +9,15 @@
         <script src="node_modules/underscore/underscore-min.js"></script>
         <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
         <script type="text/javascript" src="node_modules/iscroll/build/iscroll.js"></script>
-        <script type="text/javascript" src=""></script>
+        <!-- <script type="text/javascript" src=""></script> -->
         <script type="text/javascript" src="settings.js"></script>
         <script src="imageselect.js"></script>
         <script src="imageselectform.js"></script>
         <script>
             $(function (){
-                var thumbnails = new Thumbnails(constantine_settings);
+                var thumbnails = new Thumbnails(constantine_settings, function (data) {
+                    console.log(data);
+                });
                 window.thumbnails = thumbnails;
                 thumbnails.initialize();
             });

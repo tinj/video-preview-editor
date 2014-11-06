@@ -14,8 +14,9 @@ var defaultSettings = {
 };
 
 //set defaults of thumbnails overriding if user input
-function Thumbnails(settings){
+function Thumbnails(settings, cb){
     _.defaults(this, settings, defaultSettings);
+    this.doneCallback = cb;
     // if (!options || !options.test)
         // this.initialize();
 }
@@ -182,43 +183,41 @@ function clickToGetFirstImage (evt) {
         this.$initialLi.removeClass('selected_frame');
     }
     this.$initialLi = $clickedLi;
-    this.initialImgUrl = clickedImgUrl;
-    this.getNeighboringImages(7);
+    // this.initialImgUrl = clickedImgUrl;
+    this.getNeighboringImages(clickedImgUrl, 7);
 }
 
+//testable
+Thumbnails.prototype.getImageIndexFromUrl = function (url) {
+    return _.indexOf(this.newArrayForSelection, url, this);
+};
 
 
-Thumbnails.prototype.getNeighboringImages = function(arrayLength){
+Thumbnails.prototype.getNeighboringImages = function(initialImgUrl, arrayLength){
     console.log("getNeighboringImages function");
-    var index = _.indexOf(this.newArrayForSelection, this.initialImgUrl, this);
+    this.$scroller2.show();
+    var index = this.getImageIndexFromUrl(initialImgUrl);
+    console.log(index);
     var half_array_length = Math.ceil(arrayLength /2);
-    this.lowerBound = Math.max(index- half_array_length, 0);
-    this.upperBound = Math.min(index+ half_array_length, this.newArrayForSelection.length-1);
-    if(this.lowerBound === 0){
-        this.upperBound = arrayLength;
+    var lowerBound = Math.max(index- half_array_length, 0);
+    var upperBound = Math.min(index+ half_array_length, this.newArrayForSelection.length-1);
+    if(lowerBound === 0){
+        upperBound = arrayLength;
     }
-    if(this.upperBound === this.newArrayForSelection.length-1){
-        this.lowerBound = this.upperBound-arrayLength;
+    if(upperBound === this.newArrayForSelection.length-1){
+        lowerBound = upperBound-arrayLength;
     }
     this.arrayOfImagesToSelectFrom = this.newArrayForSelection.slice(lowerBound, upperBound);
-    this.generateArrayFromNeighbors();
-};
-
-//test: is second scroller showing
-Thumbnails.prototype.generateArrayFromNeighbors = function(){
-    this.$scroller2.show();
     this.updateHtmlListInSecondScroller();
     this.selectReplacementImage();
+    //refresh
 };
-//unbind for click to make this testable.
-
-
 
 
 Thumbnails.prototype.selectReplacementImage = function(){
     console.log("selectReplacementImage function");
     this.$scroller2.find("li > img").click(clickToSelectImage.bind(this));
-    };
+};
 
 function clickToSelectImage(evt){
     var $el= $(evt.target);
@@ -261,10 +260,11 @@ Thumbnails.prototype.updateOriginal = function(){
     this.$replacementLi = undefined;
     this.$scroller2.hide();
     this.generateNewArrayOfImagesFromModifiedScroller();
-    this.serialize();
+    // this.serialize();
 };
 
-//where is this called?
+//Set up empty test
+//called by the developer
 Thumbnails.prototype.serialize = function () {
     // var objToConvertToJson = {};
     // objToConvertToJson.arrayOfImages = this.newArrayForSelection;
@@ -277,6 +277,17 @@ Thumbnails.prototype.serialize = function () {
     return {
         images: array
     };
+};
+
+Thumbnails.prototype.onDone = function(){
+    if(_.isFunction(this.doneCallback))
+        this.doneCallback(this.serialize());
+    this.cleanUp();
+};
+
+Thumbnails.prototype.cleanUp = function(){
+    //toDo: cleanup
+    this.$secondModal.modal("hide");
 };
 
 /**
