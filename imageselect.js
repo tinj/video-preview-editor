@@ -61,17 +61,12 @@ Thumbnails.prototype.showSecondModal = function(){
 
 //test similarly to hasLargeArray
 Thumbnails.prototype.launchFunctionsforSeconddModal = function (){
-    if (hasNewArrayForSelection.call(this)){
-        this.showSecondModal();
-    }
-    else if(this.numberOfFrames){
-        //generate newArrayForSelection
-        this.showSecondModal();
+    if (!hasNewArrayForSelection.call(this)){
         this.newFramesetFromWholeSet();
     }
+    this.showSecondModal();
 };
 
-Thumbnails.prototype.
 
 Thumbnails.prototype.setImages = function(params){
     if (params && params.initialLargeArrayOfImages) {
