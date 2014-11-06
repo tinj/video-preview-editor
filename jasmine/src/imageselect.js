@@ -54,6 +54,7 @@ Thumbnails.prototype.showFirstModal = function (){
     this.firstSubmitButton();
 };
 
+//test similarly to hasLargeArray
 Thumbnails.prototype.showSecondModal = function (){
     if (this.newArrayForSelection && this.newArrayForSelection.length){
         this.$secondModal.modal("show");
@@ -63,8 +64,7 @@ Thumbnails.prototype.showSecondModal = function (){
         //generate newArrayForSelection
         console.log("Has all, picking subset");
         this.$secondModal.modal("show");
-
-        this.newArrayForSelection = this.newFramesetFromWholeSet();
+        this.newFramesetFromWholeSet();
         this.updateHtmlListInFirstScroller();//this requires the LI
     }
 };
@@ -124,7 +124,7 @@ Thumbnails.prototype.initializeScrollers = function(){
 Thumbnails.prototype.updateHtmlListInFirstScroller = function(){
     console.log("called");
     if(this.newArrayForSelection === undefined){
-        this.newArrayForSelection = this.newFramesetFromWholeSet();
+        this.newFramesetFromWholeSet();
     }
     replaceList(this.$scroller, this.newArrayForSelection);
     this.getWidth();
@@ -153,12 +153,20 @@ Thumbnails.prototype.newFramesetFromWholeSet = function(){
     console.log("new frameset");
     if (this.newArrayForSelection===undefined){
         var sizeOfNewArrayForSelection = this.initialLargeArrayOfImages.length / this.numberOfFrames; //5
-        this.newArrayForSelection = _.groupBy(this.initialLargeArrayOfImages,function(num, index){
-            return Math.floor(index / sizeOfNewArrayForSelection);
-        }, this);
-        return  _.map(this.newArrayForSelection, function(array){
-            return _.first(array);
-        });
+        // this.newArrayForSelection = _.groupBy(this.initialLargeArrayOfImages,function(num, index){
+        //     return Math.floor(index / sizeOfNewArrayForSelection);
+        // }, this);
+        // return  _.map(this.newArrayForSelection, function(array){
+        //     return _.first(array);
+        // });
+        this.newArrayForSelection = _.chain(this.initialLargeArrayOfImage)
+            .groupBy(function(num, index){
+                return Math.floor(index / sizeOfNewArrayForSelection);
+            })
+            .map(function(array){
+                return _.first(array);
+            })
+            .value();
     }
 };
 

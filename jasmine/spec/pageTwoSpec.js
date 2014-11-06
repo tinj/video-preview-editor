@@ -1,24 +1,19 @@
 
-
 // impossible to test.
-// describe("Second Page of Module Tests", function() {
-//         var settings = {
-//             initialLargeArrayOfImages: [
-//                 "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00001.png",
-//                 "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00021.png",
-//                 "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00041.png",
-//                 "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00061.png",
-//                 "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00081.png",
-//                 "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00101.png",
-//                 "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00121.png"
-//             ]
-//         };
-//         var thumbnails = new Thumbnails(settings);
-//     it("thumbnails.determineWhichScreenToStart() should run the second page if this.initialLargeArrayOfImages is provided",function(){
-//         //since array is present, this should be called.
-//             expect(thumbnails.determineWhichScreenToStart()).toHaveBeenCalled();
-//     });
-// });
+describe("instantiate thumbnails that doesn't auto-initialize", function() {
+    var thumbnails;
+    var settings = {};
+    var options = {test: true};
+    thumbnails = new Thumbnails();
+    // beforeEach(function(){
+    // });
+
+    it("create thumbnails object independent of initialize function with various",function(){
+        //spyOn(Thumbnails.prototype, 'initialize');
+        expect(thumbnails.initialize).not.toHaveBeenCalled();
+    });
+});
+
 describe("Second Page of Module Tests", function() {
         var settings = {
             initialLargeArrayOfImages: [

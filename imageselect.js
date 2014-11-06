@@ -8,46 +8,70 @@
 /**
  * config
  */
+
 var defaultSettings = {
     numberOfFrames: 20
 };
 
 //set defaults of thumbnails overriding if user input
 function Thumbnails(settings){
-    console.log(settings);
-    // console.log(this.initialLargeArrayOfImages);
     _.defaults(this, settings, defaultSettings);
-    console.log(this.initialLargeArrayOfImages);
-    this.initialize();
+    // if (!options || !options.test)
+        // this.initialize();
 }
+
+
+//do not test
+//calls functions to generate arrays of images and enables selections
+Thumbnails.prototype.initialize = function(){
+    //we need to inject a template here with modal html
+    this.initializeScrollers();//what's being initialized here? is there a list to init?
+    this._defineCachedJqueryVars();
+    // this.determineWhichScreenToStart();
+    if (hasLargeArray.call(this))
+        this.launchFunctionsforSeconddModal();
+    else
+        this.showFirstModal();
+};
+
 
 //TESTME: is this called?
 //TESTME: if user supplies array, does the function yield correct page?
 //tests to see if additional information is needed to launch iscrolls
 
-Thumbnails.prototype.determineWhichScreenToStart = function(){
+function hasLargeArray (){
     // check to see if there's already an array of images
-    console.log("determineWhichScreenToStart");
-    if(this.initialLargeArrayOfImages && this.initialLargeArrayOfImages.length){
-        if (this.newArrayForSelection && this.newArrayForSelection.length){
-            this.$secondModal.modal("show");
-            this.updateHtmlListInFirstScroller();//this requires the LI
-        }
-        else if(this.numberOfFrames){
-            //generate newArrayForSelection
-            console.log("Has all, picking subset");
-            this.$secondModal.modal("show");
+    //if true, then hasLargeArray.call
+    return this.initialLargeArrayOfImages && this.initialLargeArrayOfImages.length;
+}
 
-            this.newArrayForSelection = this.newFramesetFromWholeSet();
-            this.updateHtmlListInFirstScroller();//this requires the LI
-        }
+Thumbnails.prototype.showFirstModal = function (){
+    this.$firstModal.modal("show");
+    this.firstSubmitButton();
+};
+
+function hasNewArrayForSelection(){
+    return this.newArrayForSelection && this.newArrayForSelection.length;
+}
+
+Thumbnails.prototype.showSecondModal = function(){
+    this.$secondModal.modal("show");
+    this.updateHtmlListInFirstScroller();//this requires the LI
+}
+
+//test similarly to hasLargeArray
+Thumbnails.prototype.launchFunctionsforSeconddModal = function (){
+    if (hasNewArrayForSelection.call(this)){
+        this.showSecondModal();
     }
-    else{
-        this.$firstModal.modal("show");
-        this.firstSubmitButton();
+    else if(this.numberOfFrames){
+        //generate newArrayForSelection
+        this.showSecondModal();
+        this.newFramesetFromWholeSet();
     }
 };
 
+Thumbnails.prototype.
 
 Thumbnails.prototype.setImages = function(params){
     if (params && params.initialLargeArrayOfImages) {
@@ -58,14 +82,6 @@ Thumbnails.prototype.setImages = function(params){
     }
 };
 
-
-//do not test
-//calls functions to generate arrays of images and enables selections
-Thumbnails.prototype.initialize = function(){
-    this.initializeImageArrays();//what's being initialized here? is there a list to init?
-    this._defineCachedJqueryVars();
-    this.determineWhichScreenToStart();
-};
 
 //no need to test
 Thumbnails.prototype._defineCachedJqueryVars =function(){
@@ -84,7 +100,7 @@ Thumbnails.prototype._defineCachedJqueryVars =function(){
 
 //no need to test
 //
-Thumbnails.prototype.initializeImageArrays = function(){
+Thumbnails.prototype.initializeScrollers = function(){
     var settings = {
         scrollX: true,
         scrollY: false,
@@ -100,8 +116,7 @@ Thumbnails.prototype.initializeImageArrays = function(){
         interactiveScrollbars: false,
         click: true
     });
-   this.myScroll2 = new IScroll('#wrapper2',
-        settings);
+   this.myScroll2 = new IScroll('#wrapper2', settings);
 };
 
 /**
@@ -113,7 +128,7 @@ Thumbnails.prototype.initializeImageArrays = function(){
 Thumbnails.prototype.updateHtmlListInFirstScroller = function(){
     console.log("called");
     if(this.newArrayForSelection === undefined){
-        this.newArrayForSelection = this.newFramesetFromWholeSet();
+        this.newFramesetFromWholeSet();
     }
     replaceList(this.$scroller, this.newArrayForSelection);
     this.getWidth();
@@ -124,12 +139,14 @@ Thumbnails.prototype.updateHtmlListInSecondScroller = function(){
 };
 
 //maps images to html
+//tested successfully
 function createHtmlBlockOfLi(urls){
     return _.map(urls, function(url, i){
         return "<li id=sample_frame"+i+"><img src="+url+"></img></li>";
     }).join("");
 }
 
+//
 function replaceList($el, array){
     $el.find("ul").html(createHtmlBlockOfLi(array));
 }
@@ -140,12 +157,16 @@ Thumbnails.prototype.newFramesetFromWholeSet = function(){
     console.log("new frameset");
     if (this.newArrayForSelection===undefined){
         var sizeOfNewArrayForSelection = this.initialLargeArrayOfImages.length / this.numberOfFrames; //5
-        this.newArrayForSelection = _.groupBy(this.initialLargeArrayOfImages,function(num, index){
+        this.newArrayForSelection = _.map(_.groupBy(this.initialLargeArrayOfImages,function(num, index){
             return Math.floor(index / sizeOfNewArrayForSelection);
-        }, this);
-        return  _.map(this.newArrayForSelection, function(array){
-            return _.first(array);
-        });
+        }), _.first);
+        // this.newArrayForSelection = _.chain(this.initialLargeArrayOfImage)
+        //     .groupBy(function(num, index){
+        //         return Math.floor(index / sizeOfNewArrayForSelection);
+        //     })
+        //     .map(_.first)
+        //     .value();
+        console.log(this.newArrayForSelection);
     }
 };
 
@@ -163,9 +184,6 @@ Thumbnails.prototype.getWidth = function(){
  * image array events
  */
 
-///////////////////////////
-/////BOOKMARK//////////////
-///////////////////////////
 //handle click event for first array to generate second array
 Thumbnails.prototype.clickFirstImageArrayToGetImage = function(){
     console.log("clickFirstImageArrayToGetImage function");
@@ -191,6 +209,7 @@ function clickToGetFirstImage (evt) {
 
 //TEST ME
 //for second iscroll
+//decouple / refactor
 Thumbnails.prototype.getNeighboringImages = function(arrayLength){
     console.log("getNeighboringImages function");
     this.$scroller2.show();
@@ -211,6 +230,11 @@ Thumbnails.prototype.getNeighboringImages = function(arrayLength){
     //refresh
 };
 
+//unbind for click to make this testable.
+
+
+
+
 Thumbnails.prototype.selectReplacementImage = function(){
     console.log("selectReplacementImage function");
     this.$scroller2.find("li > img").click(clickToSelectImage.bind(this));
@@ -224,6 +248,7 @@ function clickToSelectImage(evt){
     $replacementLi.addClass('replacement_frame');
     var $replacementImgUrl = $el.attr('src');
     if (this.$replacementLi){
+        //place in seperate function
        this.$replacementLi.removeClass('replacement_frame');
         if(this.$replacementImgUrl === $replacementImgUrl){
             this.updateOriginal();
@@ -232,6 +257,8 @@ function clickToSelectImage(evt){
     this.$replacementLi = $replacementLi;
     this.$replacementImgUrl = $replacementImgUrl;
 }
+
+
 
 /**
  * data management after array alteration
@@ -283,7 +310,7 @@ Thumbnails.prototype.serialize = function () {
 //     this.$scroller2.find("li > img").click(clickToSelectImage.bind(this));
 //     };
 
-//new bug???
+//too hard to test
 function clickToSelectImage(evt){
     var $el= $(evt.target);
     var $replacementLi = $el.parent();
@@ -318,30 +345,3 @@ function clickToNavToFirst(evt){
         this.$firstModal.modal("show");
         this.firstSubmitButton();
 }
-
-//testing more systematically without form button - creating arrays, then clearing.
-// how to automate this?
-function createArraysOfTestNumbers (){
-    var startFrameNumber = 00001;
-    var endFrameNumber = 05361;
-    var length = 20;
-    var distanceToNextStart = length *20;
-    var beginningOfSet;
-    var newArray= [];
-    var jump = distanceToNextStart+startFrameNumber;
-    console.log(jump);
-   // while (startFrameNumber <= (endFrameNumber- distanceToNextStart)){
-        for (var n=startFrameNumber; n<jump; n+=20){
-            console.log("yup");
-            newArray.push(n);
-            startFrameNumber=(startFrameNumber+distanceToNextStart);
-        }
-    //}
-    console.log(newArray);
-}
-//testing only
-function add(x, y){
-    return x+y;
-}
-
-
