@@ -1,6 +1,6 @@
 var gulp             = require('gulp');
 var jade             = require('gulp-jade');
-var karma            = require('gulp-karma');
+// var karma            = require('gulp-karma');
 var plumber          = require('gulp-plumber');
 var rename           = require('gulp-rename');
 var clean            = require('gulp-rimraf');
@@ -14,6 +14,7 @@ var WebpackDevServer = require('webpack-dev-server');
 var livereload       = require('gulp-livereload');
 var less             = require('gulp-less');
 var watch            = require('gulp-watch');
+var templatizer      = require('templatizer');
 
 var config = {
     // consts: {
@@ -89,17 +90,29 @@ gulp.task('build', [
     'uglify'
 ]);
 
-gulp.task('ci', function() {
-    var opts = _.clone(config.test.defaults);
-    return gulp.src(opts.input)
-        .pipe(karma({
-            action: 'watch',
-            configFile: 'karma.conf.js'
-        }))
-        .on('error', function(err) {
-            // Make sure failed tests cause gulp to exit with a non-zero status
-            throw err;
-        });
+// gulp.task('ci', function() {
+//     var opts = _.clone(config.test.defaults);
+//     return gulp.src(opts.input)
+//         .pipe(karma({
+//             action: 'watch',
+//             configFile: 'karma.conf.js'
+//         }))
+//         .on('error', function(err) {
+//             // Make sure failed tests cause gulp to exit with a non-zero status
+//             throw err;
+//         });
+// });
+
+
+//converts from less to css - runs it once, not dynamically
+gulp.task('templates', function(){
+    // gulp.src('templates/*.jade');
+    // .pipe(watch())
+    // .pipe(less())
+    // .pipe(gulp.dest("build/css"));
+    // .pipe(livereload());
+    var options = {};
+    templatizer(__dirname + "/templates", __dirname + '/templates.js', options);
 });
 
 //converts from less to css - runs it once, not dynamically
@@ -135,18 +148,18 @@ gulp.task('examples', function() {
     });
 });
 
-gulp.task('test', function() {
-    var opts = _.clone(config.test.defaults);
-    return gulp.src(opts.input)
-        .pipe(karma({
-            action: 'run',
-            configFile: 'karma.conf.js'
-        }))
-        .on('error', function(err) {
-            // Make sure failed tests cause gulp to exit with a non-zero status
-            throw err;
-        });
-});
+// gulp.task('test', function() {
+//     var opts = _.clone(config.test.defaults);
+//     return gulp.src(opts.input)
+//         .pipe(karma({
+//             action: 'run',
+//             configFile: 'karma.conf.js'
+//         }))
+//         .on('error', function(err) {
+//             // Make sure failed tests cause gulp to exit with a non-zero status
+//             throw err;
+//         });
+// });
 
 gulp.task('uglify', ['webpack'], function() {
     var opts = _.clone(config.uglify.defaults);

@@ -13,6 +13,8 @@ var defaultSettings = {
     numberOfFrames: 20
 };
 
+
+
 //set defaults of thumbnails overriding if user input
 function Thumbnails(settings, cb){
     _.defaults(this, settings, defaultSettings);
@@ -21,31 +23,32 @@ function Thumbnails(settings, cb){
         // this.initialize();
 }
 
+Thumbnails.prototype.render = function(){
+    console.log("rendering modal2");
+    $("#thumbnails").append(templatizer.modal2());
+};
 
-//do not test
-//calls functions to generate arrays of images and enables selections
+//tested successfully
 Thumbnails.prototype.initialize = function(){
     //we need to inject a template here with modal html
+    this.render();
     this.initializeScrollers();//what's being initialized here? is there a list to init?
     this._defineCachedJqueryVars();
     // this.determineWhichScreenToStart();
     if (hasLargeArray.call(this))
-        this.launchFunctionsforSeconddModal();
+        this.launchFunctionsforSecondModal();
     else
         this.showFirstModal();
 };
 
-
-//TESTME: is this called?
-//TESTME: if user supplies array, does the function yield correct page?
 //tests to see if additional information is needed to launch iscrolls
-
 function hasLargeArray (){
     // check to see if there's already an array of images
     //if true, then hasLargeArray.call
     return this.initialLargeArrayOfImages && this.initialLargeArrayOfImages.length;
 }
 
+//test to
 Thumbnails.prototype.showFirstModal = function (){
     this.$firstModal.modal("show");
     this.firstSubmitButton();
@@ -55,13 +58,14 @@ function hasNewArrayForSelection(){
     return this.newArrayForSelection && this.newArrayForSelection.length;
 }
 
+//
 Thumbnails.prototype.showSecondModal = function(){
     this.$secondModal.modal("show");
     this.updateHtmlListInFirstScroller();//this requires the LI
 };
 
 //test similarly to hasLargeArray
-Thumbnails.prototype.launchFunctionsforSeconddModal = function (){
+Thumbnails.prototype.launchFunctionsforSecondModal = function (){
     if (!hasNewArrayForSelection.call(this)){
         this.newFramesetFromWholeSet();
     }
@@ -77,7 +81,7 @@ Thumbnails.prototype.setImages = function(params){
     }
 };
 
-
+//not testing
 Thumbnails.prototype._defineCachedJqueryVars =function(){
     console.log("vars");
     this.$secondModal = $("#secondModal");
@@ -140,17 +144,23 @@ function replaceList($el, array){
     $el.find("ul").html(createHtmlBlockOfLi(array));
 }
 
+
+
 Thumbnails.prototype.determineSizeOfNewArrayForSelection = function(){
     return this.initialLargeArrayOfImages.length / this.numberOfFrames;
 };
 
+//Test: is this array generated as expected?
 Thumbnails.prototype.newFramesetFromWholeSet = function(){
     console.log("new frameset");
         var sizeOfNewArrayForSelection = this.determineSizeOfNewArrayForSelection();
+        //question -- what does num do below? Why do we need num and index?
         this.newArrayForSelection = _.map(_.groupBy(this.initialLargeArrayOfImages,function(num, index){
             return Math.floor(index / sizeOfNewArrayForSelection);
         }), _.first);
 };
+
+
 
 Thumbnails.prototype.getWidth = function(){
     console.log("Get width");
@@ -164,27 +174,29 @@ Thumbnails.prototype.getWidth = function(){
  * image array events
  */
 
-//unbind?
+//unbind for testing
 //handle click event for first array to generate second array
 Thumbnails.prototype.clickFirstImageArrayToGetImage = function(){
     console.log("clickFirstImageArrayToGetImage function");
     this.$scroller.find("img").click(clickToGetFirstImage.bind(this));//undefined
 };
 
+//Test this, using an HTML fixture, to find out if the DOM manipulation behavior is as predicted - are classes being added and removed, are variables being reassigned
 function clickToGetFirstImage (evt) {
     var $el = $(evt.target);
     this.$scroller2.show();
     var $clickedLi = $el.parent();
     // this.initialIscrollId = $clickedLi.parent().parent().attr('id');
     $clickedLi.addClass('selected_frame');
-    var clickedImgUrl = $el.attr('src'); //not defined
-    console.log(clickedImgUrl);
+    //added clickedImgUrl to prototype for testing/decoupling purposes
+    this.clickedImgUrl = $el.attr('src');
+    console.log(this.clickedImgUrl);
     if (this.$initialLi){
         this.$initialLi.removeClass('selected_frame');
     }
     this.$initialLi = $clickedLi;
     // this.initialImgUrl = clickedImgUrl;
-    this.getNeighboringImages(clickedImgUrl, 7);
+    this.showSecondScrollerandCallNeighboringImages();
 }
 
 //testable
@@ -192,10 +204,16 @@ Thumbnails.prototype.getImageIndexFromUrl = function (url) {
     return _.indexOf(this.newArrayForSelection, url, this);
 };
 
+//decoupled for testing getNeighboringImages
+Thumbnails.prototype.showSecondScrollerandCallNeighboringImages = function(){
+    this.$scroller2.show();
+    this.getNeighboringImages(this.clickedImgUrl, 7);
+};
 
+//test to see if arrayOfImagesToSelectFrom is an array
+//pass in dummy values for both params
 Thumbnails.prototype.getNeighboringImages = function(initialImgUrl, arrayLength){
     console.log("getNeighboringImages function");
-    this.$scroller2.show();
     var index = this.getImageIndexFromUrl(initialImgUrl);
     console.log(index);
     var half_array_length = Math.ceil(arrayLength /2);
@@ -213,12 +231,13 @@ Thumbnails.prototype.getNeighboringImages = function(initialImgUrl, arrayLength)
     //refresh
 };
 
-
+//For testing: unbind and create single function
 Thumbnails.prototype.selectReplacementImage = function(){
     console.log("selectReplacementImage function");
     this.$scroller2.find("li > img").click(clickToSelectImage.bind(this));
 };
 
+//Test to see if original array is updated and a new replacement frame is chosen
 function clickToSelectImage(evt){
     var $el= $(evt.target);
     var $replacementLi = $el.parent();
@@ -296,12 +315,12 @@ Thumbnails.prototype.cleanUp = function(){
 
 
 
-// Thumbnails.prototype.selectReplacementImage = function(){
-//     console.log("selectReplacementImage function");
-//     this.$scroller2.find("li > img").click(clickToSelectImage.bind(this));
-//     };
+Thumbnails.prototype.selectReplacementImage = function(){
+    console.log("selectReplacementImage function");
+    this.$scroller2.find("li > img").click(clickToSelectImage.bind(this));
+    };
 
-//too hard to test
+
 function clickToSelectImage(evt){
     var $el= $(evt.target);
     var $replacementLi = $el.parent();
