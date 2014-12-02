@@ -107,15 +107,8 @@ Thumbnails.prototype.initializeScrollers = function(){
         interactiveScrollbars: false,
         click: true
     };
-   this.myScroll1 = new IScroll('#wrapper',
-        {
-        scrollX: true,
-        scrollY: false,
-        mouseWheel: true,
-        interactiveScrollbars: false,
-        click: true
-    });
-   this.myScroll2 = new IScroll('#wrapper2', settings);
+    this.myScroll1 = new IScroll('#wrapper', settings);
+    this.myScroll2 = new IScroll('#wrapper2', settings);
 };
 
 /**
@@ -129,10 +122,20 @@ Thumbnails.prototype.updateHtmlListInFirstScroller = function(){
     }
     replaceList(this.$scroller, this.newArrayForSelection);
     this.getWidth();
+    this.clickFirstImageArrayToGetImage();
+    var self = this;
+    setTimeout(function () {
+        self.myScroll1.refresh();
+    }, 200);
 };
 
 Thumbnails.prototype.updateHtmlListInSecondScroller = function(){
     replaceList(this.$scroller2, this.arrayOfImagesToSelectFrom);
+    var self = this;
+    setTimeout(function () {
+        self.myScroll2.refresh();
+    }, 200);
+    // toDo: generate width of second scroller dynamically
 };
 
 //maps images to html
@@ -172,7 +175,6 @@ Thumbnails.prototype.getWidth = function(){
     var lengthOfArray = this.newArrayForSelection.length;
     var scrollerWidth = (lengthOfArray * 200) + "px";
     $("#scroller").css({"width": scrollerWidth});
-    this.clickFirstImageArrayToGetImage();
 };
 
 /**

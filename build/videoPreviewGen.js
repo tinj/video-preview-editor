@@ -163,15 +163,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        interactiveScrollbars: false,
 	        click: true
 	    };
-	   this.myScroll1 = new IScroll('#wrapper',
-	        {
-	        scrollX: true,
-	        scrollY: false,
-	        mouseWheel: true,
-	        interactiveScrollbars: false,
-	        click: true
-	    });
-	   this.myScroll2 = new IScroll('#wrapper2', settings);
+	    this.myScroll1 = new IScroll('#wrapper', settings);
+	    this.myScroll2 = new IScroll('#wrapper2', settings);
 	};
 
 	/**
@@ -185,10 +178,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	    replaceList(this.$scroller, this.newArrayForSelection);
 	    this.getWidth();
+	    this.clickFirstImageArrayToGetImage();
+	    var self = this;
+	    setTimeout(function () {
+	        self.myScroll1.refresh();
+	    }, 200);
 	};
 
 	Thumbnails.prototype.updateHtmlListInSecondScroller = function(){
 	    replaceList(this.$scroller2, this.arrayOfImagesToSelectFrom);
+	    var self = this;
+	    setTimeout(function () {
+	        self.myScroll2.refresh();
+	    }, 200);
+	    // toDo: generate width of second scroller dynamically
 	};
 
 	//maps images to html
@@ -228,7 +231,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var lengthOfArray = this.newArrayForSelection.length;
 	    var scrollerWidth = (lengthOfArray * 200) + "px";
 	    $("#scroller").css({"width": scrollerWidth});
-	    this.clickFirstImageArrayToGetImage();
 	};
 
 	/**
@@ -438,7 +440,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports =
-		"button {\n  width: 90px;\n  height: 20px;\n  color: red;\n}\n.modal-dialog {\n  width: 900px;\n}\n.form-group {\n  width: 200px;\n}\n.selected_frame {\n  opacity: .5;\n}\n.replacement_frame {\n  opacity: .70;\n}\n#container {\n  width: 500px;\n  height: 300px;\n  background-color: red;\n  border: 1px solid #000;\n  background-position: center center;\n  background-repeat: no-repeat;\n}\n#img {\n  width: 500px;\n  height: 300px;\n}\n* {\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n}\nhtml {\n  -ms-touch-action: none;\n}\nbody,\nul,\nli {\n  padding: 0;\n  margin: 0;\n  border: 0;\n}\nbody {\n  font-size: 12px;\n  font-family: ubuntu, helvetica, arial;\n}\n#wrapper {\n  z-index: 1;\n  width: 100%;\n  overflow: hidden;\n}\n#scroller {\n  width: 5000px;\n  height: 200px;\n}\n#scroller2 {\n  width: 2500px;\n  height: 200px;\n}\n.scroller {\n  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);\n  /*ßbackground-color: #a00;*/\n  -webkit-transform: translateZ(0);\n  -moz-transform: translateZ(0);\n  -ms-transform: translateZ(0);\n  -o-transform: translateZ(0);\n  transform: translateZ(0);\n  -webkit-touch-callout: none;\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n  user-select: none;\n  -webkit-text-size-adjust: none;\n  -moz-text-size-adjust: none;\n  -ms-text-size-adjust: none;\n  -o-text-size-adjust: none;\n  text-size-adjust: none;\n}\n.scroller ul {\n  list-style: none;\n  padding: 0;\n  margin: 0;\n  width: 100%;\n  height: 50%;\n  text-align: center;\n}\n.scroller li {\n  display: block;\n  float: left;\n  width: 200px;\n  height: 100px;\n  border-right: 1px solid #ccc;\n  background-color: #fafafa;\n  font-size: 14px;\n}\n";
+		"button {\n  width: 90px;\n  height: 20px;\n  color: red;\n}\n.modal-dialog {\n  width: 900px;\n}\n.form-group {\n  width: 200px;\n}\n.selected_frame {\n  opacity: .5;\n}\n.replacement_frame {\n  opacity: .70;\n}\n#container {\n  width: 500px;\n  height: 300px;\n  background-color: red;\n  border: 1px solid #000;\n  background-position: center center;\n  background-repeat: no-repeat;\n}\n#img {\n  width: 500px;\n  height: 300px;\n}\n* {\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n}\nhtml {\n  -ms-touch-action: none;\n}\nbody,\nul,\nli {\n  padding: 0;\n  margin: 0;\n  border: 0;\n}\nbody {\n  font-size: 12px;\n  font-family: ubuntu, helvetica, arial;\n}\n.wrapper {\n  z-index: 1;\n  width: 100%;\n  overflow: hidden;\n}\n#scroller {\n  width: 5000px;\n  height: 200px;\n}\n#scroller2 {\n  width: 1600px;\n  height: 200px;\n}\n.scroller {\n  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);\n  /*ßbackground-color: #a00;*/\n  -webkit-transform: translateZ(0);\n  -moz-transform: translateZ(0);\n  -ms-transform: translateZ(0);\n  -o-transform: translateZ(0);\n  transform: translateZ(0);\n  -webkit-touch-callout: none;\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n  user-select: none;\n  -webkit-text-size-adjust: none;\n  -moz-text-size-adjust: none;\n  -ms-text-size-adjust: none;\n  -o-text-size-adjust: none;\n  text-size-adjust: none;\n}\n.scroller ul {\n  list-style: none;\n  padding: 0;\n  margin: 0;\n  width: 100%;\n  height: 50%;\n  text-align: center;\n}\n.scroller li {\n  display: block;\n  float: left;\n  width: 200px;\n  height: 100px;\n  border-right: 1px solid #ccc;\n  background-color: #fafafa;\n  font-size: 14px;\n}\n";
 
 /***/ },
 /* 3 */
@@ -451,7 +453,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var jade_mixins = {};
 	var jade_interp;
 
-	buf.push("<div id=\"secondModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"basicModal\" aria-hidden=\"false\" class=\"modal fade container col-md-12\"><div class=\"modal-dialog\"><div class=\"modal-content\"><div class=\"modal-header\"><button type=\"button\" data-dismiss=\"modal\" aria-hidden=\"true\" class=\"close\"></button><h4 id=\"myModalLabel\" class=\"modal-title\">Modal title</h4></div><div class=\"modal-body\"><div id=\"wrapper\"><div id=\"scroller\" class=\"scroller\"><ul id=\"frames\"></ul></div></div><div id=\"wrapper2\"><div id=\"scroller2\" class=\"scroller\"><ul id=\"frames2\"></ul></div></div><form role=\"form\" position:\"top=\"\"><div class=\"form_group\"><div class=\"row\"><div id=\"arrayLengthButton\"></div></div></div></form></div></div></div></div>");;return buf.join("");
+	buf.push("<div id=\"secondModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"basicModal\" aria-hidden=\"false\" class=\"modal fade container col-md-12\"><div class=\"modal-dialog\"><div class=\"modal-content\"><div class=\"modal-header\"><button type=\"button\" data-dismiss=\"modal\" aria-hidden=\"true\" class=\"close\"></button><h4 id=\"myModalLabel\" class=\"modal-title\">Modal title</h4></div><div class=\"modal-body\"><div id=\"wrapper\" class=\"wrapper\"><div id=\"scroller\" class=\"scroller\"><ul id=\"frames\"></ul></div></div><div id=\"wrapper2\" class=\"wrapper\"><div id=\"scroller2\" class=\"scroller\"><ul id=\"frames2\"></ul></div></div><form role=\"form\" position:\"top=\"\"><div class=\"form_group\"><div class=\"row\"><div id=\"arrayLengthButton\"></div></div></div></form></div></div></div></div>");;return buf.join("");
 	}
 
 /***/ },
