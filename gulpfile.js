@@ -1,5 +1,5 @@
 var gulp             = require('gulp');
-var jade             = require('gulp-jade');
+// var jade             = require('gulp-jade');
 // var karma            = require('gulp-karma');
 var plumber          = require('gulp-plumber');
 var rename           = require('gulp-rename');
@@ -11,22 +11,20 @@ var _                = require('lodash');
 var path             = require('path');
 var webpack          = require('webpack');
 var WebpackDevServer = require('webpack-dev-server');
-var livereload       = require('gulp-livereload');
-var less             = require('gulp-less');
+// var livereload       = require('gulp-livereload');
+// var less             = require('gulp-less');
 var watch            = require('gulp-watch');
-var templatizer      = require('templatizer');
 
 var config = {
     // consts: {
     //     defaults: {
-
     //     }
     // },
-    // clean: {
-    //     defaults: {
-    //         input: path.join(__dirname, '/dist/*')
-    //     }
-    // },
+    clean: {
+        defaults: {
+            input: path.join(__dirname, '/build/*')
+        }
+    },
     // examples: {
     //     defaults: {
     //         input: path.join(__dirname, '/examples/src/**/*.html.jade'),
@@ -41,39 +39,14 @@ var config = {
     //         input: path.join(__dirname, '/test/**/*.spec.js')
     //     }
     // },
-    // uglify: {
-    //     defaults: {
-    //         input: path.join(__dirname, '/dist/*.js'),
-    //         output: path.join(__dirname, '/dist'),
-    //         options: {}
-    //     }
-    // },
-    // webpack: {
-    //     defaults: require('./webpack.conf.js'),
-    //     lib: {
-    //         externals: {
-    //             './styles/pure/base.less': true,
-    //             './styles/pure/buttons.less': true,
-    //             './styles/pure/forms.less': true,
-    //             './styles/video-js.less': true,
-    //             'firebase-client': 'Firebase',
-    //             'firebase-simple-login': 'FirebaseSimpleLogin',
-    //             'jquery': 'jQuery',
-    //             'underscore': '_',
-    //             'videojs': 'videojs',
-    //             'videojs-youtube': true
-    //         },
-        //     output: {
-        //         filename: 'curv.js'
-        //     }
-
-        // },
-        // standalone: {
-        //     output: {
-        //         filename: 'curv-standalone.js'
-        //     }
-        // }
-    // },
+    uglify: {
+        defaults: {
+            input: path.join(__dirname, '/build/*.js'),
+            output: path.join(__dirname, '/build'),
+            options: {}
+        }
+    },
+    webpack: require('./webpack.conf.js')
     // webpackDevServer: {
     //     defaults: {
     //         // contentBase: path.join(__dirname, '/examples'),
@@ -104,38 +77,36 @@ gulp.task('build', [
 // });
 
 
-//converts from less to css - runs it once, not dynamically
-gulp.task('templates', function(){
-    // gulp.src('templates/*.jade');
-    // .pipe(watch())
-    // .pipe(less())
-    // .pipe(gulp.dest("build/css"));
-    // .pipe(livereload());
-    var options = {};
-    templatizer(__dirname + "/templates", __dirname + '/templates.js', options);
-});
-
-//converts from less to css - runs it once, not dynamically
-gulp.task('less', function(){
-    gulp.src('styles/*.less')
-    .pipe(watch())
-    .pipe(less())
-    .pipe(gulp.dest("build/css"));
-    // .pipe(livereload());
-});
-
-
-// gulp.task('clean', function() {
-//     var opts = _.clone(config.clean.defaults);
-//     return gulp.src(opts.input, {read: false})
-//         .pipe(clean());
+//converts from jade to html - runs it once, not dynamically
+// gulp.task('templates', function(){
+//     // gulp.src('templates/*.jade');
+//     // .pipe(watch())
+//     // .pipe(jade())
+//     // .pipe(gulp.dest("build"));
+//     // .pipe(livereload());
 // });
+
+//converts from less to css - runs it once, not dynamically
+// gulp.task('less', function(){
+//     gulp.src('styles/*.less')
+//     .pipe(watch())
+//     .pipe(less())
+//     .pipe(gulp.dest("build/css"));
+//     // .pipe(livereload());
+// });
+
+gulp.task('clean', function() {
+    var opts = _.clone(config.clean.defaults);
+    return gulp.src(opts.input, {read: false})
+        .pipe(clean());
+});
+
 gulp.task('watch', function(){
     livereload.listen();
     gulp.watch('build/**').on('change', livereload.changed);
 });
 
-gulp.task('default', ['less']);
+gulp.task('default', ['webpack', 'uglify']);
 
 gulp.task('examples', function() {
     var opts = _.clone(config.examples.defaults);
@@ -161,7 +132,7 @@ gulp.task('examples', function() {
 //         });
 // });
 
-gulp.task('uglify', ['webpack'], function() {
+gulp.task('uglify', ['clean','webpack'], function() {
     var opts = _.clone(config.uglify.defaults);
     return gulp.src(opts.input)
         .pipe(uglify(opts.options))
@@ -196,23 +167,8 @@ gulp.task('webpack-dev-server', function() {
     });
 });
 
-gulp.task('webpack', [
-    'webpack:lib',
-    'webpack:standalone'
-]);
-
-gulp.task('webpack:lib', ['clean'], function(cb) {
-    var opts = _.merge(config.webpack.lib, config.webpack.defaults, _.defaults);
-
-    webpack(opts, function(err, stats) {
-        if (err) throw new util.PluginError('webpack', err);
-        util.log('[webpack]', stats.toString());
-        cb(err);
-    });
-});
-
-gulp.task('webpack:standalone', ['clean'], function(cb) {
-    var opts = _.merge(config.webpack.standalone, config.webpack.defaults, _.defaults);
+gulp.task('webpack', ['clean'], function(cb) {
+    var opts = _.clone(config.webpack);
 
     webpack(opts, function(err, stats) {
         if (err) throw new util.PluginError('webpack', err);

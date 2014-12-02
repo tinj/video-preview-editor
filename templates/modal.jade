@@ -1,0 +1,25 @@
+#secondModal.modal.fade.container.col-md-12(tabindex='-1', role='dialog', aria-labelledby='basicModal', aria-hidden='false')
+  .modal-dialog
+    .modal-content
+      .modal-header
+        button.close(type='button', data-dismiss='modal', aria-hidden='true')
+        h4#myModalLabel.modal-title Modal title
+      .modal-body
+        #wrapper
+          #scroller.scroller
+            ul#frames
+        #wrapper2
+          #scroller2.scroller
+            ul#frames2
+        form(role='form', position:"top"='')
+          .form_group
+            .row
+              #arrayLengthButton
+        //- .modal-footer
+          .btn-group.btn-group-justified
+            .btn-group
+              #selectbuttondiv
+            .btn-group
+              button.btn.btn-default(type='button') Reset
+            .btn-group
+              button#showFirstPage.btn.btn-default.toggle_screens(type='button') Go Back

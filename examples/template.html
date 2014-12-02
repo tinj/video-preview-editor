@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+        <!-- <link rel="stylesheet" type="text/css" href="../build/css/styles.css"> -->
+        <script src="../node_modules/jquery/dist/jquery.min.js"></script>
+        <script src="../node_modules/underscore/underscore-min.js"></script>
+        <script src="../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="../node_modules/iscroll/build/iscroll.js"></script>
+        <script type="text/javascript" src="./js/settings.js"></script>
+        <!-- <script src = "../templates.js"></script> -->
+        <script src="../build/videoPreviewGen.js"></script>
+        <script>
+            $(function (){
+                var thumbnails = new VideoPreviewGen(constantine_settings, function (data) {
+                    console.log(data);
+                });
+                window.thumbnails = thumbnails;
+                thumbnails.initialize();
+            });
+        </script>
+    </head>
+    <body>
+        <div id="thumbnails"></div>
+    </body>
+</html>
