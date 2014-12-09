@@ -42,12 +42,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/tinj/image-picking-widget.git"
+    "url": "git://github.com/tinj/video-preview-editor.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/tinj/image-picking-widget/issues"
+    "url": "https://github.com/tinj/video-preview-editor/issues"
   },
-  "homepage": "https://github.com/tinj/image-picking-widget"
+  "homepage": "https://github.com/tinj/video-preview-editor"
 }
