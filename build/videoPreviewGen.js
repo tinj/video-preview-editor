@@ -98,6 +98,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.launchFunctionsforSecondModal();
 	    else
 	        this.showFirstModal();
+	    this.doneClick();
 	};
 
 	//tests to see if additional information is needed to launch iscrolls
@@ -107,19 +108,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return this.initialLargeArrayOfImages && this.initialLargeArrayOfImages.length;
 	}
 
-	//test to
-	Thumbnails.prototype.showFirstModal = function (){
-	    this.$firstModal.modal("show");
-	    this.firstSubmitButton();
-	};
-
 	function hasNewArrayForSelection(){
 	    return this.newArrayForSelection && this.newArrayForSelection.length;
 	}
 
 	//
 	Thumbnails.prototype.showSecondModal = function(){
-	    this.$secondModal.modal("show");
+	    this.$modal.modal("show");
 	    this.updateHtmlListInFirstScroller();//this requires the LI
 	};
 
@@ -143,9 +138,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	//not testing
 	Thumbnails.prototype._defineCachedJqueryVars =function(){
 	    console.log("vars");
-	    this.$secondModal = $("#secondModal");
-	    this.$firstModal =  $("#firstModal");
-	    this.$secondModal = $("#secondModal");
+	    this.$modal = $("#thumbnail-modal");
 	    this.$submitButton =  $("#submitButton");
 	    this.$randomButton = $("#random");
 	    this.$showFirstPage = $("#showFirstPage");
@@ -153,6 +146,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.$scroller2 = $("#scroller2");
 	    this.$imagesInScroller = $("#scroller2 li > img");
 	    this.$showFirstPage = $("#showFirstPage");
+	    this.$done = $("#thumbnail-done");
 	};
 
 	Thumbnails.prototype.initializeScrollers = function(){
@@ -369,7 +363,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	Thumbnails.prototype.cleanUp = function(){
 	    //toDo: cleanup
-	    this.$secondModal.modal("hide");
+	    this.$modal.modal("hide");
 	};
 
 	/**
@@ -406,18 +400,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * buttons
 	 */
 
-	//toggle to form
-	Thumbnails.prototype.navToFirst = function(){
-	    this.showFirstPage.click(clickToNavToFirst.bind(this));
+	//done button to export array
+	Thumbnails.prototype.doneClick = function(){
+	    var self = this;
+	    this.$done.on('click', function(){
+	        self.onDone();
+	    });
 	};
 
-	//navigate to the first page while retaining values
-	function clickToNavToFirst(evt){
-	    var $el= $(evt.target);
-	        this.$secondModal.modal("hide");
-	        this.$firstModal.modal("show");
-	        this.firstSubmitButton();
-	}
 
 	module.exports = Thumbnails;
 
@@ -453,7 +443,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var jade_mixins = {};
 	var jade_interp;
 
-	buf.push("<div id=\"secondModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"basicModal\" aria-hidden=\"false\" class=\"modal fade container col-md-12\"><div class=\"modal-dialog\"><div class=\"modal-content\"><div class=\"modal-header\"><button type=\"button\" data-dismiss=\"modal\" aria-hidden=\"true\" class=\"close\"></button><h4 id=\"myModalLabel\" class=\"modal-title\">Modal title</h4></div><div class=\"modal-body\"><div id=\"wrapper\" class=\"wrapper\"><div id=\"scroller\" class=\"scroller\"><ul id=\"frames\"></ul></div></div><div id=\"wrapper2\" class=\"wrapper\"><div id=\"scroller2\" class=\"scroller\"><ul id=\"frames2\"></ul></div></div><form role=\"form\" position:\"top=\"\"><div class=\"form_group\"><div class=\"row\"><div id=\"arrayLengthButton\"></div></div></div></form></div></div></div></div>");;return buf.join("");
+	buf.push("<div id=\"thumbnail-modal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"basicModal\" aria-hidden=\"false\" class=\"modal fade container col-md-12\"><div class=\"modal-dialog\"><div class=\"modal-content\"><div class=\"modal-header\"><button type=\"button\" data-dismiss=\"modal\" aria-hidden=\"true\" class=\"close\"></button><h4 id=\"myModalLabel\" class=\"modal-title\">Modal title</h4></div><div class=\"modal-body\"><div id=\"wrapper\" class=\"wrapper\"><div id=\"scroller\" class=\"scroller\"><ul id=\"frames\"></ul></div></div><div id=\"wrapper2\" class=\"wrapper\"><div id=\"scroller2\" class=\"scroller\"><ul id=\"frames2\"></ul></div></div><form role=\"form\" position:\"top=\"\"><div class=\"form_group\"><div class=\"row\"><div id=\"arrayLengthButton\"></div></div></div></form><div class=\"modal-footer\"><div class=\"btn-group btn-group-justified\"><div class=\"btn-group\"><button id=\"thumbnail-done\" type=\"button\" class=\"btn btn-default\">Done</button></div></div></div></div></div></div></div>");;return buf.join("");
 	}
 
 /***/ },

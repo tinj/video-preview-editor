@@ -16,6 +16,7 @@
             $(function (){
                 var thumbnails = new VideoPreviewGen(constantine_settings, function (data) {
                     console.log(data);
+                    $("#export textarea").val(JSON.stringify(data));
                 });
                 window.thumbnails = thumbnails;
                 thumbnails.initialize();
@@ -23,6 +24,11 @@
         </script>
     </head>
     <body>
-        <div id="thumbnails"></div>
+        <div id="thumbnails">
+
+        </div>
+        <div id="export">
+            <textarea></textarea>
+        </div>
     </body>
 </html>

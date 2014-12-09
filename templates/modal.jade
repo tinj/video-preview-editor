@@ -1,4 +1,4 @@
-#secondModal.modal.fade.container.col-md-12(tabindex='-1', role='dialog', aria-labelledby='basicModal', aria-hidden='false')
+#thumbnail-modal.modal.fade.container.col-md-12(tabindex='-1', role='dialog', aria-labelledby='basicModal', aria-hidden='false')
   .modal-dialog
     .modal-content
       .modal-header
@@ -15,11 +15,7 @@
           .form_group
             .row
               #arrayLengthButton
-        //- .modal-footer
+        .modal-footer
           .btn-group.btn-group-justified
             .btn-group
-              #selectbuttondiv
-            .btn-group
-              button.btn.btn-default(type='button') Reset
-            .btn-group
-              button#showFirstPage.btn.btn-default.toggle_screens(type='button') Go Back
+              button.btn.btn-default#thumbnail-done(type='button') Done
