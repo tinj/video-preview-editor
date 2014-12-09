@@ -73,7 +73,7 @@ the replacement, and it will replace the old image.
 
 ** **
 
-When you have completed changing
+When you have completed changing your preview, call thumbnails.onDone()
 
 ** **
 
@@ -191,7 +191,10 @@ ahead without scrolling 
 **Other To Dos **
 
 .
-[Click here to see a demo at our github page. ] (http://tinj.github.io/video-preview-generator)
+Create github page - eventually you can [Click here to see a demo at our github page. ] (http://tinj.github.io/video-preview-generator)
+.
+UI fix - Done button is too narrow
+.
 
 
  
