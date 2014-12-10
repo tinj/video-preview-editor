@@ -195,6 +195,7 @@ Create github page - eventually you can [Click here to see a demo at our github 
 .
 UI fix - Done button is too narrow
 .
+Remove from modal
 
 
  
