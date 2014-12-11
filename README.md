@@ -93,8 +93,8 @@ We plan to add the following features to make this module more robust and flexib
 
 Built in the name of freedom and open source for Tinj by:
 
-Mat Tyndall (@flipside)
-Rebecca Robbins (@beckastar) 
+*Mat Tyndall (@flipside)
+*Rebecca Robbins (@beckastar) 
 
 ##License
 
