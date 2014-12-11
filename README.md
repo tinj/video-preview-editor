@@ -1,85 +1,50 @@
-Video Preview Generator
-====================
+# Video Preview Editor
 
-**Video Preview Generator **
+VPE is a compact, standalone module which allows for the seamless and simple creation of a custom video preview.  It will generate an array of images to represent a video and permits simple editing of that array.  By default, the array will display every twentieth image, and the user can easily edit the generated preview in order to make it more representative of content.  
 
- 
+##Importing Data
 
-**Overview**
+The user imports an array consisting of all images in their video.  You can do this by adding your array to the file settings.js, in the place of the the constantine array:
 
- 
+'''
+var constantine_settings = {
+    el: "#thumbnails",
+    initialLargeArrayOfImages: [
+     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00001.png",
+        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00021.png",
+        ....
+        ]
+'''
 
-VPG is a compact, standalone module which allows
-for the seamless and simple creation of a custom video preview.  It will
-generate an array of images to represent a video and permits simple editing of
-that array.  By default, the array will display every twentieth image, and
-the user can easily swap one image out for another.  
 
- 
-
-It’s great for using in:
-
- 
-
-Presentations: 
-Show the titles that capture the message of each section
-
-Film summarizing:  Show the action shots that are likely to
-capture viewers’ interests
-
- 
-
- 
-
-The exported array will contain images that
-accurately convey important highlights in a presentation.  You’ll first
+The exported array will contain images that accurately convey important highlights in a presentation. You’ll first
 see the default array that shows every twentieth image of the full array.
 
- 
-
- 
+![image](https://github.com/tinj/video-preview-editor/blob/master/screenshots/initialScreen.jpg)
 
 This array is scrollable…
 
- 
+![image](https://github.com/tinj/video-preview-editor/blob/master/screenshots/scrollScreenshot.jpg)
 
 … and when you click on an image a second array
 appears:
 
- 
-
- 
-
- 
+![image](https://github.com/tinj/video-preview-editor/blob/master/screenshots/secondArray.jpg)
 
 This second array shows the images surrounding
 the selected frame in the _original full
 array of images. _You can then double click on the image you want to use as
 the replacement, and it will replace the old image.
 
- 
-
-**Importing Data**
-
-** **
-
-** **
-
-** **
+![image](https://github.com/tinj/video-preview-editor/blob/master/screenshots/replacedImage..jpg)
 
 **//how?**
 
-**Exporting Data**
-
-** **
+##Exporting Data
 
 When you have completed changing your preview, call thumbnails.onDone()
 
-** **
-
-**Customization**
-
- 
+##Customization
 
 If you want to change the styles of the modal,
 make sure you are in the directory in your terminal, and do the following:
@@ -88,140 +53,52 @@ make sure you are in the directory in your terminal, and do the following:
 - type “gulp” in your terminal to
      rebuild the modal
 
- 
+##Dependencies
 
- 
+*jQuery
+*Bootstrap
+*Underscore
+*Node
 
-** **
+##Launch
 
-**Dependencies**
-
-** **
-
-jQuery
-
-Bootstrap
-
-iScroll
-
-Underscore
-
- 
-
-**Launch**
-
-** **
-
-To launch
-the modal:
-
- 
+To launch the modal:
 
 1. make
 sure you’re in directory in terminal
 
 2. type the following commands:
-
-gulp
-
-                        npm start  
+*gulp
+*npm start  
 
 npm run build  
 
- 
 
- 
+## Future features
 
- 
+We plan to add the following features to make this module more robust and flexible.
 
-**Installation**
+1. Publish
+   1. On Node
+   2. On Bower
+2. Add timestamps to images 
+3. Allow for deletion of images instead of replacement
+4. Export new array to clipboard with button
+5. Skip ahead without scrolling
+6. Create github page - eventually you can [Click here to see a demo at our github page. ] (http://tinj.github.io/video-preview-generator)
+7. UI fix - Done button is too narrow
+8. Remove from modal to be free standing 
 
- 
+##Credits 
 
-VPG can be installed via Node or Bower.  
-
- 
-
-**On node:**
-
- 
-
-You will need to have node installed on your
-computer. At the terminal prompt, type:
-
- 
-
-npm install vpg
-
- 
-
-**On bower:**
-
-**Future features:**
-
-** **
-
-While we’re proud of
-how simple this is to use, we plan to add the following features to make this
-more robust and flexible. In the future, users will be able to:
-
- 
-
-·      
-Delete
-images from your preview array without replacing them
-
-·      
-Add
-timestamps to images in your final array
-
-·      
-Export
-new array to clipboard with button
-
-·      
-Zoom
-in and out on the arrays
-
-·      
-Skipping
-ahead without scrolling 
-
-
-**Other To Dos **
-
-.
-Create github page - eventually you can [Click here to see a demo at our github page. ] (http://tinj.github.io/video-preview-generator)
-.
-UI fix - Done button is too narrow
-.
-Remove from modal
-
-
- 
-
- 
-
-**Credits **
-
-** **
-
-Built in the name of love
-and open source for Tinj by:
-
- 
+Built in the name of freedom and open source for Tinj by:
 
 Mat Tyndall (@flipside)
 Rebecca Robbins (@beckastar) 
 
- 
+##License
 
-**License**
-
- 
-
-VPG is released **under** the
-terms of the **MIT license**.
+VPE is released under the terms of the MIT License.
 
  
 
