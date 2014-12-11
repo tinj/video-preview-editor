@@ -60,6 +60,10 @@ make sure you are in the directory in your terminal, and do the following:
 *Underscore
 *Node
 
+##Build Process
+
+VPE was built with Jade, LESS, Gulp, Templatizer and Webpack.  You have to run the terminal commands to build it. 
+
 ##Launch
 
 To launch the modal:
