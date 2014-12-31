@@ -6,15 +6,16 @@ VPE is a compact, standalone module which allows for the seamless and simple cre
 
 The user imports an array consisting of all images in their video.  You can do this by adding your array to the file settings.js, in the place of the the constantine array:
 
-'''
-var constantine_settings = {
-    el: "#thumbnails",
-    initialLargeArrayOfImages: [
-     "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00001.png",
-        "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00021.png",
-        ....
-        ]
-'''
+
+    var constantine_settings = {
+        el: "#thumbnails",
+        initialLargeArrayOfImages: [
+         "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00001.png",
+            "https://s3-us-west-1.amazonaws.com/curv/constantine-tv-trailer/constantine_trailer_00021.png",
+            ....
+            ]
+    }
+
 
 
 The exported array will contain images that accurately convey important highlights in a presentation. You’ll first
@@ -38,7 +39,7 @@ the replacement, and it will replace the old image.
 
 ![image](https://github.com/tinj/video-preview-editor/blob/master/screenshots/replacedImage..jpg)
 
-**//how?**
+This assumes that you can get array of all available frames to use.  
 
 ##Exporting Data
 
@@ -102,12 +103,4 @@ Built in the name of freedom and open source for Tinj by:
 
 ##License
 
-VPE is released under the terms of the MIT License.
-
- 
-
-  
-
- 
-
- 
+VPE is released under the terms of the MIT License. 
