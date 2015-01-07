@@ -2,6 +2,8 @@
 
 VPE is a compact, standalone module which allows for the seamless and simple creation of a custom video preview.  It will generate an array of images to represent a video and permits simple editing of that array.  By default, the array will display every twentieth image, and the user can easily edit the generated preview in order to make it more representative of content.  
 
+VPE is currently in alpha.  Beta release is expected by mid-February. 
+
 ##Importing Data
 
 The user imports an array consisting of all images in their video.  You can do this by adding your array to the file settings.js, in the place of the the constantine array:
